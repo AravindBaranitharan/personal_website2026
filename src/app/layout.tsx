@@ -1,39 +1,46 @@
-import Navbar from "@/components/Navbar";
-import { Toaster } from "@/components/ui/toaster";
-import { cn } from "@/lib/utils";
+﻿import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Manrope as FontSans } from "next/font/google";
+import { Archivo_Black, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const fontSans = FontSans({
-  weight: ["300", "400", "500", "700", "200"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
-  fallback: ["Arial", "sans-serif"],
+  variable: "--font-inter",
 });
+
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-archivo",
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-mono",
+});
+
 export const metadata: Metadata = {
-  title: "Aravind Baranitharan ",
+  title: "Aravind Baranitharan",
   description:
     "Explore Aravind's full-stack portfolio showcasing innovative UI/UX designs, front-end and back-end projects, and expertise in web development technologies. Ideal for clients and recruiters seeking impactful, design-focused solutions.",
   keywords:
-    "Aravind portfolio, full-stack developer, Software developer, UI/UX design, front-end development, back-end development, React.js, Next.js, Tailwind CSS, JavaScript,professional portfolio",
+    "Aravind portfolio, full-stack developer, Software developer, UI/UX design, front-end development, back-end development, React.js, Next.js, Tailwind CSS, JavaScript, professional portfolio",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full !scroll-smooth">
-      <body
-        className={cn(
-          "relative h-full min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        <main className="relative flex min-h-screen flex-col">
-          <Navbar /> {children} <Toaster />
-        </main>
+    <html
+      lang="en"
+      className={`${inter.variable} ${archivoBlack.variable} ${spaceMono.variable} h-full scroll-smooth`}
+    >
+      <body className="font-body min-h-screen antialiased">
+        <main className="min-h-screen">{children}</main>
+        <Toaster />
       </body>
     </html>
   );
