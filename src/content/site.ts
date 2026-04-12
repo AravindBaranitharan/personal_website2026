@@ -11,10 +11,25 @@ export type SocialLink = {
 
 export type ServiceItem = {
   id: string;
+  slug: string;
   title: string;
   description: string;
   tags: string[];
-  href: string;
+};
+
+export type ServicePhase = {
+  title: string;
+  detail: string;
+};
+
+export type ServiceDetail = ServiceItem & {
+  articleKicker: string;
+  articleLead: string;
+  challenge: string;
+  deliveryModel: string;
+  outcomes: string[];
+  deliverables: string[];
+  phases: ServicePhase[];
 };
 
 export type ProjectItem = {
@@ -95,47 +110,216 @@ export const marqueeText = {
     "SYSTEM THINKING * UX PRECISION * PRODUCT BUILDING * SAAS * AUTOMATION * PERFORMANCE * ",
 };
 
-export const serviceItems: ServiceItem[] = [
+export const serviceDetails: ServiceDetail[] = [
   {
     id: "01",
+    slug: "custom-web-apps",
     title: "CUSTOM WEB APPS",
     description:
       "Build fast, scalable applications with modern stacks and strong UX foundations.",
-    tags: [
-      "NEXT.JS",
-      "REACT",
-      "TYPESCRIPT",
-      "NODE",
-      "TAILWIND",
-      "MONGODB",
+    tags: ["NEXT.JS", "REACT", "TYPESCRIPT", "NODE", "TAILWIND", "MONGODB"],
+    articleKicker: "Architecture + UX, built for real-world scale",
+    articleLead:
+      "I build product-grade web applications that stay fast under pressure, feel intuitive for users, and remain easy to evolve for teams.",
+    challenge:
+      "Many businesses outgrow no-code stacks or templates quickly. They need custom workflows, predictable performance, and a design system that supports future growth.",
+    deliveryModel:
+      "Each build starts with product mapping, then moves into modular architecture, component systems, API integration, and performance hardening before launch.",
+    outcomes: [
+      "Faster load times and smoother user journeys",
+      "Clean architecture that supports future features",
+      "Design consistency across screens and devices",
+      "Reliable foundation for analytics and conversion",
     ],
-    href: "https://github.com/AravindBaranitharan?tab=repositories",
+    deliverables: [
+      "Responsive web app with reusable component system",
+      "Structured API/data layer with validation",
+      "Performance optimization (images, rendering, caching)",
+      "QA checklist and production launch support",
+    ],
+    phases: [
+      {
+        title: "Discovery & Product Mapping",
+        detail:
+          "Define user goals, core journeys, and edge cases before writing production code.",
+      },
+      {
+        title: "System Design",
+        detail:
+          "Plan UI architecture, state strategy, API contracts, and database structure.",
+      },
+      {
+        title: "Build & QA",
+        detail:
+          "Develop feature modules with accessible UI, testing, and performance checks.",
+      },
+      {
+        title: "Launch & Iteration",
+        detail:
+          "Ship with analytics, monitor behavior, and iterate based on real usage signals.",
+      },
+    ],
   },
   {
     id: "02",
+    slug: "ai-llm-integrations",
     title: "AI + LLM INTEGRATIONS",
     description:
       "Integrate retrieval, agent workflows, and model APIs into production-ready products.",
     tags: ["PYTHON", "RAG", "AUTOMATION", "GEN AI", "AI AGENTS"],
-    href: "https://github.com/AravindBaranitharan?tab=repositories",
+    articleKicker: "LLM features that are useful, reliable, and measurable",
+    articleLead:
+      "I integrate AI capabilities into existing products with guardrails, observability, and workflows that actually improve execution quality.",
+    challenge:
+      "Teams often add AI quickly but struggle with hallucinations, inconsistent outputs, and unclear ROI. They need a practical integration strategy, not just a chat box.",
+    deliveryModel:
+      "I design retrieval pipelines, prompt orchestration, and fallback logic that align with business tasks like support, content ops, and internal automation.",
+    outcomes: [
+      "Reduced manual effort for repeat workflows",
+      "Higher response quality through retrieval grounding",
+      "Auditability and safer model behavior",
+      "Clear metrics for cost, latency, and usefulness",
+    ],
+    deliverables: [
+      "LLM integration plan aligned to product goals",
+      "RAG pipeline with chunking and vector retrieval",
+      "Prompt strategy with evaluation test cases",
+      "Monitoring for latency, failure, and quality drift",
+    ],
+    phases: [
+      {
+        title: "Use-Case Selection",
+        detail:
+          "Prioritize high-impact workflows where AI can save time or improve decision quality.",
+      },
+      {
+        title: "Knowledge & Prompt Layer",
+        detail:
+          "Set up retrieval sources, prompt templates, and role-specific output structure.",
+      },
+      {
+        title: "Integration & Guardrails",
+        detail:
+          "Connect models to your product with validation, fallback flows, and logging.",
+      },
+      {
+        title: "Evaluation Loop",
+        detail:
+          "Track quality and iterate prompts/model settings using real user feedback.",
+      },
+    ],
   },
   {
     id: "03",
+    slug: "saas-product-build",
     title: "SAAS PRODUCT BUILD",
     description:
       "Go from concept to launch with robust architecture, analytics, and iteration loops.",
     tags: ["AUTH", "BILLING", "DASHBOARDS", "APIS", "DEPLOYMENT"],
-    href: "https://github.com/AravindBaranitharan?tab=repositories",
+    articleKicker: "From idea to SaaS launch with product discipline",
+    articleLead:
+      "I help founders and teams shape, build, and launch SaaS products with clear scope, stable architecture, and conversion-focused UX.",
+    challenge:
+      "SaaS products fail when teams build features before validating core workflows. The right build needs sequencing: onboarding, value moment, retention loop.",
+    deliveryModel:
+      "I combine product strategy with engineering execution: MVP scoping, dashboard architecture, auth and billing flows, and analytics-first launch setup.",
+    outcomes: [
+      "Faster MVP launch with reduced technical debt",
+      "Clear onboarding and activation pathways",
+      "Scalable multi-tenant friendly architecture",
+      "Data-backed roadmap decisions post launch",
+    ],
+    deliverables: [
+      "MVP blueprint with feature prioritization",
+      "Authentication, role permissions, and billing flow",
+      "Core dashboard modules and API integration",
+      "Analytics instrumentation for activation metrics",
+    ],
+    phases: [
+      {
+        title: "MVP Strategy",
+        detail:
+          "Define the minimum feature set that proves product value and supports growth.",
+      },
+      {
+        title: "Platform Foundation",
+        detail:
+          "Implement secure auth, data modeling, and scalable backend contracts.",
+      },
+      {
+        title: "User Experience Build",
+        detail:
+          "Craft onboarding, dashboard UX, and key task flows for everyday usage.",
+      },
+      {
+        title: "Launch & Metrics",
+        detail:
+          "Deploy with tracking for activation, retention, and monetization signals.",
+      },
+    ],
   },
   {
     id: "04",
+    slug: "gen-ai-development",
     title: "GEN AI DEVELOPMENT",
     description:
       "Design tailored AI experiences for business workflows, support, and internal tooling.",
     tags: ["FINE TUNING", "CUSTOM GPT", "CHATBOTS", "AGENT FLOWS"],
-    href: "https://github.com/AravindBaranitharan?tab=repositories",
+    articleKicker: "Custom AI products for practical business workflows",
+    articleLead:
+      "I design and build GenAI systems tailored to your operations, from assistant interfaces to workflow automations and internal copilots.",
+    challenge:
+      "Generic AI tools often miss domain context and workflow nuance. Businesses need tailored systems that match team behavior and data boundaries.",
+    deliveryModel:
+      "I build domain-aware AI experiences with conversation design, system prompts, memory patterns, and integration into your existing process stack.",
+    outcomes: [
+      "AI features tuned to business-specific language and tasks",
+      "Higher team adoption through role-based workflow design",
+      "Better consistency through prompt and policy templates",
+      "Faster execution for support and operations teams",
+    ],
+    deliverables: [
+      "Custom AI assistant UX and conversation architecture",
+      "Prompt templates and instruction hierarchy",
+      "Workflow automations connected to your tools",
+      "Knowledge ingestion and update process",
+    ],
+    phases: [
+      {
+        title: "Workflow Deep-Dive",
+        detail:
+          "Map how teams currently work and identify the highest-friction repetitive tasks.",
+      },
+      {
+        title: "AI Experience Design",
+        detail:
+          "Design interaction patterns, answer styles, and handoff logic for accuracy.",
+      },
+      {
+        title: "System Integration",
+        detail:
+          "Connect models, data sources, and automation triggers to business systems.",
+      },
+      {
+        title: "Adoption & Tuning",
+        detail:
+          "Roll out with training, collect feedback, and continuously tune behavior.",
+      },
+    ],
   },
 ];
+
+export const serviceItems: ServiceItem[] = serviceDetails.map((service) => ({
+  id: service.id,
+  slug: service.slug,
+  title: service.title,
+  description: service.description,
+  tags: service.tags,
+}));
+
+export function getServiceBySlug(slug: string) {
+  return serviceDetails.find((service) => service.slug === slug);
+}
 
 export const featuredProject: FeaturedProject = {
   projectId: 1,
@@ -198,25 +382,5 @@ export const projectItems: ProjectItem[] = [
     image: "/projects/heart-rate-camera.svg",
     href: "https://github.com/AravindBaranitharan/Heart-rate-measurement-using-camera-master",
     stack: ["Signal Processing", "Computer Vision", "Health Tech"],
-  },
-  {
-    id: 5,
-    title: "Event Snap Finder",
-    subTitle: "Event photo discovery workflow",
-    summary:
-      "A discovery experience for quickly locating event images through searchable event metadata and media indexing.",
-    image: "/projects/event-snap-finder.svg",
-    href: "https://github.com/AravindBaranitharan/event-snap-finder",
-    stack: ["Search", "Media", "Event Tech"],
-  },
-  {
-    id: 6,
-    title: "Sharika Cozy Cafe",
-    subTitle: "Cafe brand and ordering website",
-    summary:
-      "A warm, brand-led cafe web experience with menu storytelling, atmosphere, and customer-friendly navigation.",
-    image: "/projects/sharika-cozy-cafe.svg",
-    href: "https://github.com/AravindBaranitharan/sharika-cozy-cafe-main",
-    stack: ["Restaurant UI", "Menu", "Responsive Web"],
   },
 ];

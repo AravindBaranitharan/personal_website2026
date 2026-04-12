@@ -54,7 +54,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-end border-b-2 border-black px-4 pb-10 pt-[11rem] sm:pt-52 md:px-8 md:pb-14 md:pt-44"
+      className="relative flex min-h-screen items-center border-b-2 border-black px-4 pb-10 pt-24 sm:pt-28 md:px-8 md:pb-14 md:pt-24"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 atmosphere-grid opacity-20" />
@@ -70,9 +70,7 @@ export function HeroSection() {
         viewport={{ once: true, amount: 0.35 }}
       >
         <motion.div variants={revealItem} className="mx-auto w-full max-w-[1280px]">
-          <p className="font-meta mx-auto mb-6 w-fit rounded-full border-2 border-black bg-brand-paper px-4 py-2 text-[11px] font-bold uppercase text-brand-warm-black sm:text-[12px]">
-            Available for selected 2026 builds
-          </p>
+
           <h1 className="font-display text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-black">
             {profile.firstName}
             <br />
@@ -141,3 +139,6 @@ export function HeroSection() {
     </section>
   );
 }
+
+
+

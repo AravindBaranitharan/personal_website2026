@@ -1,5 +1,6 @@
-﻿import { serviceItems } from "@/content/site";
+import { serviceItems } from "@/content/site";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 export function ServicesSection() {
   return (
@@ -15,10 +16,8 @@ export function ServicesSection() {
         <ul className="mt-6 border-t border-white/20">
           {serviceItems.map((service) => (
             <li key={service.id} className="border-b border-white/20">
-              <a
-                href={service.href}
-                target="_blank"
-                rel="noreferrer"
+              <Link
+                href={`/services/${service.slug}`}
                 className="group block transition duration-200 hover:bg-white/5"
               >
                 <div className="grid grid-cols-[42px_1fr_28px] items-start gap-3 py-6 sm:grid-cols-[56px_1fr_36px] sm:gap-4 sm:py-8 md:grid-cols-[80px_1fr_56px] md:items-center md:gap-8">
@@ -50,7 +49,7 @@ export function ServicesSection() {
                     strokeWidth={2.5}
                   />
                 </div>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -58,4 +57,3 @@ export function ServicesSection() {
     </section>
   );
 }
-
