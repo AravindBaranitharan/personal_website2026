@@ -28,6 +28,14 @@
     background: #000000;
     color: #ff4d00;
   }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+  }
 }
 
 @layer utilities {
@@ -103,6 +111,10 @@
 
   .section-delay-5 {
     animation-delay: 400ms;
+  }
+
+  .section-delay-6 {
+    animation-delay: 480ms;
   }
 }
 

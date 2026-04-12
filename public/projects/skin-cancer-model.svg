@@ -1,0 +1,20 @@
+﻿<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#102425" />
+      <stop offset="100%" stop-color="#276466" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)" />
+  <rect x="90" y="90" width="1420" height="820" rx="36" fill="#163638" fill-opacity="0.5" stroke="#8be6d8" stroke-opacity="0.45" stroke-width="3" />
+  <circle cx="520" cy="500" r="220" fill="#1d4b4d" stroke="#9af0e2" stroke-width="8" />
+  <circle cx="470" cy="450" r="70" fill="#2f7f78" />
+  <circle cx="610" cy="530" r="54" fill="#3c9f96" />
+  <circle cx="540" cy="600" r="42" fill="#4fc2b7" />
+  <rect x="850" y="260" width="510" height="100" rx="20" fill="#1a4042" />
+  <text x="890" y="325" fill="#d6fff7" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700">SKIN CANCER MODEL</text>
+  <text x="860" y="430" fill="#b4f4ea" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600">MEDICAL IMAGE CLASSIFICATION</text>
+  <rect x="850" y="520" width="470" height="180" rx="22" fill="#1a4042" />
+  <rect x="890" y="565" width="390" height="24" rx="10" fill="#9af0e2" fill-opacity="0.4" />
+  <rect x="890" y="612" width="300" height="24" rx="10" fill="#9af0e2" fill-opacity="0.25" />
+</svg>

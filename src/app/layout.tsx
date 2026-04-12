@@ -1,4 +1,3 @@
-﻿import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Archivo_Black, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
@@ -21,11 +20,31 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aravind Baranitharan",
+  title: "Aravind Baranitharan | AI Engineer & Software Developer",
   description:
-    "Explore Aravind's full-stack portfolio showcasing innovative UI/UX designs, front-end and back-end projects, and expertise in web development technologies. Ideal for clients and recruiters seeking impactful, design-focused solutions.",
-  keywords:
-    "Aravind portfolio, full-stack developer, Software developer, UI/UX design, front-end development, back-end development, React.js, Next.js, Tailwind CSS, JavaScript, professional portfolio",
+    "Portfolio of Aravind Baranitharan, an AI engineer and software developer focused on high-performance web apps, SaaS systems, and LLM-powered product development.",
+  keywords: [
+    "Aravind Baranitharan",
+    "AI engineer portfolio",
+    "software developer portfolio",
+    "Next.js developer",
+    "LLM integrations",
+    "full stack developer",
+  ],
+  openGraph: {
+    title: "Aravind Baranitharan | AI Engineer & Software Developer",
+    description:
+      "Building product-grade web applications, AI integrations, and scalable user experiences.",
+    url: "https://aravindbaranitharan.com",
+    siteName: "Aravind Baranitharan Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aravind Baranitharan",
+    description:
+      "AI engineer and software developer building modern web and AI experiences.",
+  },
 };
 
 export default function RootLayout({
@@ -40,7 +59,6 @@ export default function RootLayout({
     >
       <body className="font-body min-h-screen antialiased">
         <main className="min-h-screen">{children}</main>
-        <Toaster />
       </body>
     </html>
   );
