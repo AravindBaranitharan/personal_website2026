@@ -1,0 +1,19 @@
+﻿<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#23140f" />
+      <stop offset="100%" stop-color="#6a3b22" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)" />
+  <rect x="90" y="90" width="1420" height="820" rx="36" fill="#2d1a12" fill-opacity="0.5" stroke="#ffcd9d" stroke-opacity="0.45" stroke-width="3" />
+  <rect x="280" y="300" width="440" height="300" rx="30" fill="#3e2518" stroke="#ffc891" stroke-width="6" />
+  <path d="M360 370h280c45 0 80 35 80 80s-35 80-80 80H420c-55 0-100-45-100-100v-60z" fill="#f2c28a" />
+  <path d="M680 420h60c40 0 72 32 72 72s-32 72-72 72h-52" fill="none" stroke="#f2c28a" stroke-width="20" stroke-linecap="round" />
+  <path d="M420 250c-20 35 12 55 12 82" fill="none" stroke="#ffdfa6" stroke-width="8" stroke-linecap="round" />
+  <path d="M500 230c-20 35 12 55 12 82" fill="none" stroke="#ffdfa6" stroke-width="8" stroke-linecap="round" />
+  <path d="M580 250c-20 35 12 55 12 82" fill="none" stroke="#ffdfa6" stroke-width="8" stroke-linecap="round" />
+  <rect x="860" y="260" width="570" height="100" rx="20" fill="#3b2418" />
+  <text x="900" y="325" fill="#ffe4c5" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="700">SHARIKA COZY CAFE</text>
+  <text x="860" y="430" fill="#ffd3a8" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600">CAFE BRAND AND ORDERING WEBSITE</text>
+</svg>

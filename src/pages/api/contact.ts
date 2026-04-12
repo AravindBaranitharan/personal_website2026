@@ -1,61 +1,143 @@
-import { mailOptions, transporter } from "@/config/nodmailer";
-import { NextApiRequest, NextApiResponse } from "next"; // Importing types for API request and response
+﻿import { getMailer } from "@/config/mailer";
+import {
+  contactFormSchema,
+  type ContactFormInput,
+} from "@/lib/contact-schema";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-const CONTACT_MESSAGE_FIELDS: Record<keyof ContactMessage, string> = {
+const CONTACT_MESSAGE_FIELDS: Record<keyof ContactFormInput, string> = {
   name: "Name",
   email: "Email",
   phone: "Phone",
   message: "Message",
 };
 
-// Define the return structure of the generated email content
-interface EmailContent {
+type ErrorResponse = {
+  success: false;
+  message: string;
+  issues?: Partial<Record<keyof ContactFormInput, string[]>>;
+};
+
+type SuccessResponse = {
+  success: true;
+};
+
+type ApiResponse = SuccessResponse | ErrorResponse;
+
+type EmailContent = {
   text: string;
   html: string;
+};
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
-// Function to generate email content
-const generateEmailContent = (data: ContactMessage): EmailContent => {
-  const stringData = Object.entries(data).reduce(
-    (str, [key, val]) =>
-      (str += `${CONTACT_MESSAGE_FIELDS[key as keyof ContactMessage]}: \n${val} \n \n`),
-    "",
-  );
+function generateEmailContent(data: ContactFormInput): EmailContent {
+  const text = (Object.keys(data) as (keyof ContactFormInput)[])
+    .map((fieldName) => `${CONTACT_MESSAGE_FIELDS[fieldName]}:\n${data[fieldName]}`)
+    .join("\n\n");
 
-  const htmlData = Object.entries(data).reduce((str, [key, val]) => {
-    return (str += `<h3 class="form-heading" align="left">${CONTACT_MESSAGE_FIELDS[key as keyof ContactMessage]}</h3><p class="form-answer" align="left">${val}</p>`);
-  }, "");
+  const htmlRows = (Object.keys(data) as (keyof ContactFormInput)[])
+    .map(
+      (fieldName) => `
+        <tr>
+          <td style="padding:8px 12px;font-family:Arial,sans-serif;font-size:14px;color:#6b7280;border:1px solid #e5e7eb;vertical-align:top;">
+            ${CONTACT_MESSAGE_FIELDS[fieldName]}
+          </td>
+          <td style="padding:8px 12px;font-family:Arial,sans-serif;font-size:14px;color:#111827;border:1px solid #e5e7eb;white-space:pre-wrap;">
+            ${escapeHtml(data[fieldName])}
+          </td>
+        </tr>
+      `,
+    )
+    .join("");
 
   return {
-    text: stringData,
-    html: `<!DOCTYPE html><html> <head> <title></title> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width, initial-scale=1"/> <meta http-equiv="X-UA-Compatible" content="IE=edge"/> <style type="text/css"> body, table, td, a{-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}table{border-collapse: collapse !important;}body{height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;}@media screen and (max-width: 525px){.wrapper{width: 100% !important; max-width: 100% !important;}.responsive-table{width: 100% !important;}.padding{padding: 10px 5% 15px 5% !important;}.section-padding{padding: 0 15px 50px 15px !important;}}.form-container{margin-bottom: 24px; padding: 20px; border: 1px dashed #ccc;}.form-heading{color: #2a2a2a; font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif; font-weight: 400; text-align: left; line-height: 20px; font-size: 18px; margin: 0 0 8px; padding: 0;}.form-answer{color: #2a2a2a; font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif; font-weight: 300; text-align: left; line-height: 20px; font-size: 16px; margin: 0 0 24px; padding: 0;}div[style*="margin: 16px 0;"]{margin: 0 !important;}</style> </head> <body style="margin: 0 !important; padding: 0 !important; background: #fff"> <div style=" display: none; font-size: 1px; color: #fefefe; line-height: 1px;  max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; " ></div><table border="0" cellpadding="0" cellspacing="0" width="100%"> <tr> <td bgcolor="#ffffff" align="center" style="padding: 10px 15px 30px 15px" class="section-padding" > <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px" class="responsive-table" > <tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" > <tr> <td style=" padding: 0 0 0 0; font-size: 16px; line-height: 25px; color: #232323; " class="padding message-content" > <h2>New Contact Message</h2> <div class="form-container">${htmlData}</div></td></tr></table> </td></tr></table> </td></tr></table> </td></tr></table> </body></html>`,
+    text,
+    html: `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>New Contact Message</title>
+        </head>
+        <body style="margin:0;padding:24px;background:#f3f4f6;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-collapse:collapse;">
+            <tr>
+              <td style="padding:16px 20px;font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#111827;border-bottom:1px solid #e5e7eb;">
+                New Contact Message
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 20px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                  ${htmlRows}
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `,
   };
-};
+}
 
-// Handler function to process the request  /,.,naaruto
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
-    const data: ContactMessage = req.body;
-
-    // Validate incoming data
-    if (!data || !data.name || !data.email || !data.phone || !data.message) {
-      return res.status(400).send({ message: "Bad request" });
-    }
-
-    try {
-      await transporter.sendMail({
-        ...mailOptions,
-        ...generateEmailContent(data),
-        subject: `New Contact Message from ${data.name}`, // Adjust subject to something relevant
-      });
-
-      return res.status(200).json({ success: true });
-    } catch (err: any) {
-      console.log(err);
-      return res.status(400).json({ message: err.message });
-    }
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ApiResponse>,
+) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({
+      success: false,
+      message: "Method not allowed.",
+    });
   }
-  return res.status(400).json({ message: "Bad request" });
-};
 
-export default handler;
+  const parsed = contactFormSchema.safeParse(req.body);
+
+  if (!parsed.success) {
+    return res.status(400).json({
+      success: false,
+      message: "Please complete all required fields with valid values.",
+      issues: parsed.error.flatten().fieldErrors,
+    });
+  }
+
+  const mailer = getMailer();
+
+  if (!mailer) {
+    return res.status(500).json({
+      success: false,
+      message: "Mail service is not configured on the server.",
+    });
+  }
+
+  try {
+    await mailer.transporter.sendMail({
+      ...mailer.mailOptions,
+      ...generateEmailContent(parsed.data),
+      subject: `New contact message from ${parsed.data.name}`,
+      replyTo: parsed.data.email,
+    });
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown mailing error";
+    console.error("Contact form submission failed:", message);
+
+    return res.status(500).json({
+      success: false,
+      message: "We could not send your message right now. Please try again.",
+    });
+  }
+}
+

@@ -1,8 +1,30 @@
 import type { Config } from "tailwindcss";
 import svgToDataUri from "mini-svg-data-uri";
-const colors = require("tailwindcss/colors");
-const flattenColorPalette =
-  require("tailwindcss/lib/util/flattenColorPalette").default;
+import tailwindcssAnimate from "tailwindcss-animate";
+
+type PaletteInput = Record<string, string | Record<string, unknown>>;
+
+function flattenPalette(
+  colors: PaletteInput,
+  prefix = "",
+): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(colors)) {
+    const nextKey = key === "DEFAULT" ? prefix : prefix ? `${prefix}-${key}` : key;
+
+    if (typeof value === "string") {
+      if (nextKey) {
+        result[nextKey] = value;
+      }
+      continue;
+    }
+
+    Object.assign(result, flattenPalette(value as PaletteInput, nextKey));
+  }
+
+  return result;
+}
 
 const config: Config = {
   darkMode: ["class"],
@@ -89,7 +111,7 @@ const config: Config = {
     },
   },
   plugins: [
-    require("tailwindcss-animate"),
+    tailwindcssAnimate,
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
       matchUtilities(
@@ -111,7 +133,7 @@ const config: Config = {
           }),
         },
         {
-          values: flattenColorPalette(theme("backgroundColor")),
+          values: flattenPalette(theme("backgroundColor") as PaletteInput),
           type: "color",
         },
       );
@@ -122,7 +144,7 @@ const config: Config = {
 export default config;
 
 function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
+  let allColors = flattenPalette(theme("colors") as PaletteInput);
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );

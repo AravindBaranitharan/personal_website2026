@@ -1,0 +1,18 @@
+﻿<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b0d24" />
+      <stop offset="100%" stop-color="#5a1b4a" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)" />
+  <rect x="90" y="90" width="1420" height="820" rx="36" fill="#2a1234" fill-opacity="0.5" stroke="#f48ac6" stroke-opacity="0.45" stroke-width="3" />
+  <rect x="260" y="260" width="500" height="420" rx="36" fill="#351645" stroke="#f6a2d3" stroke-width="6" />
+  <rect x="340" y="340" width="340" height="260" rx="20" fill="#2a1236" />
+  <circle cx="510" cy="470" r="76" fill="#f58ec9" />
+  <circle cx="510" cy="470" r="32" fill="#2a1236" />
+  <path d="M860 560h120l50-110 80 220 80-170 70 60h120" fill="none" stroke="#ffadd9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="860" y="260" width="560" height="100" rx="20" fill="#351645" />
+  <text x="900" y="326" fill="#ffe0f2" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">HEART RATE USING CAMERA</text>
+  <text x="860" y="430" fill="#f4bde0" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600">PULSE ESTIMATION FROM CAMERA FEED</text>
+</svg>
