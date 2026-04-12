@@ -1,11 +1,17 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --brand-orange: #ff4d00;
+  --brand-orange-soft: #ff8957;
+  --brand-orange-deep: #d84200;
   --brand-black: #000000;
+  --brand-warm-black: #120906;
   --brand-white: #ffffff;
+  --brand-cream: #ffe9d8;
+  --brand-paper: #fff2e8;
+  --brand-shadow: #2e1407;
 }
 
 @layer base {
@@ -16,12 +22,16 @@
   html,
   body {
     min-height: 100%;
-    background-color: var(--brand-orange);
     color: var(--brand-black);
   }
 
   body {
     font-family: var(--font-inter), Inter, sans-serif;
+    background:
+      radial-gradient(circle at 12% 12%, #ffc7a4 0%, rgba(255, 199, 164, 0) 36%),
+      radial-gradient(circle at 88% 2%, #ffd9c2 0%, rgba(255, 217, 194, 0) 44%),
+      linear-gradient(160deg, #ff7e43 0%, #ff4d00 44%, #ec4300 100%);
+    background-attachment: fixed;
   }
 
   ::selection {
@@ -59,8 +69,62 @@
     background-color: var(--brand-orange);
   }
 
+  .bg-brand-cream {
+    background-color: var(--brand-cream);
+  }
+
+  .bg-brand-paper {
+    background-color: var(--brand-paper);
+  }
+
   .text-brand-black {
     color: var(--brand-black);
+  }
+
+  .text-brand-warm-black {
+    color: var(--brand-warm-black);
+  }
+
+  .atmosphere-grid {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.11) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.11) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .texture-noise {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.22) 0.7px, transparent 0.7px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+  }
+
+  .surface-panel {
+    background:
+      linear-gradient(
+        160deg,
+        rgba(255, 130, 73, 0.96) 0%,
+        rgba(255, 97, 34, 0.96) 48%,
+        rgba(233, 62, 0, 0.98) 100%
+      );
+    box-shadow:
+      0 12px 0 #000000,
+      0 40px 60px -36px rgba(0, 0, 0, 0.85);
+  }
+
+  .feature-depth {
+    box-shadow:
+      0 16px 0 #000000,
+      0 35px 55px -30px rgba(0, 0, 0, 0.8);
+  }
+
+  .button-depth {
+    box-shadow: 0 6px 0 #000000;
+  }
+
+  .badge-glow {
+    box-shadow:
+      0 0 0 2px #000000,
+      0 0 35px rgba(255, 77, 0, 0.42);
   }
 
   .marquee {
@@ -116,6 +180,18 @@
   .section-delay-6 {
     animation-delay: 480ms;
   }
+
+  .float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+  }
+
+  .tilt-hover {
+    transition: transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .tilt-hover:hover {
+    transform: translate3d(0, -8px, 0) rotate(-0.6deg);
+  }
 }
 
 @keyframes marquee {
@@ -147,10 +223,21 @@
   }
 }
 
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
   .spin-indicator,
-  .section-reveal {
+  .section-reveal,
+  .float-slow {
     animation: none;
   }
 
@@ -158,5 +245,8 @@
     opacity: 1;
     transform: none;
   }
-}
 
+  .tilt-hover:hover {
+    transform: none;
+  }
+}

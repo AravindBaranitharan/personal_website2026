@@ -1,9 +1,34 @@
-﻿import { profile } from "@/content/site";
+"use client";
+
+import { profile } from "@/content/site";
+import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+
+const reveal = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.2, 0.7, 0.2, 1],
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const revealItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.2, 0.7, 0.2, 1] },
+  },
+};
 
 function RotatingScrollIndicator() {
   return (
-    <div className="relative flex h-[132px] w-[132px] items-center justify-center sm:h-36 sm:w-36">
+    <div className="float-slow relative flex h-[132px] w-[132px] items-center justify-center sm:h-36 sm:w-36">
       <svg
         viewBox="0 0 144 144"
         className="spin-indicator h-[132px] w-[132px] sm:h-36 sm:w-36"
@@ -16,7 +41,7 @@ function RotatingScrollIndicator() {
         </defs>
         <text className="font-meta fill-current text-[9px] font-bold uppercase">
           <textPath href="#scroll-circle" startOffset="0%">
-            SCROLL DOWN * SCROLL DOWN * SCROLL DOWN * SCROLL DOWN *
+            Scroll down * Scroll down * Scroll down * Scroll down *
           </textPath>
         </text>
       </svg>
@@ -29,20 +54,39 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="section-reveal section-delay-1 flex min-h-screen items-end border-b-2 border-black px-4 pb-8 pt-[11.5rem] sm:pt-52 md:px-8 md:pb-12 md:pt-40"
+      className="relative flex min-h-screen items-end border-b-2 border-black px-4 pb-10 pt-[11rem] sm:pt-52 md:px-8 md:pb-14 md:pt-44"
     >
-      <div className="mx-auto w-full max-w-[1440px]">
-        <div className="mx-auto w-full max-w-[1280px]">
-          <h1 className="font-display text-center text-[clamp(2.4rem,9vw,9rem)] leading-[0.86] tracking-[-0.04em] text-black">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 atmosphere-grid opacity-20" />
+        <div className="absolute left-[-8rem] top-20 h-72 w-72 rounded-full bg-[#ffd5bd] blur-3xl" />
+        <div className="absolute right-[-6rem] top-[35%] h-80 w-80 rounded-full bg-[#ff7640] blur-3xl" />
+      </div>
+
+      <motion.div
+        className="mx-auto w-full max-w-[1440px]"
+        variants={reveal}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.35 }}
+      >
+        <motion.div variants={revealItem} className="mx-auto w-full max-w-[1280px]">
+          <p className="font-meta mx-auto mb-6 w-fit rounded-full border-2 border-black bg-brand-paper px-4 py-2 text-[11px] font-bold uppercase text-brand-warm-black sm:text-[12px]">
+            Available for selected 2026 builds
+          </p>
+          <h1 className="font-display text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-black">
             {profile.firstName}
             <br />
             {profile.lastName}
           </h1>
-        </div>
+          <p className="font-meta mx-auto mt-5 max-w-2xl text-center text-[12px] font-bold uppercase text-brand-warm-black sm:text-[13px]">
+            Building product-grade web and AI experiences that feel fast,
+            memorable, and conversion-ready.
+          </p>
+        </motion.div>
 
-        <div className="mt-6 border-t-2 border-black pt-6 sm:mt-8 sm:pt-8">
+        <motion.div variants={revealItem} className="mt-8 border-t-2 border-black pt-7 sm:mt-10 sm:pt-8">
           <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-[1fr_auto_1fr]">
-            <p className="font-meta text-center text-[11px] font-bold normal-case leading-relaxed sm:text-[12px] md:text-left">
+            <p className="font-meta text-center text-[12px] font-bold normal-case leading-relaxed text-brand-warm-black md:text-left md:text-[13px]">
               {profile.company}
               <br />
               {profile.email}
@@ -54,35 +98,46 @@ export function HeroSection() {
               <RotatingScrollIndicator />
             </div>
 
-            <p className="font-meta text-center text-[11px] font-bold uppercase leading-relaxed sm:text-[12px] md:text-right">
+            <p className="font-meta text-center text-[12px] font-bold uppercase leading-relaxed text-brand-warm-black md:text-right md:text-[13px]">
               {profile.title}
               <br />
               {profile.subtitle}
               <br />
-              INNOVATIVE PRODUCT DEVELOPMENT
+              Product Thinking + AI Execution
             </p>
           </div>
 
-          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row">
-            <a
+          <motion.div
+            variants={revealItem}
+            className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start"
+          >
+            <motion.a
               href="#contact"
-              className="font-meta inline-flex rounded-full border-2 border-black bg-black px-8 py-3 text-[11px] font-bold uppercase text-white transition duration-200 hover:translate-x-2 hover:scale-105 hover:bg-white hover:text-black"
+              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-black px-8 py-3 text-[11px] font-bold uppercase text-white transition duration-200 hover:bg-brand-paper hover:text-black"
+              whileHover={{ x: 6, y: -2, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               Start A Project
-            </a>
+            </motion.a>
+            <motion.a
+              href="#projects"
+              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-brand-paper px-8 py-3 text-[11px] font-bold uppercase text-black transition duration-200 hover:bg-black hover:text-white"
+              whileHover={{ x: 6, y: -2, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              View Case Studies
+            </motion.a>
             <a
               href={profile.resumePath}
               target="_blank"
               rel="noreferrer"
-              className="font-meta inline-flex rounded-full border-2 border-black bg-white px-8 py-3 text-[11px] font-bold uppercase text-black transition duration-200 hover:translate-x-2 hover:scale-105 hover:bg-black hover:text-white"
+              className="font-meta px-2 text-[11px] font-bold uppercase underline decoration-2 underline-offset-4 transition hover:text-brand-paper sm:text-[12px]"
             >
-              View Resume
+              Resume PDF
             </a>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
-
-

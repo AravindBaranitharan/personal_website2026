@@ -1,4 +1,4 @@
-﻿export type NavLink = {
+export type NavLink = {
   label: string;
   href: `#${string}`;
 };
@@ -25,6 +25,25 @@ export type ProjectItem = {
   image: string;
   href: string;
   stack: string[];
+};
+
+export type FeaturedMetric = {
+  label: string;
+  value: string;
+};
+
+export type FeaturedProject = {
+  projectId: number;
+  label: string;
+  title: string;
+  year: string;
+  problem: string;
+  build: string;
+  result: string;
+  image: string;
+  href: string;
+  stack: string[];
+  metrics: FeaturedMetric[];
 };
 
 export const profile = {
@@ -117,6 +136,27 @@ export const serviceItems: ServiceItem[] = [
     href: "https://github.com/AravindBaranitharan?tab=repositories",
   },
 ];
+
+export const featuredProject: FeaturedProject = {
+  projectId: 1,
+  label: "Featured Case Study",
+  title: "Lowkey Reach",
+  year: "2026",
+  problem:
+    "A growing outreach team needed a cleaner way to track conversations without the overhead of a heavy CRM.",
+  build:
+    "Designed a focused product flow with conversation stages, follow-up prompts, and mobile-first clarity.",
+  result:
+    "Shipped a polished MVP quickly and established a repeatable launch blueprint for future feature drops.",
+  image: "/projects/lowkey-reach.svg",
+  href: "https://github.com/AravindBaranitharan/Lowkey-Reach",
+  stack: ["Product Strategy", "Web App", "UX Systems", "Frontend"],
+  metrics: [
+    { label: "Prototype Cycle", value: "14 Days" },
+    { label: "Core Journeys", value: "3 Flows" },
+    { label: "Interaction Pace", value: "<2s" },
+  ],
+};
 
 export const projectItems: ProjectItem[] = [
   {
