@@ -18,7 +18,7 @@ export function ServicesSection() {
             <li key={service.id} className="border-b border-white/20">
               <Link
                 href={`/services/${service.slug}`}
-                className="group block transition duration-200 hover:bg-white/5"
+                className="group block px-2 transition duration-300 hover:bg-white/[0.04] sm:px-4"
               >
                 <div className="grid grid-cols-[42px_1fr_28px] items-start gap-3 py-6 sm:grid-cols-[56px_1fr_36px] sm:gap-4 sm:py-8 md:grid-cols-[80px_1fr_56px] md:items-center md:gap-8">
                   <span className="font-meta text-[11px] font-bold text-[#FF4D00] sm:text-[12px]">
@@ -26,17 +26,17 @@ export function ServicesSection() {
                   </span>
 
                   <div className="space-y-3">
-                    <h3 className="font-display text-[clamp(2rem,11vw,7rem)] leading-[0.86] tracking-[-0.04em] transition duration-200 group-hover:translate-x-4">
+                    <h3 className="font-display-upper text-[clamp(1.8rem,9vw,5rem)] leading-[0.86] tracking-[-0.04em] transition duration-300 group-hover:translate-x-2">
                       {service.title}
                     </h3>
-                    <p className="max-w-3xl font-meta text-[11px] font-bold uppercase text-white/70 sm:text-[12px]">
+                    <p className="max-w-3xl font-body text-[13px] font-medium leading-relaxed text-white/75 sm:text-[14px]">
                       {service.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {service.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="font-meta rounded-full border border-white/30 px-2.5 py-1 text-[10px] font-bold uppercase text-white sm:px-3 sm:text-[11px]"
+                          className="font-meta rounded-full border border-white/50 bg-white/[0.03] px-2.5 py-1 text-[10px] font-bold uppercase text-white sm:px-3 sm:text-[11px]"
                         >
                           {tag}
                         </span>
@@ -45,7 +45,7 @@ export function ServicesSection() {
                   </div>
 
                   <ArrowUpRight
-                    className="h-7 w-7 justify-self-end text-[#FF4D00] opacity-0 transition duration-200 group-hover:rotate-45 group-hover:opacity-100 sm:h-10 sm:w-10 md:h-14 md:w-14"
+                    className="h-7 w-7 justify-self-end text-[#FF4D00] opacity-40 transition duration-300 group-hover:scale-110 group-hover:opacity-100 sm:h-10 sm:w-10 md:h-14 md:w-14"
                     strokeWidth={2.5}
                   />
                 </div>

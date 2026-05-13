@@ -71,19 +71,19 @@ export function HeroSection() {
       >
         <motion.div variants={revealItem} className="mx-auto w-full max-w-[1280px]">
 
-          <h1 className="font-display text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-black">
+          <h1 className="font-display-upper text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-black">
             {profile.firstName}
             <br />
             {profile.lastName}
           </h1>
-          <p className="font-meta mx-auto mt-5 max-w-2xl text-center text-[12px] font-bold uppercase text-brand-warm-black sm:text-[13px]">
+          <p className="font-body mx-auto mt-8 max-w-2xl text-center text-[13px] font-semibold leading-relaxed text-brand-warm-black sm:mt-10 sm:text-[15px]">
             Building product-grade web and AI experiences that feel fast,
             memorable, and conversion-ready.
           </p>
         </motion.div>
 
         <motion.div variants={revealItem} className="mt-8 border-t-2 border-black pt-7 sm:mt-10 sm:pt-8">
-          <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-[1fr_auto_1fr]">
+          <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-[1fr_160px_1fr]">
             <p className="font-meta text-center text-[12px] font-bold normal-case leading-relaxed text-brand-warm-black md:text-left md:text-[13px]">
               {profile.company}
               <br />
@@ -119,7 +119,7 @@ export function HeroSection() {
             </motion.a>
             <motion.a
               href="#projects"
-              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-brand-paper px-8 py-3 text-[11px] font-bold uppercase text-black transition duration-200 hover:bg-black hover:text-white"
+              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-brand-paper px-8 py-3 text-[11px] font-bold uppercase text-[#d84200] transition duration-200 hover:bg-black hover:text-white"
               whileHover={{ x: 6, y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -129,7 +129,7 @@ export function HeroSection() {
               href={profile.resumePath}
               target="_blank"
               rel="noreferrer"
-              className="font-meta px-2 text-[11px] font-bold uppercase underline decoration-2 underline-offset-4 transition hover:text-brand-paper sm:text-[12px]"
+              className="font-meta px-2 text-[11px] font-bold uppercase text-black underline decoration-2 underline-offset-4 transition hover:text-[#d84200] sm:text-[12px]"
             >
               Resume PDF
             </a>

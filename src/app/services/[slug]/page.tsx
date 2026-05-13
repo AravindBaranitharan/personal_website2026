@@ -22,14 +22,7 @@ export default async function ServiceArticlePage({
   return (
     <main className="min-h-screen bg-black px-4 pb-16 pt-24 text-white md:px-8">
       <div className="mx-auto w-full max-w-[1200px]">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="font-display text-2xl leading-none tracking-[-0.04em]"
-          >
-            {profile.initials}
-          </Link>
-
+        <div className="mb-6 flex flex-wrap items-center justify-end gap-3">
           <div className="font-meta flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase sm:text-[11px]">
             <Link
               href="/#home"
@@ -65,13 +58,13 @@ export default async function ServiceArticlePage({
             <p className="font-meta text-[11px] font-bold uppercase text-black/80 sm:text-[12px]">
               Service {service.id}
             </p>
-            <h1 className="font-display mt-3 text-[clamp(2.2rem,8vw,5.8rem)] leading-[0.86] tracking-[-0.05em] text-black">
+            <h1 className="font-display-upper mt-3 text-[clamp(2.2rem,8vw,5.8rem)] leading-[0.86] tracking-[-0.05em] text-black">
               {service.title}
             </h1>
             <p className="font-meta mt-4 max-w-3xl text-[12px] font-bold uppercase text-black/85 sm:text-[13px]">
               {service.articleKicker}
             </p>
-            <p className="font-meta mt-3 max-w-4xl text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]">
+            <p className="font-body mt-3 max-w-4xl text-[13px] font-medium leading-relaxed text-black/85 sm:text-[15px]">
               {service.articleLead}
             </p>
 
@@ -79,7 +72,7 @@ export default async function ServiceArticlePage({
               {service.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="font-meta rounded-full border border-black/50 bg-black/5 px-3 py-1 text-[10px] font-bold uppercase text-black sm:text-[11px]"
+                  className="font-meta rounded-full border-2 border-black bg-black/10 px-3 py-1 text-[10px] font-bold uppercase text-black sm:text-[11px]"
                 >
                   {tag}
                 </span>
@@ -89,27 +82,27 @@ export default async function ServiceArticlePage({
 
           <div className="bg-brand-paper px-5 py-8 sm:px-8 sm:py-10">
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border-2 border-black bg-white px-4 py-4">
+              <div className="flex min-h-[170px] flex-col rounded-2xl border-2 border-black bg-white px-4 py-4">
                 <p className="font-meta text-[10px] font-bold uppercase text-black/60 sm:text-[11px]">
                   Challenge
                 </p>
-                <p className="font-meta mt-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]">
+                <p className="font-body mt-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]">
                   {service.challenge}
                 </p>
               </div>
-              <div className="rounded-2xl border-2 border-black bg-white px-4 py-4">
+              <div className="flex min-h-[170px] flex-col rounded-2xl border-2 border-black bg-white px-4 py-4">
                 <p className="font-meta text-[10px] font-bold uppercase text-black/60 sm:text-[11px]">
                   Delivery Model
                 </p>
-                <p className="font-meta mt-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]">
+                <p className="font-body mt-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]">
                   {service.deliveryModel}
                 </p>
               </div>
-              <div className="rounded-2xl border-2 border-black bg-white px-4 py-4">
+              <div className="flex min-h-[170px] flex-col rounded-2xl border-2 border-black bg-white px-4 py-4">
                 <p className="font-meta text-[10px] font-bold uppercase text-black/60 sm:text-[11px]">
                   Built For
                 </p>
-                <p className="font-meta mt-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]">
+                <p className="font-body mt-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]">
                   Teams that want execution speed without sacrificing long-term
                   product quality.
                 </p>
@@ -117,22 +110,22 @@ export default async function ServiceArticlePage({
             </div>
 
             <section className="mt-8">
-              <h2 className="font-display text-[clamp(1.8rem,5vw,3.2rem)] leading-[0.88] tracking-[-0.04em] text-black">
+              <h2 className="font-display-upper text-[clamp(1.8rem,5vw,3.2rem)] leading-[0.88] tracking-[-0.04em] text-black">
                 EXECUTION BLUEPRINT
               </h2>
               <ol className="mt-4 grid gap-3 sm:gap-4">
                 {service.phases.map((phase, index) => (
                   <li
                     key={phase.title}
-                    className="rounded-2xl border-2 border-black bg-white px-4 py-4"
+                    className="rounded-2xl border-l-4 border-[#FF4D00] bg-white px-5 py-4 shadow-[0_2px_0_#000]"
                   >
                     <p className="font-meta text-[10px] font-bold uppercase text-[#FF4D00] sm:text-[11px]">
                       Step {index + 1}
                     </p>
-                    <p className="font-display mt-1 text-[1.35rem] leading-[0.92] text-black sm:text-[1.6rem]">
+                    <p className="font-display-upper mt-1 text-[1.35rem] leading-[0.92] text-black sm:text-[1.6rem]">
                       {phase.title}
                     </p>
-                    <p className="font-meta mt-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]">
+                    <p className="font-body mt-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]">
                       {phase.detail}
                     </p>
                   </li>
@@ -142,14 +135,14 @@ export default async function ServiceArticlePage({
 
             <section className="mt-8 grid gap-6 lg:grid-cols-2">
               <div>
-                <h2 className="font-display text-[clamp(1.7rem,4.5vw,2.8rem)] leading-[0.9] tracking-[-0.04em] text-black">
+                <h2 className="font-display-upper text-[clamp(1.7rem,4.5vw,2.8rem)] leading-[0.9] tracking-[-0.04em] text-black">
                   WHAT I DELIVER
                 </h2>
                 <ul className="mt-3 space-y-2">
                   {service.deliverables.map((item) => (
                     <li
                       key={item}
-                      className="font-meta inline-flex items-start gap-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]"
+                      className="font-body inline-flex items-start gap-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]"
                     >
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#FF4D00]" />
                       {item}
@@ -159,14 +152,14 @@ export default async function ServiceArticlePage({
               </div>
 
               <div>
-                <h2 className="font-display text-[clamp(1.7rem,4.5vw,2.8rem)] leading-[0.9] tracking-[-0.04em] text-black">
+                <h2 className="font-display-upper text-[clamp(1.7rem,4.5vw,2.8rem)] leading-[0.9] tracking-[-0.04em] text-black">
                   OUTCOMES
                 </h2>
                 <ul className="mt-3 space-y-2">
                   {service.outcomes.map((item) => (
                     <li
                       key={item}
-                      className="font-meta inline-flex items-start gap-2 text-[12px] font-bold leading-relaxed text-black/85 sm:text-[13px]"
+                      className="font-body inline-flex items-start gap-2 text-[13px] font-medium leading-relaxed text-black/85 sm:text-[14px]"
                     >
                       <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-[#FF4D00]" />
                       {item}

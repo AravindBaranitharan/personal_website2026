@@ -1,4 +1,5 @@
 import {
+  ApproachSection,
   ContactSection,
   Header,
   HeroSection,
@@ -22,6 +23,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <MarqueeSection />
+      <ApproachSection />
       <ServicesSection />
       <ProjectsSection />
       <ContactSection />

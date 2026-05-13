@@ -55,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${archivoBlack.variable} ${spaceMono.variable} h-full scroll-smooth`}
+      className={`${inter.variable} ${archivoBlack.variable} ${spaceMono.variable} h-full`}
     >
       <body className="font-body min-h-screen antialiased">
         <main className="min-h-screen">{children}</main>

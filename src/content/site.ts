@@ -62,7 +62,6 @@ export type FeaturedProject = {
 };
 
 export const profile = {
-  initials: "AB",
   firstName: "Aravind",
   lastName: "Baranitharan",
   title: "AI Engineer",
@@ -75,6 +74,7 @@ export const profile = {
 
 export const navLinks: NavLink[] = [
   { label: "HOME", href: "#home" },
+  { label: "ABOUT", href: "#about" },
   { label: "SERVICES", href: "#services" },
   { label: "PROJECTS", href: "#projects" },
   { label: "CONTACT", href: "#contact" },

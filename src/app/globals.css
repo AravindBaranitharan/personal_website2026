@@ -53,6 +53,12 @@
     font-family: var(--font-archivo), "Archivo Black", sans-serif;
     line-height: 0.88;
     letter-spacing: -0.04em;
+  }
+
+  .font-display-upper {
+    font-family: var(--font-archivo), "Archivo Black", sans-serif;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
     text-transform: uppercase;
   }
 
@@ -135,7 +141,7 @@
     display: flex;
     width: max-content;
     white-space: nowrap;
-    animation: marquee 52s linear infinite;
+    animation: marquee 40s linear infinite;
     will-change: transform;
   }
 

@@ -125,15 +125,15 @@ export function ContactSection() {
       id="contact"
       className="section-reveal section-delay-5 border-b-2 border-black bg-black px-4 py-14 text-white sm:py-20 md:px-8"
     >
-      <div className="mx-auto grid w-full max-w-[1440px] gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+      <div className="mx-auto grid w-full max-w-[1440px] gap-8 md:grid-cols-[1.1fr_1fr] md:gap-10 lg:gap-12">
         <div className="space-y-5">
           <p className="font-meta text-[11px] font-bold uppercase text-white/70 sm:text-[12px]">
             CONTACT
           </p>
-          <h2 className="font-display text-[clamp(2.6rem,10vw,8rem)] leading-[0.86] tracking-[-0.04em] text-[#FF4D00]">
+          <h2 className="font-display-upper text-[clamp(2.6rem,10vw,8rem)] leading-[0.86] tracking-[-0.04em] text-[#FF4D00]">
             LET&apos;S BUILD
           </h2>
-          <p className="font-meta max-w-xl text-[11px] font-bold uppercase text-white/80 sm:text-[12px]">
+          <p className="font-body max-w-xl text-[13px] font-medium leading-relaxed text-white/80 sm:text-[15px]">
             Share your project details and goals. I will get back with a clear
             plan and next steps.
           </p>
@@ -180,10 +180,10 @@ export function ContactSection() {
                 value={values.name}
                 onChange={handleChange}
                 placeholder="Enter your name"
-                className="font-meta w-full rounded-xl border-2 border-white/30 bg-black px-4 py-3 text-[12px] font-bold uppercase text-white placeholder:text-white/45"
+                className="font-meta w-full rounded-xl border-2 border-white/50 bg-black px-5 py-3.5 text-[12px] font-bold uppercase text-white placeholder:text-white/65 focus:border-[#FF4D00]"
               />
               {errors.name && (
-                <p className="font-meta text-[11px] font-bold text-red-300">
+                <p className="font-meta text-[11px] font-bold text-orange-200">
                   {errors.name}
                 </p>
               )}
@@ -203,10 +203,10 @@ export function ContactSection() {
                 value={values.phone}
                 onChange={handleChange}
                 placeholder="Enter phone number"
-                className="font-meta w-full rounded-xl border-2 border-white/30 bg-black px-4 py-3 text-[12px] font-bold uppercase text-white placeholder:text-white/45"
+                className="font-meta w-full rounded-xl border-2 border-white/50 bg-black px-5 py-3.5 text-[12px] font-bold uppercase text-white placeholder:text-white/65 focus:border-[#FF4D00]"
               />
               {errors.phone && (
-                <p className="font-meta text-[11px] font-bold text-red-300">
+                <p className="font-meta text-[11px] font-bold text-orange-200">
                   {errors.phone}
                 </p>
               )}
@@ -227,10 +227,10 @@ export function ContactSection() {
               value={values.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="font-meta w-full rounded-xl border-2 border-white/30 bg-black px-4 py-3 text-[12px] font-bold uppercase text-white placeholder:text-white/45"
+              className="font-meta w-full rounded-xl border-2 border-white/50 bg-black px-5 py-3.5 text-[12px] font-bold uppercase text-white placeholder:text-white/65 focus:border-[#FF4D00]"
             />
             {errors.email && (
-              <p className="font-meta text-[11px] font-bold text-red-300">
+              <p className="font-meta text-[11px] font-bold text-orange-200">
                 {errors.email}
               </p>
             )}
@@ -249,10 +249,10 @@ export function ContactSection() {
               value={values.message}
               onChange={handleChange}
               placeholder="Tell me what you want to build"
-              className="font-meta min-h-36 w-full resize-y rounded-xl border-2 border-white/30 bg-black px-4 py-3 text-[12px] font-bold uppercase text-white placeholder:text-white/45"
+              className="font-meta min-h-36 w-full resize-y rounded-xl border-2 border-white/50 bg-black px-5 py-3.5 text-[12px] font-bold uppercase text-white placeholder:text-white/65 focus:border-[#FF4D00]"
             />
             {errors.message && (
-              <p className="font-meta text-[11px] font-bold text-red-300">
+              <p className="font-meta text-[11px] font-bold text-orange-200">
                 {errors.message}
               </p>
             )}
@@ -262,7 +262,7 @@ export function ContactSection() {
             <button
               type="submit"
               disabled={submissionState === "submitting"}
-              className="font-meta inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#FF4D00] bg-[#FF4D00] px-7 py-3 text-[11px] font-bold uppercase text-black transition duration-200 hover:translate-x-2 hover:scale-105 hover:bg-black hover:text-[#FF4D00] disabled:cursor-not-allowed disabled:opacity-70"
+              className="font-meta button-depth inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#FF4D00] bg-[#FF4D00] px-7 py-3 text-[11px] font-bold uppercase text-black transition-all duration-200 hover:-translate-y-1 hover:bg-black hover:text-[#FF4D00] hover:shadow-none disabled:cursor-not-allowed disabled:opacity-70"
             >
               {submissionState === "submitting" ? (
                 <>
@@ -279,10 +279,10 @@ export function ContactSection() {
               aria-live="polite"
             >
               {submissionState === "success" && (
-                <CheckCircle2 className="h-4 w-4 text-green-300" />
+                <CheckCircle2 className="h-4 w-4 text-[#FF4D00]" />
               )}
               {submissionState === "error" && (
-                <AlertCircle className="h-4 w-4 text-red-300" />
+                <AlertCircle className="h-4 w-4 text-orange-200" />
               )}
               {submissionMessage}
             </p>

@@ -38,10 +38,10 @@ export function ProjectsSection() {
           <p className="font-meta text-[11px] font-bold uppercase text-brand-warm-black sm:text-[12px]">
             Projects
           </p>
-          <h2 className="font-display text-[clamp(2.5rem,9vw,7.8rem)] leading-[0.84] tracking-[-0.05em] text-brand-warm-black">
+          <h2 className="font-display-upper text-[clamp(2.5rem,9vw,7.8rem)] leading-[0.84] tracking-[-0.05em] text-brand-warm-black">
             CASE STUDIES
           </h2>
-          <p className="font-meta max-w-3xl text-[12px] font-bold uppercase text-brand-warm-black/80 sm:text-[13px]">
+          <p className="font-body max-w-3xl text-[13px] font-medium leading-relaxed text-brand-warm-black/85 sm:text-[15px]">
             Selected builds where product strategy, visual systems, and execution
             quality move together.
           </p>
@@ -59,26 +59,23 @@ export function ProjectsSection() {
           whileHover={{ y: -6 }}
         >
           <div className="grid lg:grid-cols-[1fr_1.05fr]">
-            <div className="relative min-h-[19rem] border-b-2 border-black lg:border-b-0 lg:border-r-2">
+            <div className="relative min-h-[19rem] overflow-hidden border-b-2 border-black transition-transform duration-500 ease-out lg:border-b-0 lg:border-r-2">
               <Image
                 src={featuredProject.image}
                 alt={featuredProject.title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 48vw"
-                className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute left-5 top-5 rounded-full border-2 border-black bg-brand-paper px-3 py-1 text-[10px] font-bold uppercase text-black sm:text-[11px]">
-                {featuredProject.label}
-              </div>
-              <div className="badge-glow absolute bottom-5 left-5 rounded-xl bg-brand-orange px-3 py-2 text-[11px] font-bold uppercase text-black sm:text-[12px]">
-                {featuredProject.year}
+              <div className="font-meta absolute left-5 top-5 rounded-full border-2 border-black bg-brand-paper px-3 py-1 text-[10px] font-bold uppercase text-black sm:text-[11px]">
+                {featuredProject.label} — {featuredProject.year}
               </div>
             </div>
 
             <div className="space-y-6 p-5 sm:p-7 lg:p-8">
               <div>
-                <h3 className="font-display text-[clamp(2rem,6vw,4rem)] leading-[0.86] tracking-[-0.04em]">
+                <h3 className="font-display-upper text-[clamp(2rem,6vw,4rem)] leading-[0.86] tracking-[-0.04em]">
                   {featuredProject.title}
                 </h3>
                 <p className="font-meta mt-2 text-[11px] font-bold uppercase text-white/75 sm:text-[12px]">
@@ -170,7 +167,7 @@ export function ProjectsSection() {
 
               <div className="space-y-3 p-4">
                 <div>
-                  <p className="font-display text-[1.68rem] leading-[0.9] tracking-[-0.03em]">
+                  <p className="font-display-upper text-[clamp(1.4rem,3vw,1.8rem)] leading-[0.9] tracking-[-0.03em]">
                     {project.title}
                   </p>
                   <p className="font-meta mt-1 text-[11px] font-bold uppercase text-white/70">
@@ -178,7 +175,7 @@ export function ProjectsSection() {
                   </p>
                 </div>
 
-                <p className="font-meta text-[12px] font-bold leading-relaxed text-white/85">
+                <p className="font-body text-[13px] font-medium leading-relaxed text-white/85">
                   {project.summary}
                 </p>
 
@@ -186,7 +183,7 @@ export function ProjectsSection() {
                   {project.stack.map((item) => (
                     <span
                       key={item}
-                      className="font-meta rounded-full border border-white/30 px-2.5 py-1 text-[10px] font-bold uppercase"
+                      className="font-meta rounded-full border border-white/50 bg-white/[0.03] px-2.5 py-1 text-[10px] font-bold uppercase"
                     >
                       {item}
                     </span>
