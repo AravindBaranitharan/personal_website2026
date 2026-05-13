@@ -1,5 +1,6 @@
 "use client";
 
+import { GradientBars } from "@/components/ui/gradient-bars-background";
 import { profile } from "@/content/site";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
@@ -54,37 +55,45 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center border-b-2 border-black px-4 pb-10 pt-24 sm:pt-28 md:px-8 md:pb-14 md:pt-24"
+      className="relative flex min-h-screen items-center overflow-hidden border-b-2 border-black bg-[rgb(10,10,10)] px-4 pb-10 pt-24 text-white sm:pt-28 md:px-8 md:pb-14 md:pt-24"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 atmosphere-grid opacity-20" />
-        <div className="absolute left-[-8rem] top-20 h-72 w-72 rounded-full bg-[#ffd5bd] blur-3xl" />
-        <div className="absolute right-[-6rem] top-[35%] h-80 w-80 rounded-full bg-[#ff7640] blur-3xl" />
-      </div>
+      <GradientBars
+        numBars={15}
+        gradientFrom="rgb(255, 77, 0)"
+        gradientTo="transparent"
+        animationDuration={2.4}
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(10,10,10,0.55)_70%,_rgba(10,10,10,0.85)_100%)]"
+      />
 
       <motion.div
-        className="mx-auto w-full max-w-[1440px]"
+        className="relative z-10 mx-auto w-full max-w-[1440px]"
         variants={reveal}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.35 }}
       >
         <motion.div variants={revealItem} className="mx-auto w-full max-w-[1280px]">
-
-          <h1 className="font-display-upper text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-black">
+          <h1 className="font-display-upper text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.45)]">
             {profile.firstName}
             <br />
             {profile.lastName}
           </h1>
-          <p className="font-body mx-auto mt-8 max-w-2xl text-center text-[13px] font-semibold leading-relaxed text-brand-warm-black sm:mt-10 sm:text-[15px]">
+          <p className="font-body mx-auto mt-8 max-w-2xl text-center text-[13px] font-semibold leading-relaxed text-white/85 sm:mt-10 sm:text-[15px]">
             Building product-grade web and AI experiences that feel fast,
             memorable, and conversion-ready.
           </p>
         </motion.div>
 
-        <motion.div variants={revealItem} className="mt-8 border-t-2 border-black pt-7 sm:mt-10 sm:pt-8">
+        <motion.div
+          variants={revealItem}
+          className="mt-8 border-t border-white/30 pt-7 sm:mt-10 sm:pt-8"
+        >
           <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-[1fr_160px_1fr]">
-            <p className="font-meta text-center text-[12px] font-bold normal-case leading-relaxed text-brand-warm-black md:text-left md:text-[13px]">
+            <p className="font-meta text-center text-[12px] font-bold normal-case leading-relaxed text-white/80 md:text-left md:text-[13px]">
               {profile.company}
               <br />
               {profile.email}
@@ -92,11 +101,11 @@ export function HeroSection() {
               {profile.phone}
             </p>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center text-white">
               <RotatingScrollIndicator />
             </div>
 
-            <p className="font-meta text-center text-[12px] font-bold uppercase leading-relaxed text-brand-warm-black md:text-right md:text-[13px]">
+            <p className="font-meta text-center text-[12px] font-bold uppercase leading-relaxed text-white/80 md:text-right md:text-[13px]">
               {profile.title}
               <br />
               {profile.subtitle}
@@ -111,7 +120,7 @@ export function HeroSection() {
           >
             <motion.a
               href="#contact"
-              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-black px-8 py-3 text-[11px] font-bold uppercase text-white transition duration-200 hover:bg-brand-paper hover:text-black"
+              className="font-meta inline-flex rounded-full border-2 border-[#FF4D00] bg-[#FF4D00] px-8 py-3 text-[11px] font-bold uppercase text-black shadow-[0_8px_30px_rgba(255,77,0,0.35)] transition duration-200 hover:bg-white hover:text-black"
               whileHover={{ x: 6, y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -119,7 +128,7 @@ export function HeroSection() {
             </motion.a>
             <motion.a
               href="#projects"
-              className="font-meta button-depth inline-flex rounded-full border-2 border-black bg-brand-paper px-8 py-3 text-[11px] font-bold uppercase text-[#d84200] transition duration-200 hover:bg-black hover:text-white"
+              className="font-meta inline-flex rounded-full border-2 border-white/80 bg-transparent px-8 py-3 text-[11px] font-bold uppercase text-white transition duration-200 hover:bg-white hover:text-black"
               whileHover={{ x: 6, y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -129,7 +138,7 @@ export function HeroSection() {
               href={profile.resumePath}
               target="_blank"
               rel="noreferrer"
-              className="font-meta px-2 text-[11px] font-bold uppercase text-black underline decoration-2 underline-offset-4 transition hover:text-[#d84200] sm:text-[12px]"
+              className="font-meta px-2 text-[11px] font-bold uppercase text-white/90 underline decoration-2 underline-offset-4 transition hover:text-[#FF4D00] sm:text-[12px]"
             >
               Resume PDF
             </a>
@@ -139,6 +148,3 @@ export function HeroSection() {
     </section>
   );
 }
-
-
-
