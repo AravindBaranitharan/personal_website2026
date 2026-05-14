@@ -3,6 +3,7 @@ import {
   ContactSection,
   Header,
   HeroSection,
+  IntroSplash,
   MarqueeSection,
   ProjectsSection,
   ServicesSection,
@@ -12,6 +13,7 @@ import {
 export default function Home() {
   return (
     <div className="relative isolate overflow-x-hidden text-brand-black">
+      <IntroSplash />
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute inset-0 atmosphere-grid opacity-25" />
         <div className="absolute -left-28 top-16 h-[24rem] w-[24rem] rounded-full bg-[#ffc6a1] blur-3xl" />

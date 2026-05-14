@@ -1,5 +1,6 @@
 ﻿export { Header } from "./Header";
 export { HeroSection } from "./HeroSection";
+export { IntroSplash } from "./IntroSplash";
 export { MarqueeSection } from "./MarqueeSection";
 export { ApproachSection } from "./ApproachSection";
 export { ServicesSection } from "./ServicesSection";

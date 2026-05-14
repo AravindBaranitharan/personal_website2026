@@ -5,25 +5,25 @@ import { profile } from "@/content/site";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 
+const INTRO_DELAY = 2.85;
+
 const reveal = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: {},
   show: {
-    opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.7,
-      ease: [0.2, 0.7, 0.2, 1],
-      staggerChildren: 0.1,
+      delayChildren: INTRO_DELAY,
+      staggerChildren: 0.18,
     },
   },
 };
 
 const revealItem = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 36, filter: "blur(6px)" },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.2, 0.7, 0.2, 1] },
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: [0.2, 0.7, 0.2, 1] },
   },
 };
 
@@ -57,12 +57,23 @@ export function HeroSection() {
       id="home"
       className="relative flex min-h-screen items-center overflow-hidden border-b-2 border-black bg-[rgb(10,10,10)] px-4 pb-10 pt-24 text-white sm:pt-28 md:px-8 md:pb-14 md:pt-24"
     >
-      <GradientBars
-        numBars={15}
-        gradientFrom="rgb(255, 77, 0)"
-        gradientTo="transparent"
-        animationDuration={2.4}
-      />
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.08 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          opacity: { delay: INTRO_DELAY - 0.2, duration: 0.9, ease: "easeOut" },
+          scale: { delay: INTRO_DELAY - 0.3, duration: 1.6, ease: [0.2, 0.7, 0.2, 1] },
+        }}
+      >
+        <GradientBars
+          numBars={15}
+          gradientFrom="rgb(255, 77, 0)"
+          gradientTo="transparent"
+          animationDuration={2.4}
+        />
+      </motion.div>
 
       <div
         aria-hidden="true"
@@ -73,8 +84,7 @@ export function HeroSection() {
         className="relative z-10 mx-auto w-full max-w-[1440px]"
         variants={reveal}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.35 }}
+        animate="show"
       >
         <motion.div variants={revealItem} className="mx-auto w-full max-w-[1280px]">
           <h1 className="font-display-upper text-center text-[clamp(2.8rem,9.2vw,9.6rem)] leading-[0.84] tracking-[-0.05em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.45)]">
