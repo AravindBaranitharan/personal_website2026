@@ -1,13 +1,62 @@
 "use client";
 
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
+import { SVGFollower } from "@/components/ui/svg-follower";
 import { WavePath } from "@/components/ui/wave-path";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+const CURSOR_COLORS = ["#FF4D00", "#FF8A00", "#FFD400", "#FFFFFF", "#1a1a1a"];
 
 export function ApproachSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(false);
+  const [viewport, setViewport] = useState({ w: 0, h: 0 });
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setEnabled(isFinePointer && !reducedMotion);
+
+    const update = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { threshold: 0.01 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [enabled]);
+
   return (
-    <section id="approach" aria-label="The approach">
+    <section ref={sectionRef} id="approach" aria-label="The approach">
+      {enabled && active && viewport.w > 0 && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-[40] mix-blend-screen"
+        >
+          <div className="pointer-events-auto">
+            <SVGFollower
+              key={`${viewport.w}x${viewport.h}`}
+              width={viewport.w}
+              height={viewport.h}
+              colors={CURSOR_COLORS}
+              removeDelay={420}
+            />
+          </div>
+        </div>
+      )}
       <FlowArt aria-label="How I work">
         <FlowSection
           aria-label="Who I am and what I do"
@@ -371,17 +420,17 @@ export function ApproachSection() {
             Bring a problem worth solving. I&apos;ll bring the plan, the build,
             and the polish.
           </p>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="relative z-[50] flex flex-wrap items-center gap-3">
             <Link
               href="#contact"
-              className="font-meta button-depth inline-flex items-center gap-2 rounded-full border-2 border-[#FF4D00] bg-[#FF4D00] px-7 py-3 text-[11px] font-bold uppercase text-black transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:text-black hover:shadow-none sm:text-[12px]"
+              className="font-meta button-depth pointer-events-auto inline-flex items-center gap-2 rounded-full border-2 border-[#FF4D00] bg-[#FF4D00] px-7 py-3 text-[11px] font-bold uppercase text-black transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:text-black hover:shadow-none sm:text-[12px]"
             >
               Start a project
               <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
             </Link>
             <Link
               href="#projects"
-              className="font-meta inline-flex rounded-full border-2 border-white/60 px-7 py-3 text-[11px] font-bold uppercase text-white transition hover:border-white hover:bg-white hover:text-black sm:text-[12px]"
+              className="font-meta pointer-events-auto inline-flex rounded-full border-2 border-white/60 px-7 py-3 text-[11px] font-bold uppercase text-white transition hover:border-white hover:bg-white hover:text-black sm:text-[12px]"
             >
               See the work
             </Link>
