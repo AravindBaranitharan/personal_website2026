@@ -83,7 +83,7 @@ const ART: Record<string, ReactNode> = {
 };
 const FALLBACK_ART = Object.values(ART);
 
-/** Chapter 3: "what I do." — StackCards that tilt up and pile, then the three-week process. */
+/** Chapter 3: "what I do.", StackCards that tilt up and pile, then the three-week process. */
 export function Services() {
   const total = String(services.length).padStart(2, "0");
 

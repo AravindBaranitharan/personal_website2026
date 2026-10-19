@@ -11,7 +11,7 @@ export function Experience() {
       <div className="ar-container grid gap-[var(--space-8)]">
         <header className="grid gap-[var(--space-4)]">
           <p className="ar-mono ar-muted m-0" data-appear="rise">
-            05 — Experience
+            05 / Experience
           </p>
           <h2
             id="experience-title"
@@ -44,7 +44,7 @@ export function Experience() {
                   {item.points.map((point) => (
                     <li
                       key={point}
-                      className="relative pl-5 before:absolute before:left-0 before:text-pink-ink before:content-['—']"
+                      className="relative pl-5 before:absolute before:left-0 before:text-pink-ink before:content-['•']"
                     >
                       {point}
                     </li>

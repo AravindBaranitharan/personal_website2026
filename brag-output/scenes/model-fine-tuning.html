@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>model-fine-tuning</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  /* Step labels */
+  .steps { position: absolute; left: 80px; right: 80px; top: 58px; display: flex; gap: 40px; }
+  .step { display: inline-flex; align-items: center; gap: 12px; font: 400 26px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: rgba(23,19,35,.4); }
+  .step b { width: 14px; height: 14px; border-radius: 50%; background: currentColor; }
+
+  /* 01 Fine-tune: dataset + loss */
+  .train { left: 80px; top: 130px; width: 620px; height: 690px; background: var(--night); color: var(--on-night); }
+  .train .win__bar { border-bottom: 1px solid #262626; }
+  .train .file { margin-left: 12px; font: 400 24px/1 var(--mono); color: var(--on-night-2); letter-spacing: .04em; }
+  .rows { position: absolute; left: 30px; right: 30px; top: 78px; display: grid; gap: 14px; }
+  .row { height: 54px; display: flex; align-items: center; gap: 14px; padding: 0 18px; border-radius: 14px; background: var(--night-2); font: 400 24px/1 var(--mono); white-space: nowrap; overflow: hidden; }
+  .row .k { color: var(--lilac); } .row .v { color: var(--pink-soft); }
+  .chart { position: absolute; left: 30px; right: 30px; top: 392px; height: 230px; border-radius: 16px; background: #171717; }
+  .chart .lbl { position: absolute; left: 22px; top: 18px; font: 400 24px/1 var(--mono); color: var(--on-night-2); letter-spacing: .04em; }
+  .chart svg { position: absolute; inset: 0; }
+  .bar { position: absolute; left: 30px; right: 30px; bottom: 30px; height: 14px; border-radius: 7px; background: #262626; overflow: hidden; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--pink); border-radius: 7px; }
+
+  /* 02 RLHF: preference */
+  .pref { left: 760px; top: 130px; width: 600px; height: 330px; background: var(--paper); color: var(--ink); }
+  .pref .win__bar { background: var(--band); }
+  .pref .file { margin-left: 12px; font: 400 24px/1 var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  .ans { position: absolute; left: 28px; right: 28px; height: 100px; border-radius: 18px; border: 3px solid var(--sunk); background: var(--band); padding: 18px 22px; display: grid; gap: 10px; }
+  .ans .tag { font: 400 22px/1 var(--mono); color: var(--muted); letter-spacing: .06em; }
+  .ans .txt { font: 500 27px/1.15 var(--sans); }
+  .ans--a { top: 74px; } .ans--b { top: 196px; }
+  .pick { position: absolute; right: 22px; top: 50%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; background: var(--pink); color: var(--ink); display: grid; place-items: center; font: 700 24px/1 var(--sans); }
+  .cursor { position: absolute; width: 34px; height: 34px; }
+
+  /* 03 Quantize */
+  .quant { left: 760px; top: 500px; width: 600px; height: 320px; background: var(--night); color: var(--on-night); }
+  .quant .win__bar { border-bottom: 1px solid #262626; }
+  .quant .file { margin-left: 12px; font: 400 24px/1 var(--mono); color: var(--on-night-2); letter-spacing: .04em; }
+  .block { position: absolute; left: 30px; top: 96px; height: 120px; border-radius: 18px; background: linear-gradient(90deg, var(--lilac), var(--pink)); display: grid; place-items: center; overflow: hidden; }
+  .block span { font: 700 34px/1 var(--sans); color: var(--ink); letter-spacing: -.01em; white-space: nowrap; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(13,13,13,.18) 2px, transparent 2px); background-size: 40px 100%; }
+  .onprem { position: absolute; left: 30px; bottom: 30px; background: var(--night-2); color: var(--on-night); }
+  .onprem b { width: 12px; height: 12px; border-radius: 50%; background: var(--pink); }
+
+  .toast-ready { left: 760px; top: 846px; background: var(--ink); color: var(--paper); padding: 14px 24px; }
+  .toast-ready b { width: 30px; height: 30px; border-radius: 50%; background: var(--pink); color: var(--ink); display: grid; place-items: center; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="stage stage--wash" id="stage">
+<div class="content" id="content">
+  <div class="steps">
+    <span class="step"><b></b>01 Fine-tune</span>
+    <span class="step"><b></b>02 RLHF</span>
+    <span class="step"><b></b>03 Quantize</span>
+  </div>
+
+  <div class="win train" id="train">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="file">DOMAIN.JSONL</span></div>
+    <div class="rows" id="rows"></div>
+    <div class="chart">
+      <span class="lbl">LOSS</span>
+      <svg viewBox="0 0 560 230" preserveAspectRatio="none"><polyline id="loss" fill="none" stroke="#d15eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points=""/></svg>
+    </div>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="win pref" id="pref">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="file">Which answer is better?</span></div>
+    <div class="ans ans--a" id="ansA"><span class="tag">A</span><span class="txt">Refunds may apply.</span></div>
+    <div class="ans ans--b" id="ansB"><span class="tag">B</span><span class="txt">Full refund within 30 days of purchase.</span><span class="pick" id="pick">✓</span></div>
+    <svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M3 2l17 9-7 2-3 7z" fill="#0d0d0d" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="win quant" id="quant">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="file">QUANTIZE</span></div>
+    <div class="block" id="block"><div class="grid"></div><span id="fmt">FP16</span></div>
+    <span class="chip onprem" id="onprem"><b></b>Runs on-prem</span>
+  </div>
+
+  <div class="toast toast-ready abs" id="toast"><b>✓</b>Domain model ready</div>
+</div>
+</div>
+<script src="common.js"></script>
+<script>
+  const { seg, ease, lerp, css, rise, outro, typed } = B;
+  const D = 5;
+  const ROWS = [
+    ['prompt', '"refund window?"'],
+    ['answer', '"30 days, full"'],
+    ['prompt', '"cancel a plan?"'],
+    ['answer', '"Settings → Billing"'],
+    ['prompt', '"invoice copy?"'],
+  ];
+  const rowsEl = document.getElementById('rows');
+  const rowEls = ROWS.map(([k, v]) => { const r = document.createElement('div'); r.className = 'row'; rowsEl.appendChild(r); return { r, k, v }; });
+  const steps = [...document.querySelectorAll('.step')];
+  // Loss curve points (falling, slightly noisy), in a 560×230 box.
+  const LOSS = Array.from({ length: 28 }, (_, i) => { const x = 20 + i * 19.5; const y = 60 + 140 * (1 - Math.exp(-i / 6)) + (i % 3 === 0 ? 8 : i % 3 === 1 ? -6 : 3); return [x, Math.min(205, y)]; });
+
+  window.SCENE = {
+    duration: D,
+    poster: 4.3,
+    render(t) {
+      css('#content', { opacity: String(outro(t, D)) });
+
+      // step labels light in turn
+      const active = t < 1.45 ? 0 : t < 2.75 ? 1 : 2;
+      steps.forEach((s, i) => {
+        const vis = ease.out(seg(t, 0.05 + i * 0.08, 0.4 + i * 0.08));
+        s.style.opacity = String(vis);
+        s.style.color = i === active && t > 0.25 ? 'var(--pink-ink)' : 'rgba(23,19,35,.4)';
+      });
+
+      // 01 Fine-tune
+      const tIn = ease.out(seg(t, 0, 0.55));
+      css('#train', { opacity: String(tIn), transform: `translate3d(${(1 - tIn) * -60}px,0,0)` });
+      rowEls.forEach(({ r, k, v }, i) => {
+        const k1 = seg(t, 0.3 + i * 0.2, 0.55 + i * 0.2);
+        r.style.opacity = String(ease.out(k1));
+        r.style.transform = `translate3d(${(1 - ease.out(k1)) * 30}px,0,0)`;
+        const text = `{"${k}": ${v}}`;
+        const shown = typed(text, seg(t, 0.32 + i * 0.2, 0.62 + i * 0.2));
+        const m = shown.match(/^(\{"[a-z]*"?:?\s?)(.*)$/);
+        r.innerHTML = m ? `<span class="k">${m[1]}</span><span class="v">${m[2]}</span>` : shown;
+      });
+      const train = seg(t, 0.6, 1.9);
+      const n = Math.max(2, Math.round(LOSS.length * train));
+      document.getElementById('loss').setAttribute('points', LOSS.slice(0, n).map(([x, y]) => `${x},${y}`).join(' '));
+      css('#prog', { width: (ease.inOut(train) * 100).toFixed(1) + '%' });
+
+      // 02 RLHF
+      const pIn = ease.out(seg(t, 1.3, 1.8));
+      css('#pref', { opacity: String(pIn), transform: `translate3d(${(1 - pIn) * 60}px,0,0)` });
+      const a = ease.out(seg(t, 1.55, 1.9)), b = ease.out(seg(t, 1.7, 2.05));
+      css('#ansA', { opacity: String(a), transform: `translate3d(0,${(1 - a) * 20}px,0)` });
+      css('#ansB', { opacity: String(b), transform: `translate3d(0,${(1 - b) * 20}px,0)` });
+      const move = ease.inOut(seg(t, 1.95, 2.4));
+      css('#cursor', { left: lerp(520, 470, move) + 'px', top: lerp(120, 240, move) + 'px', opacity: String(seg(t, 1.9, 2.0) * (1 - seg(t, 2.9, 3.1))) });
+      const picked = seg(t, 2.42, 2.6);
+      css('#ansB', { borderColor: picked > 0.5 ? 'var(--pink)' : 'var(--sunk)', background: picked > 0.5 ? 'var(--wash-pink)' : 'var(--band)' });
+      css('#ansA', { opacity: String(a * (1 - 0.5 * picked)) });
+      const pk = ease.back(seg(t, 2.42, 2.72));
+      css('#pick', { transform: `scale(${pk})`, opacity: String(Math.min(1, pk)) });
+      css('#cursor', { transform: `scale(${1 - 0.15 * Math.sin(Math.PI * seg(t, 2.38, 2.5))})` });
+
+      // 03 Quantize
+      const qIn = ease.out(seg(t, 2.6, 3.1));
+      css('#quant', { opacity: String(qIn), transform: `translate3d(0,${(1 - qIn) * 50}px,0)` });
+      const squeeze = ease.inOut(seg(t, 3.15, 3.75));
+      css('#block', { width: lerp(540, 220, squeeze) + 'px' });
+      document.getElementById('fmt').textContent = squeeze < 0.5 ? 'FP16' : 'INT4';
+      const op = ease.back(seg(t, 3.7, 4.0));
+      css('#onprem', { opacity: String(Math.min(1, op)), transform: `scale(${0.85 + 0.15 * op})`, transformOrigin: '0 50%' });
+
+      // result
+      const tk = ease.back(seg(t, 3.85, 4.15));
+      css('#toast', { opacity: String(Math.min(1, tk)), transform: `translate3d(0,${(1 - tk) * 24}px,0) scale(${0.9 + 0.1 * tk})` });
+    },
+  };
+  window.SCENE.render(0);
+</script>
+</body>
+</html>

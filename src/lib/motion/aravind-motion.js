@@ -124,14 +124,21 @@
   function scrubTrack(section) {
     var pin = section.querySelector('[data-track-pin]'), row = section.querySelector('[data-track-row]');
     if (!pin || !row) return null;
+    /* The row slides the full distance (last tile fully in view), then holds for `hold` px of scroll
+       before the section releases, so the reader sees the end before moving on. */
+    var hold = 0, lastWidth = -1;
     function size() {
       var vh = frameOf(scrollerOf(section)).height, travel = Math.max(0, row.scrollWidth - pin.clientWidth + 60);
-      section.style.height = (travel + vh) + 'px'; pin.style.height = vh + 'px';
+      hold = Math.round(vh * 0.35);
+      section.style.height = (travel + vh + hold) + 'px'; pin.style.height = vh + 'px';
+      lastWidth = row.scrollWidth;
       return travel;
     }
     var travel = size(); w.addEventListener('resize', function () { travel = size(); });
     return function () {
-      var b = box(section), t = clamp(-b.top / Math.max(1, b.height - b.vh), 0, 1);
+      /* Re-measure if the row's content width changed (fonts, images, or tiles added after load). */
+      if (row.scrollWidth !== lastWidth) travel = size();
+      var b = box(section), t = clamp(-b.top / Math.max(1, b.height - b.vh - hold), 0, 1);
       apply(row, { x: lerp(30, -travel, t) });
     };
   }

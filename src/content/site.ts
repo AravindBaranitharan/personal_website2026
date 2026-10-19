@@ -13,11 +13,11 @@ export const profile = {
   workLocation: "Chennai, India",
   email: "aravindbaranitharan@gmail.com",
   phone: "+91 63793 19612",
-  availability: "Available — Nov 2026",
+  availability: "Available · Nov 2026",
   resumePath: "/resume.pdf",
   siteUrl: "https://aravindbaranitharan.com",
   summary:
-    "AI engineer building production GenAI: retrieval pipelines, agent systems and the evals that keep them honest. Full-stack enough to ship the product around the model.",
+    "AI engineer building production GenAI: retrieval pipelines, agent systems, fine-tuned and quantized models, and the evals that keep them honest. Full-stack enough to ship the product around the model.",
 };
 
 export const socials: Link[] = [
@@ -35,16 +35,15 @@ export const nav: Link[] = [
 
 export const hero = {
   word: "Aravind",
-  greeting: { before: "Hello, I'm", name: "Aravind Baranitharan", after: "— an AI engineer building intelligent systems and impactful products." },
+  greeting: { before: "Hello, I'm", name: "Aravind Baranitharan", after: ", an AI engineer building intelligent systems and impactful products." },
   tagline: "Turning ideas into practical AI experiences.",
-  copyright: "© Aravind 2026",
   scrollLabel: "(Scroll down)",
   portraitAlt: "Aravind Baranitharan, looking over his shoulder",
-  eyebrow: "AI Engineer — TCS",
+  eyebrow: "AI Engineer · TCS",
   headline: ["ai", "engineer."],
   cyclePrefix: "i build",
-  cycle: ["rag pipelines", "ai agents", "mcp servers", "eval loops"],
-  lead: "I build production LLM systems, agent workflows and the evals that keep them honest — then the product around them.",
+  cycle: ["rag pipelines", "ai agents", "fine-tuned llms", "mcp servers", "gnn forecasts", "eval loops"],
+  lead: "I build production LLM systems, agent workflows and the evals that keep them honest, then the product around them.",
   ctas: {
     primary: { label: "Start a project", href: "/#contact" },
     secondary: { label: "View the work", href: "/#work" },
@@ -82,23 +81,23 @@ export const hero = {
 };
 
 export const marquee = {
-  primary: ["rag", "agents", "evals", "mcp", "fine-tuning", "graphrag"],
-  stack: ["LangGraph", "LangChain", "FastAPI", "FastMCP", "Pinecone", "Neo4j", "Ragas", "Mistral", "Gemini", "Hugging Face", "Next.js", "Docker", "AWS"],
+  primary: ["rag", "agents", "evals", "mcp", "fine-tuning", "quantization", "rlhf", "gnns", "graphrag"],
+  stack: ["LangGraph", "LangChain", "FastAPI", "FastMCP", "Fine-tuning", "Quantization", "RLHF", "GNNs", "Pinecone", "Neo4j", "Ragas", "Mistral", "Gemini", "Hugging Face", "Next.js", "Docker", "AWS"],
 };
 
 export const about = {
-  kicker: "02 — About",
+  kicker: "02 / About",
   title: "who builds this.",
   reveal:
     "I build production LLM systems, retrieval pipelines and the evals that keep them honest.",
   paragraphs: [
-    "I'm an AI engineer at Tata Consultancy Services (ID&A unit) in Chennai. By day I ship RAG microservices, multi-agent code generators and knowledge-graph experiments for enterprise teams.",
-    "Before TCS I was founder-in-residence at Zemuria, leading Kix News — an AI platform that collates sources and checks news for bias. I also mentor teams at TCS AI Fridays, helping them get from idea to working prototype fast.",
+    "I'm an AI engineer at Tata Consultancy Services (ID&A unit) in Chennai. By day I ship RAG microservices, multi-agent code generators, knowledge-graph experiments and graph-neural-network forecasting for enterprise teams.",
+    "Before TCS I was founder-in-residence at Zemuria, leading Kix News, an AI platform that collates sources and checks news for bias. I also mentor teams at TCS AI Fridays, helping them get from idea to working prototype fast.",
   ],
   facts: [
     { label: "Based in", value: "Puducherry · Chennai" },
     { label: "Now", value: "AI Engineer, TCS (ID&A)" },
-    { label: "Focus", value: "RAG · Agents · Evals" },
+    { label: "Focus", value: "RAG · Agents · Fine-tuning · GNNs" },
     { label: "Education", value: "B.Tech IT, SMVEC (2021–2025)" },
   ],
 };
@@ -150,9 +149,18 @@ export const services: Service[] = [
     slug: "saas-product-build",
     video: clip("saas-product-build", "Sign-in, a role-based dashboard assembling, and a billing plan switching to paid"),
     title: "SaaS product build",
-    summary: "From MVP scope to role-based dashboards and billing — the way Mark Bot runs content agencies today.",
+    summary: "From MVP scope to role-based dashboards and billing, the way Mark Bot runs content agencies today.",
     tags: ["Auth", "Dashboards", "Billing", "Deployment"],
     outcomes: ["A scoped MVP that proves value", "Role-based access and billing flows", "A roadmap driven by real usage"],
+  },
+  {
+    id: "05",
+    slug: "model-fine-tuning",
+    video: clip("model-fine-tuning", "Training on domain data, a person picking the better answer, and the model quantized to run on-prem"),
+    title: "Model fine-tuning",
+    summary: "Open models adapted to your domain with fine-tuning and RLHF, then quantized to run on your own hardware, plus graph neural networks where the data is a network.",
+    tags: ["Fine-tuning", "RLHF", "Quantization", "GNNs"],
+    outcomes: ["A model that speaks your domain's language", "Smaller, cheaper models that run on-prem", "Graph models for networks like rail and logistics"],
   },
 ];
 
@@ -239,6 +247,22 @@ export const projects: Project[] = [
       { value: "8 stages", label: "Topic-to-publish pipeline" },
     ],
     links: [{ label: "markbot.in", href: "https://markbot.in" }],
+  },
+  {
+    slug: "train-delay-forecasting",
+    title: "Train-delay forecasting",
+    role: "GNN · agents",
+    year: "2026",
+    org: "TCS",
+    tone: "night",
+    summary: "A proof of concept that forecasts train delays from live operational data with a Graph Neural Network.",
+    problem: "An Indian Railways (IRCTC) client pilot needed delay forecasts from operational data as it arrives, not from a nightly batch.",
+    build:
+      "An event-driven pipeline: SQL triggers on the client's operational database flag new records, an AI agent picks them up and converts them into graph-structured inputs, and a Graph Neural Network inference engine forecasts the delays.",
+    result: "Delay forecasts from live operational data (proof of concept, in progress).",
+    stack: ["Graph Neural Networks", "AI agents", "SQL triggers", "Event-driven pipelines"],
+    metrics: [],
+    links: [],
   },
   {
     slug: "kag-knowledge-graph",
@@ -360,6 +384,7 @@ export const experience = [
       "Figma-to-code multi-agent system on LangGraph with a custom layout parser, guardrails and context engineering. 50–70% faster screen development.",
       "A2A communication layer and a remote MCP server (FastMCP) exposing code generation to Cursor and GitHub Copilot.",
       "Knowledge-augmented generation PoC: SQL database → knowledge graph → semantic model → graph RAG.",
+      "Train-delay forecasting PoC for an Indian Railways (IRCTC) client pilot: SQL triggers feed an AI agent that turns live operational records into graph inputs for a Graph Neural Network inference engine.",
       "AI Fridays mentor, helping teams prototype AI solutions quickly.",
     ],
   },
@@ -391,13 +416,15 @@ export const recognition = [
 ];
 
 export const skills: { group: string; items: string[] }[] = [
-  { group: "GenAI", items: ["LLMs", "RAG", "Multimodal RAG & GraphRAG", "KAG", "Knowledge graphs", "Fine-tuning", "Quantization", "Re-ranking", "Agentic AI", "Multi-agent systems", "A2A", "MCP", "Context engineering", "Guardrails"] },
-  { group: "Frameworks", items: ["FastAPI", "LangChain", "LangGraph", "FastMCP", "Flask", "Next.js", "Tailwind CSS"] },
+  { group: "ML", items: ["Machine learning", "Deep learning", "CNNs", "Graph Neural Networks (GNNs)", "Computer vision", "ML algorithms"] },
+  { group: "GenAI", items: ["LLMs", "RAG", "Multimodal RAG & GraphRAG", "KAG", "Knowledge graphs", "Fine-tuning", "Quantization", "RLHF", "Re-ranking", "Agentic AI", "Multi-agent systems", "A2A", "MCP", "Context engineering", "Guardrails", "NLP", "Prompt engineering"] },
+  { group: "Frameworks", items: ["FastAPI", "LangChain", "LangGraph", "FastMCP", "Flask", "Next.js", "Tailwind CSS", "Bootstrap"] },
   { group: "Models", items: ["GPT-4 / Codex", "Gemini", "Mistral"] },
   { group: "Data", items: ["Pinecone", "Neo4j", "Firebase", "REST APIs"] },
   { group: "Tools", items: ["Hugging Face", "Ragas", "Cursor", "Claude Code", "GitHub Copilot", "Jina AI", "Selenium"] },
   { group: "Cloud", items: ["AWS", "Microsoft Entra ID (RBAC)", "Docker", "Git"] },
-  { group: "Languages", items: ["Python", "JavaScript", "TypeScript", "C"] },
+  { group: "Languages", items: ["Python", "JavaScript", "TypeScript", "C", "HTML", "CSS"] },
+  { group: "Foundations", items: ["Data structures", "Distributed AI architectures", "IoT"] },
 ];
 
 export const notes = [
@@ -415,6 +442,39 @@ export const process = [
 export const contact = {
   kicker: "Contact",
   title: "let's build.",
-  lead: "Bring a problem worth solving — a model that needs a product around it, or a product that needs a model inside it. I'll reply with a clear plan and next steps.",
+  lead: "Bring a problem worth solving: a model that needs a product around it, or a product that needs a model inside it. I'll reply with a clear plan and next steps.",
   footerLine: "Have a model that needs a product around it? Let's build.",
+};
+
+export const footer = {
+  tagline: "Ship the loop, not the prompt.",
+  columns: [
+    {
+      title: "Explore",
+      links: [
+        { label: "Home", href: "/#top" },
+        { label: "About", href: "/#about" },
+        { label: "Services", href: "/#services" },
+        { label: "Experience", href: "/#experience" },
+      ],
+    },
+    {
+      title: "Selected work",
+      links: [
+        { label: "Figma-to-code agent", href: "/work/figma-to-code-agent" },
+        { label: "RAG test-case generator", href: "/work/rag-test-case-generator" },
+        { label: "Mark Bot", href: "/work/mark-bot" },
+        { label: "All projects", href: "/#work" },
+      ],
+    },
+    {
+      title: "Connect",
+      links: [
+        { label: "Email", href: "mailto:aravindbaranitharan@gmail.com" },
+        { label: "LinkedIn", href: "https://www.linkedin.com/in/aravind-baranitharan-b4b273227/" },
+        { label: "GitHub", href: "https://github.com/AravindBaranitharan" },
+        { label: "Resume", href: "/resume.pdf" },
+      ],
+    },
+  ] as { title: string; links: Link[] }[],
 };

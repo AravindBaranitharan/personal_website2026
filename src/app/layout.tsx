@@ -25,13 +25,13 @@ const fragmentMono = localFont({
   display: "swap",
 });
 
-const title = `${profile.name} — AI Engineer`;
+const title = `${profile.name} · AI Engineer`;
 const description =
-  "AI engineer at Tata Consultancy Services building RAG pipelines, multi-agent systems and the evals that keep them honest — and the web products around them.";
+  "AI engineer at Tata Consultancy Services building RAG pipelines, multi-agent systems and the evals that keep them honest, and the web products around them.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
-  title: { default: title, template: `%s — ${profile.name}` },
+  title: { default: title, template: `%s · ${profile.name}` },
   description,
   keywords: ["Aravind Baranitharan", "AI engineer", "RAG", "AI agents", "LangGraph", "MCP", "LLM", "portfolio"],
   openGraph: { title, description, url: profile.siteUrl, siteName: profile.name, type: "website" },

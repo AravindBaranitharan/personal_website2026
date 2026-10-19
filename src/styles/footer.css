@@ -1,0 +1,104 @@
+/* Footer: brand + link columns over an original sunset-pier scene (after the reference footer, in our palette). */
+
+.ar-foot {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-8);
+  /* Start below the floating nav pill so nothing sits under it. */
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--nav-height) + var(--space-4) + var(--space-7));
+  background: linear-gradient(180deg, var(--paper) 0%, #fdf3fa 45%, #fbe7f6 100%);
+  color: var(--ink-plum);
+}
+
+.ar-foot__top {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .ar-foot__top { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); align-items: start; }
+}
+
+.ar-foot__brand { display: grid; gap: var(--space-4); align-content: start; }
+.ar-foot__name {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: clamp(30px, 2.8vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.ar-foot__tagline { margin: 0; font-family: var(--font-mono); font-size: 16px; line-height: 1.5; color: var(--ink-2); max-width: 24ch; }
+.ar-foot__contact { margin: 0; display: grid; gap: 2px; font-size: 15px; color: var(--ink-2); }
+
+.ar-foot__icons { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: flex; gap: var(--space-2); }
+.ar-foot__icons a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink-plum);
+  box-shadow: 0 1px 0 rgba(23, 19, 35, 0.06);
+  transition: background-color 0.2s ease-out, color 0.2s ease-out, transform 0.2s ease-out;
+}
+.ar-foot__icons a:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.ar-foot__icons svg { width: 18px; height: 18px; }
+
+.ar-foot__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-7) var(--space-5); }
+@media (min-width: 640px) { .ar-foot__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ar-foot__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.ar-foot__title { margin: 0 0 var(--space-5); font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.02em; color: var(--ink); }
+.ar-foot__link { color: var(--ink-2); text-decoration: none; font-size: 17px; transition: color 0.2s ease-out; }
+.ar-foot__link:hover { color: var(--pink-ink); }
+.ar-foot__link:focus-visible, .ar-foot__icons a:focus-visible, .ar-foot__name:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: 4px; }
+
+.ar-foot__bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid color-mix(in srgb, var(--ink-plum) 14%, transparent);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* ---- Scene ---- */
+.ar-scene {
+  position: relative;
+  margin-top: calc(var(--space-5) * -1);
+  height: clamp(260px, 38vw, 600px);
+  pointer-events: none;
+  /* The slice crop can start the sky mid-gradient; fade the top edge so it melts into the footer background. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 32%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 32%);
+}
+/* On desktop the whole footer is exactly one screen: content on top, the scene fills what is left. */
+@media (min-width: 900px) and (min-height: 620px) {
+  .ar-foot { height: 100svh; }
+  .ar-foot__bar { margin-top: var(--space-6); }
+  .ar-scene { flex: 1 1 auto; height: auto; min-height: 220px; }
+}
+.ar-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.ar-scene__clouds { animation: ar-scene-drift 26s ease-in-out infinite alternate; }
+.ar-scene__glow { transform-origin: 800px 330px; transform-box: view-box; animation: ar-scene-glow 7s ease-in-out infinite alternate; }
+.ar-scene__shimmer { animation: ar-scene-shimmer 3.2s ease-in-out infinite alternate; }
+.ar-scene__shimmer--b { animation-duration: 4.4s; animation-direction: alternate-reverse; }
+.ar-scene__walker { animation: ar-scene-walk 0.9s ease-in-out infinite alternate; }
+
+@keyframes ar-scene-drift { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
+@keyframes ar-scene-glow { from { transform: scale(0.94); opacity: 0.8; } to { transform: scale(1.06); opacity: 1; } }
+@keyframes ar-scene-shimmer { from { opacity: 0.55; transform: translateX(-6px); } to { opacity: 1; transform: translateX(6px); } }
+@keyframes ar-scene-walk { from { transform: translateY(0); } to { transform: translateY(-2.5px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-scene__clouds, .ar-scene__glow, .ar-scene__shimmer, .ar-scene__walker { animation: none; }
+}

@@ -181,7 +181,7 @@ export function ContactForm() {
           }`}
         >
           {status.state === "sending" && "Sending…"}
-          {status.state === "success" && `Sent. Thanks, ${status.name} — I'll reply by email soon.`}
+          {status.state === "success" && `Sent. Thanks, ${status.name}. I'll reply by email soon.`}
           {status.state === "error" && `Not sent: ${status.message}`}
         </p>
       </div>

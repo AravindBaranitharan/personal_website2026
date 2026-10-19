@@ -59,12 +59,12 @@ export function Hero() {
         <div className="ar-hero__grain" aria-hidden="true" />
 
         <p className="ar-hero__copy ar-hero__copy--left">
-          {hero.greeting.before} <b>{hero.greeting.name}</b> {hero.greeting.after}
+          {hero.greeting.before} <b>{hero.greeting.name}</b>
+          {hero.greeting.after}
         </p>
         <p className="ar-hero__copy ar-hero__copy--right">{hero.tagline}</p>
 
         <div className="ar-hero__foot">
-          <span>{hero.copyright}</span>
           <Link href="/#about">{hero.scrollLabel}</Link>
         </div>
       </div>

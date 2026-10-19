@@ -5,7 +5,7 @@ import { ProjectVisual } from "./ProjectVisual";
 
 // Chapter labels. site.ts has no `work` block yet; these mirror the blueprint (see the report).
 const WORK = {
-  kicker: "04 — Work",
+  kicker: "04 / Work",
   title: "selected work.",
   moreTitle: "More projects",
   indexTitle: "All projects",
@@ -161,7 +161,7 @@ export function Work() {
               id="work-more-title"
               className="ar-mono absolute left-[calc(var(--space-5)+30px)] top-[calc(var(--nav-height)+var(--space-8))] m-0 text-on-night-muted [@media(max-height:520px)]:sr-only"
             >
-              {WORK.moreTitle} — {rest.length}
+              {WORK.moreTitle} ({rest.length})
             </h3>
             <ul className="ar-track-row m-0 list-none" data-track-row="">
               {rest.map((project) => (

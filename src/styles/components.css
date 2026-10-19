@@ -1,4 +1,4 @@
-/* aravind. — component styles. Every value comes from tokens.css; class prefix ar-. */
+/* aravind. component styles. Every value comes from tokens.css; class prefix ar-. */
 
 .ar-page { background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 22.4px; -webkit-font-smoothing: antialiased; }
 .ar-on-night { background: var(--night); color: var(--on-night); }
