@@ -1,0 +1,48 @@
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-soft: var(--paper-soft);
+  --color-band: var(--band);
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-plum: var(--ink-plum);
+  --color-ink-2: var(--ink-2);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-soft: var(--ink-soft);
+  --color-night: var(--night);
+  --color-night-raised: var(--night-raised);
+  --color-on-night: var(--on-night);
+  --color-on-night-muted: var(--on-night-muted);
+  --color-pink: var(--pink);
+  --color-pink-strong: var(--pink-strong);
+  --color-pink-soft: var(--pink-soft);
+  --color-pink-pale: var(--pink-pale);
+  --color-lilac: var(--lilac);
+  --color-on-pink: var(--on-pink);
+  --color-pink-ink: var(--pink-ink);
+  --color-wash-pink: var(--wash-pink);
+  --color-wash-lilac: var(--wash-lilac);
+  --color-wash-lavender: var(--wash-lavender);
+  --color-focus-ring: var(--focus-ring);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+}
+
+@theme {
+  --font-sans: var(--font-host), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-fragment), ui-monospace, "SF Mono", Menlo, monospace;
+  --radius-0: 0;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+  --ease-studio: cubic-bezier(0.44, 0, 0.56, 1);
+  --ease-glide: cubic-bezier(0.12, 0.23, 0.5, 1);
+  --ease-exit: cubic-bezier(0.5, 0, 0.88, 0.77);
+  --ease-ui: cubic-bezier(0.27, 0, 0.51, 1);
+  --ease-overshoot: cubic-bezier(0.44, 0, 0, 1.23);
+  --ease-cycle: cubic-bezier(0.11, 0.72, 0, 1);
+  --breakpoint-xs: 30rem;
+}

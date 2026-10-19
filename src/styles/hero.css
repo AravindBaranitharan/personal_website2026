@@ -1,0 +1,161 @@
+/* Hero: giant word behind a cut-out B&W portrait on a pink glow (after the reference shot, recoloured to plainthing's pinks). */
+
+@property --spot {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+.ar-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  min-height: max(100svh, 640px);
+  overflow: clip;
+  background: var(--paper);
+  color: var(--ink-plum);
+}
+
+/* Pink glow strongest at the top centre, fading to white at the edges and bottom. */
+.ar-hero__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(58% 62% at 50% -6%, var(--pink) 0%, var(--pink-soft) 28%, var(--wash-pink) 52%, transparent 78%),
+    radial-gradient(38% 46% at 10% 22%, var(--wash-lavender), transparent 72%),
+    radial-gradient(34% 44% at 92% 30%, var(--wash-pink), transparent 72%),
+    linear-gradient(180deg, transparent 55%, var(--paper) 96%),
+    var(--wash-lilac);
+}
+
+/* Film grain over everything, as in the reference. */
+.ar-hero__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- The word ---- */
+.ar-hero__word {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(env(safe-area-inset-top, 0px) + var(--nav-height) + var(--space-4) + clamp(24px, 5vh, 56px));
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.ar-hero__title {
+  margin: 0;
+  display: flex;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: min(22vw, 340px);
+  line-height: 0.8;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  /* Stretch the heavy grotesk taller, closer to the condensed poster type in the reference. */
+  transform: scaleY(1.22);
+  transform-origin: 50% 0;
+}
+.ar-hero__letter {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.02em 0.012em 0.04em;
+  margin-inline: -0.012em;
+}
+.ar-hero__letter > span {
+  display: inline-block;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--pink) 18%, transparent) 0%, var(--pink) 30%, var(--ink-plum) 66%, var(--ink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transform: translateY(108%);
+  transition: transform 1.15s var(--ease-cycle) calc(var(--i) * 70ms + 80ms);
+}
+.ar-hero.is-in .ar-hero__letter > span { transform: none; }
+
+/* ---- The portrait ---- */
+.ar-hero__portrait {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  width: min(56vw, 800px, calc(80svh * 1.125));
+  transform: translateX(-50%);
+}
+.ar-hero__depth { will-change: transform; }
+.ar-hero__photo {
+  position: relative;
+  aspect-ratio: 1024 / 910;
+  opacity: 0;
+  transform: translateY(9%) scale(1.04);
+  filter: blur(14px);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 1s var(--ease-studio) 0.4s,
+    transform 1.5s var(--ease-studio) 0.4s,
+    filter 1.2s var(--ease-studio) 0.4s;
+}
+.ar-hero.is-in .ar-hero__photo { opacity: 1; transform: none; filter: none; }
+.ar-hero__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+
+/* Colour spotlight: the colour cut-out shows through a soft circle that follows the cursor. */
+.ar-hero__color {
+  -webkit-mask-image: radial-gradient(circle var(--spot) at var(--mx, 50%) var(--my, 35%), #000 45%, transparent 100%);
+  mask-image: radial-gradient(circle var(--spot) at var(--mx, 50%) var(--my, 35%), #000 45%, transparent 100%);
+  transition: --spot 0.7s var(--ease-studio);
+}
+.ar-hero.is-spot .ar-hero__color { --spot: clamp(110px, 12vw, 190px); }
+
+/* ---- Side copy and footer line ---- */
+.ar-hero__copy {
+  position: absolute;
+  z-index: 4;
+  top: 61%;
+  font-size: clamp(17px, 1.55vw, 23px);
+  line-height: 1.33;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s var(--ease-studio), transform 0.9s var(--ease-studio);
+}
+.ar-hero__copy b { font-weight: 700; color: var(--ink); }
+.ar-hero__copy--left { left: max(var(--space-7), env(safe-area-inset-left, 0px)); max-width: 24ch; transition-delay: 0.9s; }
+.ar-hero__copy--right { right: max(var(--space-7), env(safe-area-inset-right, 0px)); max-width: 17ch; transition-delay: 1.05s; }
+.ar-hero__foot {
+  position: absolute;
+  z-index: 4;
+  inset-inline: max(var(--space-7), env(safe-area-inset-left, 0px));
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-6));
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-studio) 1.2s;
+}
+.ar-hero__foot a { color: inherit; text-decoration: none; }
+.ar-hero__foot a:hover { color: var(--pink-ink); }
+.ar-hero.is-in .ar-hero__copy { opacity: 1; transform: none; }
+.ar-hero.is-in .ar-hero__foot { opacity: 1; }
+
+@media (max-width: 767px) {
+  .ar-hero__word { top: 27svh; }
+  .ar-hero__title { font-size: 22vw; transform: scaleY(1.38); }
+  .ar-hero__portrait { width: min(118vw, calc(64svh * 1.125)); bottom: calc(var(--space-9) + var(--space-6)); }
+  .ar-hero__copy { top: auto; }
+  .ar-hero__copy--left { left: var(--space-4); right: var(--space-4); max-width: none; bottom: calc(var(--space-9) - var(--space-2)); font-size: 18px; }
+  .ar-hero__copy--right { display: none; }
+  .ar-hero__foot { inset-inline: var(--space-4); bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-5)); font-size: 13px; }
+  /* Let the copy sit on a clean ground below the portrait. */
+  .ar-hero__glow::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(transparent, var(--paper) 45%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-hero__letter > span, .ar-hero__photo, .ar-hero__copy, .ar-hero__foot { transition: none; transform: none; opacity: 1; filter: none; }
+}
