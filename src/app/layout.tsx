@@ -54,7 +54,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body className="ar-page min-h-full" data-cursor-area="">
+      {/* suppressHydrationWarning: extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body> before React loads. */}
+      <body className="ar-page min-h-full" data-cursor-area="" suppressHydrationWarning>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
