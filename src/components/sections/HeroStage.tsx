@@ -3,15 +3,13 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import portraitBw from "@/assets/portrait-bw.webp";
-import portraitColor from "@/assets/portrait-color.webp";
 
 type Props = { alt: string };
 
 /**
  * The hero's moving parts:
  * - starts the load sequence (letters rise, portrait lifts out of blur) once the intro curtain is gone;
- * - pointer depth: the word drifts with the cursor and the portrait against it;
- * - colour spotlight: the colour cut-out shows through a circle that follows the cursor over the portrait.
+ * - pointer depth: the word drifts with the cursor and the portrait against it.
  * Scroll parallax is handled by the motion runtime through data-parallax on the wrappers.
  */
 export function HeroStage({ alt }: Props) {
@@ -56,19 +54,11 @@ export function HeroStage({ alt }: Props) {
       tx = ((e.clientX - r.left) / r.width) * 2 - 1;
       ty = ((e.clientY - r.top) / r.height) * 2 - 1;
       kick();
-      const p = portrait.getBoundingClientRect();
-      const inside = e.clientX > p.left && e.clientX < p.right && e.clientY > p.top && e.clientY < p.bottom;
-      hero.classList.toggle("is-spot", inside);
-      if (inside) {
-        portrait.style.setProperty("--mx", `${e.clientX - p.left}px`);
-        portrait.style.setProperty("--my", `${e.clientY - p.top}px`);
-      }
     };
     const onLeave = () => {
       tx = 0;
       ty = 0;
       kick();
-      hero.classList.remove("is-spot");
     };
 
     hero.addEventListener("pointermove", onMove);
@@ -87,14 +77,6 @@ export function HeroStage({ alt }: Props) {
         <div className="ar-hero__depth" data-hero-depth="photo">
           <div ref={portraitRef} className="ar-hero__photo">
             <Image src={portraitBw} alt={alt} priority sizes="(max-width: 767px) 118vw, 800px" placeholder="empty" />
-            <Image
-              src={portraitColor}
-              alt=""
-              aria-hidden="true"
-              className="ar-hero__color"
-              sizes="(max-width: 767px) 118vw, 800px"
-              placeholder="empty"
-            />
           </div>
         </div>
       </div>
