@@ -45,7 +45,6 @@ export function Footer() {
       </div>
       <div className="ar-container mt-[var(--space-6)] flex flex-wrap justify-between gap-2 text-[13px]">
         <span className="ar-muted">© 2026 {profile.name}</span>
-        <span className="ar-muted">Built with Next.js · Motion measured from plainthing.studio</span>
       </div>
       <span className="ar-footer__word" aria-hidden="true">
         {profile.shortName}
