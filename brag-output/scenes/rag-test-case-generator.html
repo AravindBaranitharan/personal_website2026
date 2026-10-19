@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>rag-test-case-generator</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  /* Step labels across the top */
+  .step { position: absolute; top: 84px; display: flex; align-items: center; gap: 14px; font: 400 26px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
+  .step b { width: 14px; height: 14px; border-radius: 50%; background: var(--ink); }
+
+  .win .label { margin-left: 12px; font: 400 26px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* Requirements document */
+  .doc { left: 60px; top: 150px; width: 380px; height: 660px; background: var(--paper); color: var(--ink); }
+  .doc .win__bar { background: var(--band); border-bottom: 1px solid var(--line); }
+  .doc .label { color: var(--muted); }
+  .doc h3 { position: absolute; left: 30px; top: 86px; margin: 0; font: 700 32px/1 var(--sans); letter-spacing: -.01em; }
+  .para { position: absolute; left: 30px; width: 320px; height: 58px; }
+  .para .hl { position: absolute; left: -12px; top: -11px; width: 344px; height: 66px; border-radius: 12px; background: var(--pink-soft); transform-origin: 0 50%; }
+  .para i { position: absolute; left: 0; height: 14px; border-radius: 7px; background: #d9d9d9; }
+
+  /* Night windows: index + re-rank */
+  .night { background: var(--night-2); color: var(--on-night); }
+  .night .win__bar { border-bottom: 1px solid #2c2c2c; }
+  .night .label { color: var(--on-night-2); }
+  .index { left: 480px; top: 150px; width: 400px; height: 340px; }
+  .vdot { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; }
+  .ring { position: absolute; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; border: 3px solid var(--pink-strong); }
+  .rerank { left: 480px; top: 520px; width: 400px; height: 290px; }
+  .row { position: absolute; left: 28px; right: 28px; height: 44px; background: var(--night-2); display: flex; align-items: center; gap: 18px; }
+  .row span { width: 82px; font: 400 26px/1 var(--mono); color: #d0d0d0; }
+  .row .track { flex: 1; height: 20px; border-radius: 10px; background: #2c2c2c; overflow: hidden; }
+  .row .fill { height: 100%; border-radius: 10px; transform-origin: 0 50%; }
+
+  /* Model chip */
+  .model { position: absolute; left: 920px; top: 150px; background: var(--ink); color: var(--on-night); font-weight: 600; }
+  .model b { width: 14px; height: 14px; border-radius: 50%; background: var(--pink-strong); }
+  .pulse { position: absolute; left: 920px; top: 150px; height: 52px; border-radius: 999px; border: 3px solid var(--ink); }
+
+  /* Test cases */
+  .tests { left: 920px; top: 226px; width: 460px; height: 404px; background: var(--paper); color: var(--ink); }
+  .tests .win__bar { background: var(--band); border-bottom: 1px solid var(--line); }
+  .tests .label { color: var(--muted); }
+  .tc { position: absolute; left: 26px; right: 20px; height: 96px; display: flex; align-items: center; gap: 18px; }
+  .box { flex: none; width: 44px; height: 44px; border-radius: 12px; border: 3px solid var(--ink); display: grid; place-items: center; position: relative; }
+  .box .fillbox { position: absolute; inset: -3px; border-radius: 12px; background: var(--ink); color: var(--pink-strong); display: grid; place-items: center; font: 700 28px/1 var(--sans); }
+  .tc .id { display: block; font: 400 26px/1 var(--mono); letter-spacing: .04em; color: var(--pink-ink); margin-bottom: 10px; }
+  .tc .txt { display: block; font: 500 27px/1.1 var(--sans); white-space: nowrap; height: 31px; }
+  .caret { display: inline-block; width: 3px; height: 30px; background: var(--ink); vertical-align: -5px; margin-left: 2px; }
+
+  /* Stat */
+  .stat { position: absolute; left: 920px; top: 660px; width: 460px; height: 150px; border-radius: 22px; background: var(--ink); color: var(--on-night); display: flex; align-items: center; gap: 26px; padding: 0 34px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); }
+  .stat strong { font: 700 84px/1 var(--sans); letter-spacing: -.03em; color: var(--pink-strong); }
+  .stat span { font: 500 30px/1.15 var(--sans); }
+
+  .chunk { position: absolute; height: 22px; border-radius: 11px; background: var(--pink); box-shadow: 0 8px 18px -8px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<div class="stage stage--pink" id="stage">
+<div class="content" id="content">
+  <div class="step" data-s="0" style="left:60px"><b></b>01 Chunk</div>
+  <div class="step" data-s="1" style="left:480px"><b></b>02 Retrieve</div>
+  <div class="step" data-s="2" style="left:920px"><b></b>03 Generate</div>
+
+  <div class="win doc" id="doc">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">reqs.pdf</span></div>
+    <h3>Auth service</h3>
+    <div id="paras"></div>
+  </div>
+
+  <div class="win night index" id="index">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">Vector index</span></div>
+    <div class="ring" id="ring"></div>
+    <div id="vdots"></div>
+  </div>
+
+  <div class="win night rerank" id="rerank">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">Re-rank</span></div>
+    <div id="rows"></div>
+  </div>
+
+  <div class="pulse" id="pulse"></div>
+  <span class="chip model" id="model"><b></b>Mistral · on-prem</span>
+
+  <div class="win tests" id="tests">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">Test cases</span></div>
+    <div id="tcs"></div>
+  </div>
+
+  <div class="stat" id="stat"><strong>−60%</strong><span>manual<br>effort</span></div>
+  <div id="chunks"></div>
+</div>
+</div>
+<script src="common.js"></script>
+<script>
+  const { seg, ease, lerp, css, typed, outro } = B;
+  const D = 5;
+  const el = (tag, cls, parent) => { const n = document.createElement(tag); if (cls) n.className = cls; parent.appendChild(n); return n; };
+  // Deterministic pseudo-random (same layout every frame).
+  const rnd = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+  // ---- Requirements doc: 6 paragraphs, 3 get highlighted
+  const DOC = { x: 60, y: 150 };
+  const PARA_Y = (i) => 156 + i * 80;
+  const HL = [1, 3, 4];
+  const parasEl = document.getElementById("paras");
+  const hls = [];
+  for (let i = 0; i < 6; i++) {
+    const p = el("div", "para", parasEl);
+    p.style.top = PARA_Y(i) + "px";
+    const isHl = HL.includes(i);
+    if (isHl) hls.push(el("span", "hl", p));
+    const w1 = 260 + Math.round(rnd(i) * 60), w2 = 140 + Math.round(rnd(i + 9) * 120);
+    [[0, w1], [30, w2]].forEach(([top, w]) => { const b = el("i", "", p); b.style.top = top + "px"; b.style.width = w + "px"; if (isHl) b.dataset.hl = "1"; });
+  }
+  const hlBars = [...document.querySelectorAll('.para i[data-hl="1"]')];
+
+  // ---- Vector index: grey dots that cluster; the matched cluster turns pink
+  const IDX = { x: 480, y: 150 };
+  const CENTERS = [[105, 165], [300, 150], [205, 262]];
+  const MATCH = 2;
+  const vdotsEl = document.getElementById("vdots");
+  const VD = Array.from({ length: 27 }, (_, i) => {
+    const c = i % 3, a = rnd(i + 40) * Math.PI * 2, r = 16 + rnd(i + 70) * 40;
+    return {
+      n: el("span", "vdot", vdotsEl), c,
+      from: [30 + rnd(i + 1) * 340, 80 + rnd(i + 20) * 240],
+      to: [CENTERS[c][0] + Math.cos(a) * r, CENTERS[c][1] + Math.sin(a) * r * 0.8],
+    };
+  });
+  // landing spots for the 3 incoming chunks (inside the matched cluster)
+  const LAND = [[-26, -12], [22, -20], [4, 22]].map(([dx, dy]) => [CENTERS[MATCH][0] + dx, CENTERS[MATCH][1] + dy]);
+  const landDots = LAND.map(() => el("span", "vdot", vdotsEl));
+  const chunksEl = document.getElementById("chunks");
+  const chunks = HL.map(() => el("span", "chunk", chunksEl));
+
+  // ---- Re-rank rows: initial order → order by score
+  const ROWS = [["§1.2", 0.58, 2], ["§3.1", 0.94, 0], ["§3.4", 0.76, 1]]; // [label, score, final slot]
+  const rowsEl = document.getElementById("rows");
+  const rows = ROWS.map(([label]) => {
+    const r = el("div", "row", rowsEl);
+    el("span", "", r).textContent = label;
+    const tr = el("div", "track", r);
+    return { r, fill: el("div", "fill", tr), lab: r.querySelector("span") };
+  });
+  const ROW_Y = (slot) => 84 + slot * 66;
+
+  // ---- Test cases
+  const TCS = [["TC-01", "Login with valid SSO"], ["TC-02", "Reject expired token"], ["TC-03", "Lock after 5 failed attempts"]];
+  const tcsEl = document.getElementById("tcs");
+  const tcs = TCS.map(([id], i) => {
+    const row = el("div", "tc", tcsEl);
+    row.style.top = 52 + 18 + i * 108 + "px";
+    const box = el("div", "box", row);
+    const fb = el("div", "fillbox", box); fb.textContent = "✓";
+    const col = el("div", "", row);
+    const idEl = el("span", "id", col); idEl.textContent = id;
+    const txt = el("span", "txt", col);
+    return { row, fb, txt };
+  });
+  const TC_T = [[2.95, 3.3], [3.35, 3.7], [3.75, 4.15]]; // typing windows
+
+  const steps = [...document.querySelectorAll(".step")];
+  const STEP_ON = [[0.3, 1.9], [1.0, 2.9], [2.6, 9]];
+
+  window.SCENE = {
+    duration: D,
+    poster: 4.45,
+    render(t) {
+      css("#content", { opacity: String(outro(t, D)) });
+
+      steps.forEach((s, i) => {
+        const vis = ease.out(seg(t, 0.1 + i * 0.1, 0.5 + i * 0.1));
+        const on = t >= STEP_ON[i][0] && t < STEP_ON[i][1];
+        css(s, { opacity: String(vis * (on ? 1 : 0.4)), transform: `translate3d(0, ${(1 - vis) * 16}px, 0)` });
+      });
+
+      // 1. doc enters, passages highlight
+      const dIn = ease.out(seg(t, 0, 0.55));
+      css("#doc", { opacity: String(dIn), transform: `translate3d(${(1 - dIn) * -60}px, 0, 0)` });
+      hls.forEach((h, i) => { const k = ease.inOut(seg(t, 0.5 + i * 0.18, 0.85 + i * 0.18)); h.style.transform = `scaleX(${k})`; h.style.opacity = k > 0 ? "1" : "0"; });
+      hlBars.forEach((b, j) => { const k = seg(t, 0.5 + Math.floor(j / 2) * 0.18, 0.85 + Math.floor(j / 2) * 0.18); b.style.background = k > 0.5 ? "var(--ink)" : "#d9d9d9"; });
+
+      // 2. index window, chunks fly in, dots cluster
+      const iIn = ease.out(seg(t, 0.8, 1.15));
+      css("#index", { opacity: String(iIn), transform: `translate3d(0, ${(1 - iIn) * 40}px, 0)` });
+      const cl = ease.inOut(seg(t, 1.3, 2.2));
+      const matched = seg(t, 2.05, 2.3);
+      VD.forEach((d, i) => {
+        const appear = ease.out(seg(t, 1.0 + i * 0.012, 1.3 + i * 0.012));
+        const x = lerp(d.from[0], d.to[0], cl), y = lerp(d.from[1], d.to[1], cl);
+        const pink = d.c === MATCH && matched > 0.5;
+        css(d.n, { left: x + "px", top: y + "px", opacity: String(appear * (pink ? 1 : 0.55)), transform: `scale(${appear})`, background: pink ? "var(--pink-strong)" : "var(--lilac)" });
+      });
+      chunks.forEach((c, i) => {
+        const p = seg(t, 1.15 + i * 0.16, 1.75 + i * 0.16), e = ease.inOut(p);
+        const sx = DOC.x + 40, sy = DOC.y + PARA_Y(HL[i]) + 10;
+        const ex = IDX.x + LAND[i][0] - 8, ey = IDX.y + LAND[i][1] - 8;
+        const x = lerp(sx, ex, e), y = lerp(sy, ey, e) - Math.sin(Math.PI * p) * 90;
+        const w = lerp(150, 16, ease.inOut(seg(p, 0.45, 1))), h = lerp(22, 16, e);
+        css(c, { left: x + "px", top: y + "px", width: w + "px", height: h + "px", opacity: p > 0 && p < 1 ? "1" : "0" });
+      });
+      landDots.forEach((d, i) => {
+        const arrived = seg(t, 1.75 + i * 0.16, 1.8 + i * 0.16) > 0;
+        css(d, { left: LAND[i][0] + "px", top: LAND[i][1] + "px", opacity: arrived ? "1" : "0", background: "var(--pink)", width: "18px", height: "18px", margin: "-9px 0 0 -9px" });
+      });
+      const rk = seg(t, 2.05, 2.6);
+      css("#ring", { left: CENTERS[MATCH][0] + "px", top: CENTERS[MATCH][1] + "px", opacity: String(rk > 0 ? 1 - 0.5 * ease.out(rk) : 0), transform: `scale(${0.6 + 0.4 * ease.out(rk)})` });
+
+      // 3. re-rank: bars grow, then reorder by score
+      const rIn = ease.out(seg(t, 1.75, 2.15));
+      css("#rerank", { opacity: String(rIn), transform: `translate3d(0, ${(1 - rIn) * 40}px, 0)` });
+      const ro = ease.inOut(seg(t, 2.35, 2.75));
+      rows.forEach((r, i) => {
+        const [, score, slot] = ROWS[i];
+        const grow = ease.out(seg(t, 1.95 + i * 0.08, 2.3 + i * 0.08));
+        const down = slot > i, mid = Math.sin(Math.PI * ro);
+        css(r.r, { top: lerp(ROW_Y(i), ROW_Y(slot), ro) + "px", zIndex: down ? "1" : "2", opacity: String(down ? 1 - 0.7 * mid : 1), transform: `translate3d(${down ? 26 * mid : 0}px, 0, 0)` });
+        const top = slot === 0 && t > 2.7;
+        css(r.fill, { width: score * 100 + "%", transform: `scaleX(${grow})`, background: top ? "var(--pink-strong)" : "#6b6b6b" });
+        r.lab.style.color = top ? "#ffffff" : "#bdbdbd";
+      });
+
+      // 4. model chip pulses
+      const mIn = ease.back(seg(t, 2.55, 2.9));
+      css("#model", { opacity: String(Math.min(1, mIn * 1.3)), transform: `translate3d(0, ${(1 - Math.min(1, mIn)) * 20}px, 0) scale(${0.92 + 0.08 * mIn + 0.05 * Math.sin(Math.PI * seg(t, 2.9, 3.2))})` });
+      const mw = document.getElementById("model").offsetWidth;
+      const pk = seg(t, 2.85, 3.45);
+      css("#pulse", { width: mw + "px", opacity: String(pk > 0 && pk < 1 ? 0.8 * (1 - pk) : 0), transform: `scale(${1 + 0.35 * ease.out(pk)}, ${1 + 0.8 * ease.out(pk)})` });
+
+      // 5. test cases type out, each gets a check
+      const tIn = ease.out(seg(t, 2.6, 3.0));
+      css("#tests", { opacity: String(tIn), transform: `translate3d(${(1 - tIn) * 60}px, 0, 0)` });
+      tcs.forEach((c, i) => {
+        const [a, b] = TC_T[i];
+        const vis = ease.out(seg(t, a - 0.1, a + 0.1));
+        c.row.style.opacity = String(vis);
+        const typing = t >= a && t < b + 0.05;
+        c.txt.innerHTML = typed(TCS[i][1], seg(t, a, b)) + (typing ? '<span class="caret"></span>' : "");
+        const ck = ease.back(seg(t, b + 0.02, b + 0.22));
+        css(c.fb, { opacity: String(Math.min(1, ck * 1.5)), transform: `scale(${0.4 + 0.6 * ck})` });
+      });
+
+      // 6. stat lands
+      const sk = ease.back(seg(t, 4.0, 4.35));
+      css("#stat", { opacity: String(Math.min(1, sk * 1.4)), transform: `translate3d(0, ${(1 - Math.min(1, sk)) * 40}px, 0) scale(${0.92 + 0.08 * sk})` });
+    },
+  };
+  window.SCENE.render(0);
+</script>
+</body>
+</html>

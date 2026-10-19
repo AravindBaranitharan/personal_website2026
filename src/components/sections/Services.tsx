@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { process, profile, services } from "@/content/site";
 
 /*
@@ -138,16 +139,22 @@ export function Services() {
                     ))}
                   </ul>
                 </div>
-                <div className="ar-card__media grid place-items-center overflow-hidden p-[var(--space-4)]">
-                  <svg
-                    className="h-full max-h-[260px] w-full"
-                    viewBox="0 0 400 260"
-                    role="img"
-                    aria-label={`${service.title}: illustration placeholder`}
-                  >
-                    {ART[service.slug] ?? FALLBACK_ART[i % FALLBACK_ART.length]}
-                  </svg>
-                </div>
+                {service.video ? (
+                  <div className="ar-card__media relative aspect-[16/10] self-center overflow-hidden min-h-0!">
+                    <LoopVideo {...service.video} />
+                  </div>
+                ) : (
+                  <div className="ar-card__media grid place-items-center overflow-hidden p-[var(--space-4)]">
+                    <svg
+                      className="h-full max-h-[260px] w-full"
+                      viewBox="0 0 400 260"
+                      role="img"
+                      aria-label={`${service.title}: illustration placeholder`}
+                    >
+                      {ART[service.slug] ?? FALLBACK_ART[i % FALLBACK_ART.length]}
+                    </svg>
+                  </div>
+                )}
               </article>
             );
           })}

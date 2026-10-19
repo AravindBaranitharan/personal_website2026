@@ -349,8 +349,8 @@
     el.classList.remove('is-gone', 'is-leaving', 'is-on');
     void el.offsetWidth;
     el.classList.add('is-on');
-    setTimeout(function () { el.classList.add('is-leaving'); }, 1300);
-    setTimeout(function () { el.classList.add('is-gone'); if (done) done(); }, 1900);
+    setTimeout(function () { el.classList.add('is-leaving'); }, 1700);
+    setTimeout(function () { el.classList.add('is-gone'); if (done) done(); }, 2300);
   }
 
   /* ---------- 10. Smooth scroll (uses Lenis when the page has loaded it) ---------- */

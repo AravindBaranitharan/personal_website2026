@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { marquee, notes, profile, projects, type Project } from "@/content/site";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { ProjectVisual } from "./ProjectVisual";
 
 // Chapter labels. site.ts has no `work` block yet; these mirror the blueprint (see the report).
@@ -108,9 +109,15 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
           </Link>
         </div>
       </div>
-      <div className="ar-card__media relative overflow-hidden max-[720px]:aspect-[16/10]">
-        <ProjectVisual project={project} fill />
-      </div>
+      {project.video ? (
+        <div className="ar-card__media relative aspect-[16/10] self-center overflow-hidden min-h-0!">
+          <LoopVideo {...project.video} />
+        </div>
+      ) : (
+        <div className="ar-card__media relative overflow-hidden max-[720px]:aspect-[16/10]">
+          <ProjectVisual project={project} fill />
+        </div>
+      )}
     </article>
   );
 }

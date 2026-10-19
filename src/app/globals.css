@@ -37,8 +37,9 @@ html.lenis body {
 /* Site-level base. Components and motion classes live in styles/components.css (from the design system). */
 html { background: var(--paper); color: var(--ink); scroll-behavior: auto; }
 body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-/* Clip (not hide) sideways overflow from flips, marquees and tape; `clip` keeps position: sticky working. */
-body { overflow-x: clip; }
+/* Clip (not hide) sideways overflow from tilting stack cards, flips and tape; `clip` keeps position: sticky working.
+   Set on both: on <html> it stops the viewport scrolling sideways, on <body> it contains descendants. */
+html, body { overflow-x: clip; }
 ::selection { background: var(--pink-soft); color: var(--on-pink); }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }

@@ -30,7 +30,12 @@ export function Intro() {
   return (
     <div ref={ref} className="ar-intro" style={{ position: "fixed", zIndex: 95 }} aria-hidden="true">
       <div className="ar-intro__word">
-        <span>aravind.</span>
+        <span className="ar-intro__mask">
+          <span>Aravind</span>
+        </span>
+        <span className="ar-intro__mask">
+          <span>Baranitharan</span>
+        </span>
       </div>
     </div>
   );

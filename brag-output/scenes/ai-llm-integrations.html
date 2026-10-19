@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ai-llm-integrations</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .win .label { margin-left: 12px; font: 400 26px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* Chat window */
+  .chat { left: 60px; top: 100px; width: 780px; height: 700px; background: var(--paper); color: var(--ink); border: 2px solid var(--line); box-shadow: 0 40px 80px -44px rgba(0,0,0,.35); }
+  .chat .win__bar { background: var(--band); border-bottom: 1px solid var(--line); }
+  .chat .label { color: var(--muted); }
+  .q { position: absolute; right: 36px; top: 92px; max-width: 560px; padding: 22px 28px; border-radius: 28px 28px 8px 28px; background: var(--ink); color: var(--on-night); font: 500 30px/1.35 var(--sans); transform-origin: 100% 100%; }
+  .status { position: absolute; left: 36px; top: 262px; display: flex; align-items: center; gap: 16px; }
+  .avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--pink); display: grid; place-items: center; }
+  .avatar i { width: 18px; height: 18px; border-radius: 4px; background: var(--ink); transform: rotate(45deg); }
+  .status span { font: 400 26px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .a { position: absolute; left: 36px; top: 338px; width: 650px; min-height: 92px; padding: 24px 30px; border-radius: 8px 28px 28px 28px; background: var(--band); border: 2px solid var(--line); font: 500 30px/1.4 var(--sans); transform-origin: 0 0; }
+  .cite { display: inline-block; margin-left: 8px; padding: 3px 10px; border-radius: 8px; background: var(--pink-soft); color: var(--pink-ink); font: 400 26px/1.2 var(--mono); vertical-align: 2px; }
+  .caret { display: inline-block; width: 3px; height: 32px; background: currentColor; vertical-align: -6px; margin-left: 2px; }
+
+  .eval { position: absolute; left: 36px; right: 36px; top: 566px; height: 96px; border-radius: 20px; background: var(--wash-pink); display: flex; align-items: center; gap: 24px; padding: 0 26px; color: var(--plum); }
+  .eval span { font: 400 26px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+  .meter { flex: 1; height: 22px; border-radius: 11px; background: rgba(23,19,35,.12); overflow: hidden; }
+  .meter i { display: block; height: 100%; border-radius: 11px; background: var(--pink); transform-origin: 0 50%; }
+  .ok { flex: none; width: 52px; height: 52px; border-radius: 50%; background: var(--ink); color: var(--pink-strong); display: grid; place-items: center; font: 700 28px/1 var(--sans); }
+
+  /* Retrieval window */
+  .ret { left: 880px; top: 100px; width: 500px; height: 700px; background: var(--night-2); color: var(--on-night); }
+  .ret .win__bar { border-bottom: 1px solid #2c2c2c; }
+  .ret .label { color: var(--on-night-2); }
+  .card { position: absolute; left: 190px; top: 128px; width: 120px; height: 156px; border-radius: 14px; background: var(--paper); transform-origin: 50% 100%; padding: 16px 14px; box-shadow: 0 20px 30px -18px rgba(0,0,0,.7); }
+  .card b { display: block; height: 22px; width: 52px; border-radius: 6px; background: var(--lilac); margin-bottom: 16px; }
+  .card i { display: block; height: 9px; border-radius: 5px; background: #d9d9d9; margin-bottom: 11px; }
+  .card .edge { position: absolute; inset: -5px; border-radius: 20px; border: 5px solid var(--pink-strong); }
+  .sub { position: absolute; left: 28px; top: 380px; font: 400 26px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--on-night-2); }
+  .rank { position: absolute; left: 28px; width: 50px; height: 50px; border-radius: 50%; background: #2c2c2c; color: #ffffff; display: grid; place-items: center; font: 400 26px/1 var(--mono); }
+  .prow { position: absolute; left: 98px; right: 28px; height: 60px; background: var(--night-2); }
+  .prow span { display: block; font: 500 28px/1 var(--sans); color: #ffffff; margin-bottom: 12px; }
+  .prow .track { height: 14px; border-radius: 7px; background: #2c2c2c; overflow: hidden; }
+  .prow .fill { height: 100%; border-radius: 7px; transform-origin: 0 50%; }
+</style>
+</head>
+<body>
+<div class="stage stage--paper" id="stage">
+<div class="content" id="content">
+  <div class="win chat" id="chat">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">Assistant</span></div>
+    <div class="q" id="q"></div>
+    <div class="status" id="status"><div class="avatar"><i></i></div><span id="statusText"></span></div>
+    <div class="a" id="a"></div>
+    <div class="eval" id="eval"><span>Ragas · faithfulness</span><div class="meter"><i id="meter"></i></div><div class="ok" id="ok">✓</div></div>
+  </div>
+
+  <div class="win ret" id="ret">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="label">Retrieval</span></div>
+    <div id="cards"></div>
+    <div class="sub" id="sub">Top 3 · re-rank</div>
+    <div id="ranks"></div>
+    <div id="prows"></div>
+  </div>
+</div>
+</div>
+<script src="common.js"></script>
+<script>
+  const { seg, ease, lerp, css, typed, outro } = B;
+  const D = 5;
+  const el = (tag, cls, parent) => { const n = document.createElement(tag); if (cls) n.className = cls; parent.appendChild(n); return n; };
+
+  const Q = "What is our refund window for annual plans?";
+  const A = "Annual plans get a full refund within the first month, then prorated.";
+
+  // Document fan: 5 cards; three are retrieved
+  const FAN = [[-16, -125, 24], [-8, -63, 6], [0, 0, 0], [8, 63, 6], [16, 125, 24]]; // [deg, dx, dy]
+  const PICK = [1, 2, 3];
+  const cardsEl = document.getElementById("cards");
+  const cards = FAN.map((_, i) => {
+    const c = el("div", "card", cardsEl);
+    el("b", "", c);
+    [84, 92, 60, 88, 72].forEach((w) => { el("i", "", c).style.width = w + "px"; });
+    return { c, edge: el("div", "edge", c) };
+  });
+
+  // Re-rank rows; rank badges stay in their slots, passages move to their final slot
+  const ROWS = [["Terms of service", 0.56, 2], ["Billing policy", 0.94, 0], ["Plans FAQ", 0.78, 1]];
+  const SLOT_Y = (s) => 432 + s * 86;
+  const ranksEl = document.getElementById("ranks"), prowsEl = document.getElementById("prows");
+  const ranks = [0, 1, 2].map((s) => { const r = el("div", "rank", ranksEl); r.textContent = String(s + 1); r.style.top = SLOT_Y(s) + 2 + "px"; return r; });
+  const prows = ROWS.map(([name]) => {
+    const r = el("div", "prow", prowsEl);
+    el("span", "", r).textContent = name;
+    const tr = el("div", "track", r);
+    return { r, fill: el("div", "fill", tr) };
+  });
+
+  window.SCENE = {
+    duration: D,
+    poster: 4.45,
+    render(t) {
+      css("#content", { opacity: String(outro(t, D)) });
+
+      // windows enter
+      const cIn = ease.out(seg(t, 0, 0.5));
+      css("#chat", { opacity: String(cIn), transform: `translate3d(0, ${(1 - cIn) * 40}px, 0)` });
+      const rIn = ease.out(seg(t, 0.2, 0.7));
+      css("#ret", { opacity: String(rIn), transform: `translate3d(${(1 - rIn) * 60}px, 0, 0)` });
+
+      // 1. question types
+      const qIn = ease.back(seg(t, 0.4, 0.62));
+      const qTyping = t >= 0.45 && t < 1.4;
+      css("#q", { opacity: String(Math.min(1, qIn * 1.4)), transform: `scale(${0.9 + 0.1 * qIn})` });
+      document.getElementById("q").innerHTML = (typed(Q, seg(t, 0.45, 1.35)) || "&nbsp;") + (qTyping ? '<span class="caret"></span>' : "");
+
+      // status line under the question
+      const sIn = ease.out(seg(t, 1.35, 1.6));
+      css("#status", { opacity: String(sIn), transform: `translate3d(0, ${(1 - sIn) * 16}px, 0)` });
+      document.getElementById("statusText").textContent = t < 2.3 ? "Searching docs" : t < 2.8 ? "Re-ranking" : "Grounded answer";
+
+      // 2. documents fan out, three get picked
+      const fan = ease.out(seg(t, 1.4, 2.0));
+      const pick = ease.out(seg(t, 1.95, 2.2));
+      cards.forEach(({ c, edge }, i) => {
+        const [deg, dx, dy] = FAN[i];
+        const picked = PICK.includes(i);
+        const appear = seg(t, 1.35 + i * 0.04, 1.55 + i * 0.04);
+        const lift = picked ? -22 * pick : 0;
+        c.style.zIndex = picked ? String(10 + (i === 2 ? 2 : 0)) : "1";
+        css(c, { opacity: String(appear * (picked ? 1 : 1 - 0.65 * pick)), transform: `translate3d(${dx * fan}px, ${dy * fan + lift + (1 - appear) * 30}px, 0) rotate(${deg * fan}deg)` });
+        edge.style.opacity = picked ? String(pick) : "0";
+      });
+
+      // 3. passages appear, then re-rank
+      const subIn = ease.out(seg(t, 1.95, 2.25));
+      css("#sub", { opacity: String(subIn) });
+      const ro = ease.inOut(seg(t, 2.4, 2.8));
+      const topOn = t > 2.78;
+      ranks.forEach((r, s) => {
+        r.style.opacity = String(ease.out(seg(t, 2.0 + s * 0.06, 2.3 + s * 0.06)));
+        const pinkR = s === 0 && topOn;
+        css(r, { background: pinkR ? "var(--pink-strong)" : "#2c2c2c", color: pinkR ? "var(--ink)" : "#ffffff" });
+      });
+      prows.forEach((p, i) => {
+        const [, score, slot] = ROWS[i];
+        const k = ease.out(seg(t, 2.0 + i * 0.06, 2.3 + i * 0.06));
+        const down = slot > i, mid = Math.sin(Math.PI * ro);
+        css(p.r, { top: lerp(SLOT_Y(i), SLOT_Y(slot), ro) + "px", zIndex: down ? "1" : "2", opacity: String(k * (down ? 1 - 0.7 * mid : 1)), transform: `translate3d(${down ? 26 * mid : 0}px, 0, 0)` });
+        const grow = ease.out(seg(t, 2.05 + i * 0.06, 2.4 + i * 0.06));
+        css(p.fill, { width: score * 100 + "%", transform: `scaleX(${grow})`, background: slot === 0 && topOn ? "var(--pink-strong)" : "#6b6b6b" });
+      });
+
+      // 4. grounded answer types, then citation chips pop
+      const aIn = ease.back(seg(t, 2.75, 2.98));
+      css("#a", { opacity: String(Math.min(1, aIn * 1.4)), transform: `scale(${0.94 + 0.06 * aIn})` });
+      const aTyping = t >= 2.8 && t < 3.6;
+      const c1 = ease.back(seg(t, 3.55, 3.72)), c2 = ease.back(seg(t, 3.66, 3.83));
+      const chip = (n, k) => k > 0 ? `<span class="cite" style="opacity:${Math.min(1, k * 1.5)};transform:scale(${0.6 + 0.4 * k})">[${n}]</span>` : "";
+      document.getElementById("a").innerHTML = typed(A, seg(t, 2.8, 3.55)) + (aTyping ? '<span class="caret"></span>' : "") + chip(1, c1) + chip(2, c2);
+
+      // 5. faithfulness eval fills, ✓
+      const eIn = ease.out(seg(t, 3.7, 3.95));
+      css("#eval", { opacity: String(eIn), transform: `translate3d(0, ${(1 - eIn) * 24}px, 0)` });
+      css("#meter", { transform: `scaleX(${ease.inOut(seg(t, 3.85, 4.25))})` });
+      const ok = ease.back(seg(t, 4.2, 4.4));
+      css("#ok", { opacity: String(Math.min(1, ok * 1.5)), transform: `scale(${0.4 + 0.6 * ok})` });
+    },
+  };
+  window.SCENE.render(0);
+</script>
+</body>
+</html>

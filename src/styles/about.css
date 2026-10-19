@@ -8,8 +8,10 @@
   padding: var(--space-7);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lift);
-  overflow: visible;
+  overflow: visible; /* the badge hangs over the corner */
 }
+/* …but the wash's blurred light bars must stay inside the card, or they push the page wider. */
+.ar-about__card::after { clip-path: inset(0 round var(--radius-lg)); }
 
 /* Rotating ring badge overlapping the card's top-right corner */
 .ar-about__badge {

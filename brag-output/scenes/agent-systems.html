@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>agent-systems</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  /* Agent graph (760×900 box, slides from centre to the left when the editor panel arrives) */
+  .graph { position: absolute; left: 0; top: 0; width: 760px; height: 900px; }
+  .edges { position: absolute; left: 0; top: 0; width: 760px; height: 900px; overflow: visible; }
+  .edges line { stroke: #3a3a3a; stroke-width: 3; stroke-linecap: round; }
+  .node { position: absolute; display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; border-radius: 999px; }
+  .orch { height: 108px; padding: 0 44px; background: var(--pink); color: var(--ink); font: 600 36px/1 var(--sans); }
+  .pulse { position: absolute; border-radius: 999px; border: 3px solid var(--pink); }
+  .agent { height: 84px; padding: 0 32px 0 28px; background: var(--night-2); color: var(--on-night); border: 2px solid #2e2e2e; font: 500 30px/1 var(--sans); }
+  .agent b { width: 16px; height: 16px; border-radius: 50%; background: var(--lilac); }
+  .a2a { position: absolute; font: 400 26px/1 var(--mono); letter-spacing: .06em; color: #8d8d8d; white-space: nowrap; }
+  .pkt { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 22px 4px rgba(209,94,255,.55); }
+  .pkt.back { background: var(--lilac); box-shadow: 0 0 22px 4px rgba(214,194,255,.45); }
+
+  /* Cursor sidebar */
+  .cursor { left: 880px; top: 170px; width: 500px; height: 462px; background: #1a1a1a; color: var(--on-night); border: 1px solid #2c2c2c; }
+  .cursor .win__bar { height: 64px; border-bottom: 1px solid #2c2c2c; color: var(--on-night); }
+  .cursor .title { margin-left: 12px; font: 600 28px/1 var(--sans); }
+  .cursor .body { padding: 30px 28px; }
+  .cursor .label { font: 400 26px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #8d8d8d; margin: 0 0 24px 4px; }
+  .tool { height: 84px; margin-bottom: 16px; padding: 0 26px; display: flex; align-items: center; gap: 18px; border-radius: 16px; background: #242424; font: 400 28px/1 var(--mono); color: #ffffff; }
+  .tool b { width: 16px; height: 16px; border-radius: 50%; background: var(--pink); flex: none; }
+
+  .toast-done { left: 880px; top: 666px; background: var(--pink); color: var(--ink); }
+  .toast-done b { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--pink); display: grid; place-items: center; font-size: 20px; }
+</style>
+</head>
+<body>
+<div class="stage stage--night" id="stage">
+<div class="content" id="content">
+  <div class="graph" id="graph">
+    <svg class="edges" viewBox="0 0 760 900">
+      <line id="e0" x1="380" y1="450" x2="380" y2="170"></line>
+      <line id="e1" x1="380" y1="450" x2="130" y2="700"></line>
+      <line id="e2" x1="380" y1="450" x2="630" y2="700"></line>
+    </svg>
+    <span class="a2a" id="l0" style="left:402px; top:296px; transform: translate(0,-50%)">A2A</span>
+    <span class="a2a" id="l1" style="left:226px; top:548px; transform: translate(-100%,-50%)">A2A</span>
+    <span class="a2a" id="l2" style="left:534px; top:548px; transform: translate(0,-50%)">A2A</span>
+    <div id="pkts"></div>
+    <span class="pulse" id="p0"></span><span class="pulse" id="p1"></span>
+    <span class="node agent" id="a0"><b></b>Research</span>
+    <span class="node agent" id="a1"><b></b>Code</span>
+    <span class="node agent" id="a2"><b></b>Review</span>
+    <span class="node orch" id="orch">Orchestrator</span>
+  </div>
+
+  <div class="win cursor" id="cursor">
+    <div class="win__bar"><span class="win__dot"></span><span class="win__dot"></span><span class="win__dot"></span><span class="title">Cursor</span></div>
+    <div class="body">
+      <div class="label" id="toolsLabel">MCP tools</div>
+      <div class="tool" data-t="0"><b></b>generate_screen</div>
+      <div class="tool" data-t="1"><b></b>review_diff</div>
+      <div class="tool" data-t="2"><b></b>search_docs</div>
+    </div>
+  </div>
+
+  <div class="toast toast-done abs" id="toast"><b>✓</b>Task done</div>
+</div>
+</div>
+<script src="common.js"></script>
+<script>
+  const { seg, ease, lerp, css, rise, outro, clamp } = B;
+  const D = 5;
+
+  const O = [380, 450];
+  const A = [[380, 170], [130, 700], [630, 700]];
+  const LEN = A.map(([x, y]) => Math.hypot(x - O[0], y - O[1]));
+  const agents = [0, 1, 2].map((i) => document.getElementById("a" + i));
+  const tools = [...document.querySelectorAll(".tool")];
+  const orch = document.getElementById("orch");
+
+  // Packet schedule: each edge sends a packet out (pink) and gets one back (lilac), repeating.
+  const TRIPS = [];
+  for (let e = 0; e < 3; e++) for (let n = 0; n < 4; n++) {
+    const s = 1.15 + e * 0.24 + n * 0.85;
+    if (s + 1.0 < 4.6) { TRIPS.push({ e, s, back: false }); TRIPS.push({ e, s: s + 0.5, back: true }); }
+  }
+  const pktsEl = document.getElementById("pkts");
+  const PK = TRIPS.map((tr) => { const d = document.createElement("span"); d.className = "pkt" + (tr.back ? " back" : ""); pktsEl.appendChild(d); return d; });
+  const TRAVEL = 0.5;
+
+  function place(el, x, y, scale, op) {
+    css(el, { left: x + "px", top: y + "px", transform: `translate(-50%, -50%) scale(${scale})`, opacity: String(op) });
+  }
+
+  window.SCENE = {
+    duration: D,
+    poster: 4.3,
+    render(t) {
+      css("#content", { opacity: String(outro(t, D)) });
+
+      // graph slides from centre to the left as the editor panel comes in
+      const shift = ease.inOut(seg(t, 2.2, 2.9));
+      css("#graph", { transform: `translate3d(${lerp(340, 40, shift)}px, 0, 0)` });
+
+      // 1. orchestrator appears and keeps pulsing
+      const oIn = seg(t, 0.05, 0.55);
+      const breathe = 1 + 0.025 * Math.sin(t * Math.PI * 2 / 1.1) * clamp(seg(t, 0.55, 0.9));
+      place(orch, O[0], O[1], (0.6 + 0.4 * ease.back(oIn)) * breathe, Math.min(1, oIn * 2));
+      const ow = orch.offsetWidth, oh = orch.offsetHeight;
+      ["p0", "p1"].forEach((id, i) => {
+        const ph = ((t - 0.5 - i * 0.55) / 1.1);
+        const k = ph - Math.floor(ph);
+        const on = t > 0.5 + i * 0.55 ? 1 : 0;
+        const g = 48 * ease.out(k);
+        css("#" + id, { left: O[0] + "px", top: O[1] + "px", width: ow + 2 * g + "px", height: oh + 2 * g + "px",
+          transform: "translate(-50%, -50%)", opacity: String(on * 0.7 * (1 - k) * oIn) });
+      });
+
+      // 2. agents spawn, edges draw out to them
+      A.forEach(([x, y], i) => {
+        const k = seg(t, 0.5 + i * 0.16, 0.95 + i * 0.16);
+        const line = document.getElementById("e" + i);
+        line.style.strokeDasharray = LEN[i];
+        line.style.strokeDashoffset = LEN[i] * (1 - ease.out(seg(t, 0.45 + i * 0.16, 0.85 + i * 0.16)));
+        css("#l" + i, { opacity: String(ease.out(seg(t, 0.95 + i * 0.12, 1.3 + i * 0.12))) });
+        // bump + pink outline on each packet arrival
+        let bump = 0, lit = 0;
+        for (const tr of TRIPS) if (tr.e === i && !tr.back) {
+          const arr = tr.s + TRAVEL;
+          if (t >= arr) lit = 1;
+          const d = t - arr; if (d >= 0 && d < 0.35) bump = Math.max(bump, Math.sin(Math.PI * d / 0.35));
+        }
+        const s = (0.5 + 0.5 * ease.back(k)) * (1 + 0.06 * bump);
+        place(agents[i], x, y, s, Math.min(1, k * 2));
+        agents[i].style.borderColor = lit ? "var(--pink)" : "#2e2e2e";
+        agents[i].querySelector("b").style.background = lit ? "var(--pink)" : "var(--lilac)";
+      });
+
+      // packets along the A2A edges
+      TRIPS.forEach((tr, j) => {
+        const p = seg(t, tr.s, tr.s + TRAVEL);
+        const k = ease.inOut(p);
+        const [ax, ay] = A[tr.e];
+        const from = tr.back ? [ax, ay] : O, to = tr.back ? O : [ax, ay];
+        css(PK[j], { left: lerp(from[0], to[0], k) + "px", top: lerp(from[1], to[1], k) + "px", opacity: String(p > 0 && p < 1 ? 1 : 0) });
+      });
+
+      // 3. Cursor sidebar slides in; MCP tools register one by one
+      const cIn = ease.out(seg(t, 2.35, 2.95));
+      css("#cursor", { opacity: String(cIn), transform: `translate3d(${(1 - cIn) * 90}px, 0, 0)` });
+      css("#toolsLabel", { opacity: String(ease.out(seg(t, 2.75, 3.0))) });
+      tools.forEach((el, i) => {
+        const s0 = 2.95 + i * 0.28;
+        const k = ease.out(seg(t, s0, s0 + 0.32));
+        const glow = seg(t, s0, s0 + 0.15) * (1 - seg(t, s0 + 0.35, s0 + 0.9));
+        const mix = (a, b) => Math.round(lerp(a, b, glow));
+        css(el, { ...rise(k, 22), background: `rgb(${mix(36, 78)}, ${mix(36, 40)}, ${mix(36, 98)})`, boxShadow: `inset 0 0 0 2px rgba(209,94,255,${(0.8 * glow).toFixed(3)})` });
+        const dk = ease.back(seg(t, s0 + 0.05, s0 + 0.35));
+        css(el.querySelector("b"), { transform: `scale(${dk})` });
+      });
+
+      // 4. result
+      const tk = ease.back(seg(t, 3.85, 4.2));
+      css("#toast", { opacity: String(Math.min(1, seg(t, 3.85, 4.05))), transform: `translate3d(0, ${(1 - tk) * 24}px, 0) scale(${0.9 + 0.1 * tk})`, transformOrigin: "0 50%" });
+    },
+  };
+  window.SCENE.render(0);
+</script>
+</body>
+</html>

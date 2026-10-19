@@ -212,9 +212,12 @@
 
 /* Intro curtain */
 .ar-intro { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--paper); color: var(--ink); }
-.ar-intro__word { font: 800 72px/0.8 var(--font-sans); letter-spacing: -0.06em; overflow: hidden; padding-bottom: .1em; }
-.ar-intro__word span { display: inline-block; transform: translateY(110%); }
-.ar-intro.is-on .ar-intro__word span { transform: translateY(0); transition: transform 900ms var(--ease-cycle) 150ms; }
+.ar-intro__word { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0.24em; padding-inline: var(--space-4); text-align: center; font: 800 clamp(44px, 8.5vw, 128px)/0.86 var(--font-sans); letter-spacing: -0.055em; }
+/* Each word rises out of its own mask, the second a beat after the first. */
+.ar-intro__mask { display: inline-block; overflow: hidden; padding-bottom: 0.08em; }
+.ar-intro__mask > span { display: inline-block; transform: translateY(110%); }
+.ar-intro.is-on .ar-intro__mask > span { transform: translateY(0); transition: transform 900ms var(--ease-cycle) 150ms; }
+.ar-intro.is-on .ar-intro__mask + .ar-intro__mask > span { transition-delay: 300ms; }
 .ar-intro.is-leaving { clip-path: inset(0 0 100% 0); transition: clip-path 600ms var(--ease-exit); }
 .ar-intro.is-gone { visibility: hidden; }
 .ar-intro { clip-path: inset(0 0 0 0); }

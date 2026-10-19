@@ -35,7 +35,7 @@ export const nav: Link[] = [
 
 export const hero = {
   word: "Aravind",
-  greeting: { before: "Hello, I'm", name: "Aravind", after: "— an AI engineer building intelligent systems and impactful products." },
+  greeting: { before: "Hello, I'm", name: "Aravind Baranitharan", after: "— an AI engineer building intelligent systems and impactful products." },
   tagline: "Turning ideas into practical AI experiences.",
   copyright: "© Aravind 2026",
   scrollLabel: "(Scroll down)",
@@ -103,9 +103,14 @@ export const about = {
   ],
 };
 
+/** A short silent product loop rendered with /brag (brag-output/), served from public/videos. */
+export type LoopClip = { src: string; poster: string; label: string };
+const clip = (slug: string, label: string): LoopClip => ({ src: `/videos/${slug}.mp4`, poster: `/videos/${slug}.jpg`, label });
+
 export type Service = {
   id: string;
   slug: string;
+  video?: LoopClip;
   title: string;
   summary: string;
   tags: string[];
@@ -116,6 +121,7 @@ export const services: Service[] = [
   {
     id: "01",
     slug: "ai-llm-integrations",
+    video: clip("ai-llm-integrations", "A question answered from retrieved, re-ranked documents with citations and an eval check"),
     title: "AI + LLM integrations",
     summary: "Retrieval, re-ranking and evals wired into your product, with latency and cost you can see.",
     tags: ["RAG", "Re-ranking", "Pinecone", "Ragas"],
@@ -124,6 +130,7 @@ export const services: Service[] = [
   {
     id: "02",
     slug: "agent-systems",
+    video: clip("agent-systems", "An orchestrator coordinating research, code and review agents, with MCP tools appearing in Cursor"),
     title: "Agent systems",
     summary: "Multi-agent workflows with LangGraph, A2A and MCP servers that plug into Cursor and Copilot.",
     tags: ["LangGraph", "A2A", "FastMCP", "Guardrails"],
@@ -132,6 +139,7 @@ export const services: Service[] = [
   {
     id: "03",
     slug: "custom-web-apps",
+    video: clip("custom-web-apps", "A web app assembling from wireframe to live components, with an AI search returning results"),
     title: "Custom web apps",
     summary: "Next.js products with the AI layer threaded through, from first sketch to deployed and instrumented.",
     tags: ["Next.js", "FastAPI", "TypeScript", "Tailwind"],
@@ -140,6 +148,7 @@ export const services: Service[] = [
   {
     id: "04",
     slug: "saas-product-build",
+    video: clip("saas-product-build", "Sign-in, a role-based dashboard assembling, and a billing plan switching to paid"),
     title: "SaaS product build",
     summary: "From MVP scope to role-based dashboards and billing — the way Mark Bot runs content agencies today.",
     tags: ["Auth", "Dashboards", "Billing", "Deployment"],
@@ -163,11 +172,14 @@ export type Project = {
   featured?: boolean;
   /** Visual for the tile until real screenshots exist: which palette the placeholder uses. */
   tone: "pink" | "night" | "wash" | "band";
+  /** Short product loop shown in place of the placeholder where one exists. */
+  video?: LoopClip;
 };
 
 export const projects: Project[] = [
   {
     slug: "figma-to-code-agent",
+    video: clip("figma-to-code-agent", "A Figma design parsed layer by layer, agents generating code, and the live screen assembling"),
     title: "Figma-to-code agent",
     role: "Agent engineering",
     year: "2026",
@@ -188,6 +200,7 @@ export const projects: Project[] = [
   },
   {
     slug: "rag-test-case-generator",
+    video: clip("rag-test-case-generator", "A requirements document chunked and retrieved by a local model, generating test cases"),
     title: "RAG test-case generator",
     role: "LLM systems",
     year: "2025",
@@ -208,6 +221,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mark-bot",
+    video: clip("mark-bot", "A reel moving through the content pipeline, a Tanglish script being written, and billing on delivery"),
     title: "Mark Bot",
     role: "Founder · full stack",
     year: "2025",

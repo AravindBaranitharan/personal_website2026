@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { MotionInit } from "@/components/chrome/MotionInit";
 import { ProjectVisual } from "@/components/sections/ProjectVisual";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { ArrowUpRight, WorkTable } from "@/components/sections/Work";
 import { getProject, projects, type Project } from "@/content/site";
 
@@ -102,7 +103,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           </header>
 
           <div className="mt-[var(--space-8)]" data-appear="blur">
-            <ProjectVisual project={project} priority caption={project.role} />
+            {project.video ? (
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-lg)] bg-night">
+                <LoopVideo {...project.video} />
+              </div>
+            ) : (
+              <ProjectVisual project={project} priority caption={project.role} />
+            )}
           </div>
 
           <div className="mt-[var(--space-9)] grid gap-[var(--space-8)]">

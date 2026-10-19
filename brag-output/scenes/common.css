@@ -1,0 +1,31 @@
+/* Shared stage for product loops: the site's fonts and tokens, a fixed 1440×900 frame. */
+@font-face { font-family: "Host Grotesk"; src: url("../../src/app/fonts/HostGrotesk-Variable.woff2") format("woff2"); font-weight: 300 800; font-style: normal; }
+@font-face { font-family: "Host Grotesk"; src: url("../../src/app/fonts/HostGrotesk-Italic-Variable.woff2") format("woff2"); font-weight: 300 800; font-style: italic; }
+@font-face { font-family: "Fragment Mono"; src: url("../../src/app/fonts/FragmentMono-Regular.woff2") format("woff2"); font-weight: 400; }
+
+:root {
+  --paper: #ffffff; --band: #f6f6f6; --surface: #ffffff; --sunk: #ebebeb; --line: #ebebeb;
+  --ink: #0d0d0d; --plum: #171323; --ink-2: #3d3d3d; --muted: #707070; --soft: #8d8d8d;
+  --night: #111111; --night-2: #1e1e1e; --on-night: #ffffff; --on-night-2: #8d8d8d;
+  --pink: #d15eff; --pink-strong: #de80ff; --pink-soft: #ecb8ff; --pink-pale: #eeaef5; --lilac: #d6c2ff; --pink-ink: #8e2fc0;
+  --wash-pink: #f4d8fe; --wash-lilac: #f5ecfd; --wash-lavender: #e8e2fc;
+  --sans: "Host Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Fragment Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1440px; height: 900px; overflow: hidden; }
+body { font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 1440px; height: 900px; overflow: hidden; }
+.stage--night { background: var(--night); color: var(--on-night); }
+.stage--paper { background: var(--paper); color: var(--ink); }
+.stage--band { background: var(--band); color: var(--ink); }
+.stage--pink { background: var(--pink-strong); color: var(--ink); }
+.stage--wash { background: radial-gradient(60% 70% at 40% 40%, var(--wash-pink), transparent 72%), radial-gradient(50% 60% at 85% 60%, var(--wash-lavender), transparent 70%), var(--wash-lilac); color: var(--plum); }
+.content { position: absolute; inset: 0; } /* everything animated lives here; the outro fades it, never the stage */
+.abs { position: absolute; }
+.mono { font-family: var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }
+.win { position: absolute; border-radius: 22px; overflow: hidden; box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); }
+.win__bar { height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 20px; }
+.win__dot { width: 13px; height: 13px; border-radius: 50%; background: currentColor; opacity: .25; }
+.chip { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 22px; border-radius: 999px; font: 500 26px/1 var(--sans); white-space: nowrap; }
+.toast { display: inline-flex; align-items: center; gap: 14px; padding: 18px 26px; border-radius: 18px; font: 600 28px/1 var(--sans); box-shadow: 0 24px 48px -24px rgba(0,0,0,.4); }
