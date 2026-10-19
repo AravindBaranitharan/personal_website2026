@@ -7,8 +7,7 @@
   display: flex;
   flex-direction: column;
   margin-top: var(--space-8);
-  /* Start below the floating nav pill so nothing sits under it. */
-  padding-top: calc(env(safe-area-inset-top, 0px) + var(--nav-height) + var(--space-4) + var(--space-7));
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-8));
   background: linear-gradient(180deg, var(--paper) 0%, #fdf3fa 45%, #fbe7f6 100%);
   color: var(--ink-plum);
 }

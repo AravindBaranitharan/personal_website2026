@@ -42,7 +42,7 @@ export function About() {
         </div>
 
         {/* Right: what I'm doing now, held in view while the words scroll past */}
-        <div className="md:col-span-5 md:self-start md:sticky md:top-[calc(var(--nav-height)+var(--space-8))]">
+        <div className="md:col-span-5 md:self-start md:sticky md:top-[var(--space-8)]">
           <aside className="ar-about__card ar-wash" data-appear="blur" aria-label="Currently">
             <div className="ar-about__badge" aria-hidden="true">
               <svg viewBox="0 0 132 132">

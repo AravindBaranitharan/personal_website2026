@@ -68,7 +68,7 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
       data-scrub="stack"
       aria-labelledby={titleId}
       // Each card sticks 16px lower than the one before so the pile's edges show.
-      style={{ top: `calc(var(--nav-height) + var(--space-6) + ${index * 16}px)` }}
+      style={{ top: `calc(var(--space-6) + ${index * 16}px)` }}
     >
       <div className="ar-card__body">
         <span className="ar-mono ar-muted">
@@ -145,7 +145,7 @@ export function Work() {
           </h2>
         </header>
 
-        {/* Featured: StackCards pile under the header pill. Below 720px they stop sticking. */}
+        {/* Featured: StackCards pile at the top of the screen. Below 720px they stop sticking. */}
         <div className="ar-stack pb-[var(--space-8)]">
           {featured.map((project, i) => (
             <FeaturedCard key={project.slug} project={project} index={i} />
@@ -159,7 +159,7 @@ export function Work() {
           <div className="ar-track-pin motion-reduce:overflow-x-auto!" data-track-pin="">
             <h3
               id="work-more-title"
-              className="ar-mono absolute left-[calc(var(--space-5)+30px)] top-[calc(var(--nav-height)+var(--space-8))] m-0 text-on-night-muted [@media(max-height:520px)]:sr-only"
+              className="ar-mono absolute left-[calc(var(--space-5)+30px)] top-[var(--space-8)] m-0 text-on-night-muted [@media(max-height:520px)]:sr-only"
             >
               {WORK.moreTitle} ({rest.length})
             </h3>

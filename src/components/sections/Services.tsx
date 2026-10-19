@@ -113,7 +113,7 @@ export function Services() {
                 data-scrub="stack"
                 aria-labelledby={`service-${service.slug}`}
                 className={`ar-card max-[720px]:static! ${night ? "ar-card--night ar-on-night" : ""}`}
-                style={{ top: `calc(var(--nav-height) + var(--space-6) + ${i * 16}px)` }}
+                style={{ top: `calc(var(--space-6) + ${i * 16}px)` }}
               >
                 <div className="ar-card__body">
                   <span className="ar-mono ar-muted">
