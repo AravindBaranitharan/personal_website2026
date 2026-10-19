@@ -1,6 +1,5 @@
 import { MotionInit } from "@/components/chrome/MotionInit";
 import { About } from "@/components/sections/About";
-import { Contact } from "@/components/sections/Contact";
 import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { Notes } from "@/components/sections/Notes";
@@ -9,7 +8,7 @@ import { Services } from "@/components/sections/Services";
 import { Work } from "@/components/sections/Work";
 
 // Chapter order follows the design system's blueprint: wash hero → paper about → band services →
-// night work (the one dark chapter) → paper experience → band recognition and notes → wash contact.
+// night work (the one dark chapter) → paper experience → band recognition and notes. The footer is the contact chapter.
 export default function Home() {
   return (
     <>
@@ -20,7 +19,6 @@ export default function Home() {
       <Experience />
       <Recognition />
       <Notes />
-      <Contact />
       <MotionInit />
     </>
   );

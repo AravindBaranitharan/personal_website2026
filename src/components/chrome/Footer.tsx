@@ -4,13 +4,13 @@ import { contact, nav, profile, socials } from "@/content/site";
 /** Closing chapter: wash card with white pill links over the giant wordmark (design system: FooterWordmark). */
 export function Footer() {
   const links = [
-    ...socials.filter((s) => s.label !== "Instagram"),
+    ...socials,
     { label: "Resume", href: profile.resumePath },
     ...nav,
   ];
 
   return (
-    <footer className="ar-footer ar-wash mt-[var(--space-8)]" aria-label="Footer">
+    <footer id="contact" className="ar-footer ar-wash mt-[var(--space-8)]" aria-label="Contact">
       <div className="ar-container grid gap-[var(--space-7)] md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="grid content-start gap-[var(--space-5)]" data-appear="rise">
           <p className="m-0 max-w-[18ch] text-[clamp(32px,4.4vw,54px)] font-medium leading-[0.95] tracking-[-0.03em]">

@@ -115,34 +115,17 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-/** Chapter 4 (night): Marquee, opener, featured StackCards, HorizontalTrack of the rest, WorkTable, Tape out. */
+/** Chapter 4 (night): opener, featured StackCards, HorizontalTrack of the rest, WorkTable, Tape out. */
 export function Work() {
   const featured = projects.filter((p) => p.featured);
   const rest = projects.filter((p) => !p.featured);
-  const word = WORK.kicker.split("—").pop()?.trim().toLowerCase() ?? "work";
   const tapeLine = notes[0]?.quote.replace(/\.$/, "") ?? "";
   const tapeSkills = marquee.primary.slice(0, 4);
 
   return (
     <section id="work" aria-labelledby="work-title" className="relative bg-night text-on-night">
-      {/* Marquee opener; decorative because the h2 below names the chapter. Opposite direction to About's. */}
-      <div className="pt-[var(--space-8)] md:pt-[var(--space-9)]">
-        <div
-          className="ar-marquee"
-          data-ticker=""
-          data-speed="80"
-          data-hover-factor="0.25"
-          data-direction="right"
-          aria-hidden="true"
-        >
-          <div className="ar-marquee__track" data-ticker-track="">
-            <span>{word} .</span>
-          </div>
-        </div>
-      </div>
-
       <div className="ar-container">
-        <header className="grid gap-[var(--space-4)] pb-[var(--space-8)] pt-[var(--space-7)]">
+        <header className="grid gap-[var(--space-4)] pb-[var(--space-8)] pt-[var(--space-8)] md:pt-[var(--space-9)]">
           <p className="ar-mono text-on-night-muted" data-appear="rise">
             {WORK.kicker}
           </p>
