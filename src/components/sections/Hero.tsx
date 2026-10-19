@@ -2,6 +2,18 @@ import Link from "next/link";
 import { hero, marquee, profile } from "@/content/site";
 import { HeroStage } from "./HeroStage";
 
+/** Small pink badge: arrow down for "less", up for "faster", plus for counts. */
+function TrendBadge({ trend }: { trend: "up" | "down" | "plus" }) {
+  const path = trend === "plus" ? "M8 3.5v9M3.5 8h9" : trend === "up" ? "M8 12.5V3.5M4 7.5l4-4 4 4" : "M8 3.5v9M4 8.5l4 4 4-4";
+  return (
+    <span className="ar-proof__badge" aria-hidden="true">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d={path} />
+      </svg>
+    </span>
+  );
+}
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -60,7 +72,7 @@ export function Hero() {
       {/* Below the fold: what I build, the calls to action and the numbers. */}
       <div className="relative z-[2] bg-paper">
         <div className="ar-container grid gap-[var(--space-7)] pt-[var(--space-8)] md:grid-cols-12 md:pt-[var(--space-9)]">
-          <div className="grid content-start gap-[var(--space-6)] md:col-span-7">
+          <div className="grid content-start gap-[var(--space-6)] md:col-span-10">
             <p className="ar-mono ar-muted inline-flex flex-wrap items-center gap-x-4 gap-y-2" data-appear="rise">
               <span>{hero.eyebrow}</span>
               <span className="inline-flex items-center gap-2.5 text-ink-2">
@@ -93,17 +105,30 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="ar-stats content-start md:col-span-5 md:flex-col md:justify-self-end" data-appear-group="rise">
+          {/* Proof: three measured results as cards; numbers count up when they scroll in. */}
+          <ul className="m-0 grid list-none gap-[var(--space-4)] p-0 md:col-span-12 md:grid-cols-3" data-appear-group="rise">
             {hero.stats.map((stat) => (
-              <div key={stat.value} className="ar-stat">
-                <div className="ar-stat__value">
-                  {stat.sign && <sup>{stat.sign}</sup>}
-                  {stat.value}
+              <li key={stat.label} className="ar-proof">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="ar-mono ar-muted">{stat.kicker}</span>
+                  <TrendBadge trend={stat.trend} />
                 </div>
-                <div className="ar-stat__label">{stat.label}</div>
-              </div>
+                <p className="ar-proof__value m-0" aria-label={`${stat.prefix ? `${stat.prefix} ` : ""}${stat.value}${stat.suffix} ${stat.label}`}>
+                  {stat.prefix && <span className="ar-proof__prefix" aria-hidden="true">{stat.prefix}</span>}
+                  <span aria-hidden="true" data-count={stat.value}>
+                    {stat.value}
+                  </span>
+                  <span className="ar-proof__suffix" aria-hidden="true">
+                    {stat.suffix}
+                  </span>
+                </p>
+                <div className="grid gap-[var(--space-2)]">
+                  <p className="m-0 text-[19px] font-semibold leading-[1.2] tracking-[-0.01em] text-ink">{stat.label}</p>
+                  <p className="m-0 text-[14px] leading-[20px] text-ink-muted">{stat.context}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         {/* Stack ticker. The runtime duplicates the chips, so screen readers get the list once instead. */}

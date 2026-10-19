@@ -1,10 +1,8 @@
-import Image from "next/image";
-import aboutPortrait from "@/assets/about-portrait.webp";
-import { about, profile } from "@/content/site";
+import { about, profile, socials } from "@/content/site";
 
 /**
- * Chapter 2: an editorial spread. Left: kicker, title, the TextReveal thesis, bio and facts.
- * Right: a sticky portrait (B&W, colour on hover) with a rotating badge and a location tag.
+ * Chapter 2: an editorial spread. Left: kicker, title, the TextReveal thesis and bio.
+ * Right: a sticky "Currently" card (role, availability, facts, focus, links) with a rotating badge.
  */
 export function About() {
   // "02 — About" → "about"; the Marquee repeats the chapter's name.
@@ -48,32 +46,11 @@ export function About() {
               </p>
             ))}
           </div>
-
-          <dl className="m-0 grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2" data-appear-group="rise">
-            {about.facts.map((fact) => (
-              <div key={fact.label} className="ar-about__fact">
-                <dt className="ar-mono ar-muted">{fact.label}</dt>
-                <dd className="m-0 text-[20px] font-semibold leading-[1.2] tracking-[-0.01em]">{fact.value}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
 
-        {/* Right: the portrait, held in view while the words scroll past */}
+        {/* Right: what I'm doing now, held in view while the words scroll past */}
         <div className="md:col-span-5 md:self-start md:sticky md:top-[calc(var(--nav-height)+var(--space-8))]">
-          <figure className="ar-about__frame m-0" data-appear="blur">
-            <div className="ar-about__photo">
-              <Image
-                src={aboutPortrait}
-                alt={`${profile.name} at his laptop, glancing over his shoulder`}
-                sizes="(max-width: 767px) 92vw, 520px"
-                placeholder="blur"
-              />
-              <span className="ar-about__tag">
-                <span className="ar-pulse" aria-hidden="true" />
-                {profile.workLocation}
-              </span>
-            </div>
+          <aside className="ar-about__card ar-wash" data-appear="blur" aria-label="Currently">
             <div className="ar-about__badge" aria-hidden="true">
               <svg viewBox="0 0 132 132">
                 <defs>
@@ -85,11 +62,38 @@ export function About() {
               </svg>
               <b>a.</b>
             </div>
-            <figcaption className="ar-mono ar-muted mt-[var(--space-4)] flex justify-between gap-4">
-              <span>{profile.name}</span>
-              <span>{profile.role}</span>
-            </figcaption>
-          </figure>
+
+            <p className="ar-mono ar-muted m-0">Currently</p>
+            <p className="m-0 max-w-[14ch] text-[clamp(28px,2.6vw,36px)] font-medium leading-[1.02] tracking-[-0.025em] text-ink">
+              {profile.role} at {profile.company}
+            </p>
+            <p className="ar-mono m-0 inline-flex items-center gap-2.5 text-ink-2">
+              <span className="ar-pulse" aria-hidden="true" />
+              {profile.availability}
+            </p>
+
+            <dl className="m-0 grid">
+              {about.facts.map((fact) => (
+                <div key={fact.label} className="ar-about__fact">
+                  <dt className="ar-mono text-ink-2">{fact.label}</dt>
+                  <dd className="m-0 text-[16px] font-semibold leading-[1.3] text-ink">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <a className="ar-btn ar-btn--primary" href={profile.resumePath} download>
+                Download resume
+              </a>
+              {socials
+                .filter((s) => s.label !== "Instagram")
+                .map((s) => (
+                  <a key={s.label} className="ar-pill-link" href={s.href} target="_blank" rel="noreferrer">
+                    {s.label}
+                  </a>
+                ))}
+            </div>
+          </aside>
         </div>
       </div>
     </section>

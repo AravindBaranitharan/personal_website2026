@@ -51,10 +51,34 @@ export const hero = {
     resume: { label: "Download resume", href: "/resume.pdf" },
   },
   stats: [
-    { sign: "−", value: "60%", label: "Manual test-scenario effort after the RAG test-case generator at TCS" },
-    { sign: "−", value: "70%", label: "Screen development time with the Figma-to-code agent (50–70%)" },
-    { sign: "", value: "40+", label: "AI prototypes evaluated at Smart India Hackathon 2026" },
-  ],
+    {
+      kicker: "TCS · RAG test-case generator",
+      trend: "down",
+      prefix: "",
+      value: 60,
+      suffix: "%",
+      label: "less manual test-writing",
+      context: "Test scenarios generated from enterprise documents by a local Mistral RAG service.",
+    },
+    {
+      kicker: "TCS · Figma-to-code agent",
+      trend: "up",
+      prefix: "up to",
+      value: 70,
+      suffix: "%",
+      label: "faster screen development",
+      context: "50–70% shorter build cycles with a multi-agent LangGraph code generator.",
+    },
+    {
+      kicker: "Smart India Hackathon 2026",
+      trend: "plus",
+      prefix: "",
+      value: 40,
+      suffix: "+",
+      label: "AI prototypes evaluated",
+      context: "Internal evaluator for the AI domain, judging ideas and working prototypes.",
+    },
+  ] as { kicker: string; trend: "up" | "down" | "plus"; prefix: string; value: number; suffix: string; label: string; context: string }[],
 };
 
 export const marquee = {

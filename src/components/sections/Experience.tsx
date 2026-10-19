@@ -1,6 +1,6 @@
 import { experience, skills } from "@/content/site";
 
-/** Chapter 6: "experience ." marquee, roles as expandable IndexRows, then skills as chip groups. */
+/** Chapter 5: kicker and title, roles as expandable IndexRows, then skills as chip groups. */
 export function Experience() {
   return (
     <section
@@ -8,20 +8,19 @@ export function Experience() {
       aria-labelledby="experience-title"
       className="ar-section relative scroll-mt-20 overflow-x-clip bg-paper text-ink"
     >
-      <div className="ar-marquee" data-ticker data-speed="80" data-hover-factor="0.25" aria-hidden="true">
-        <div className="ar-marquee__track" data-ticker-track aria-hidden="true">
-          <span>experience .</span>
-        </div>
-      </div>
-
-      <div className="ar-container mt-[var(--space-8)] grid gap-[var(--space-8)]">
-        <h2
-          id="experience-title"
-          className="m-0 text-[clamp(48px,8vw,112px)] font-bold leading-[0.88] tracking-[-0.045em]"
-          data-appear="flip"
-        >
-          experience.
-        </h2>
+      <div className="ar-container grid gap-[var(--space-8)]">
+        <header className="grid gap-[var(--space-4)]">
+          <p className="ar-mono ar-muted m-0" data-appear="rise">
+            05 — Experience
+          </p>
+          <h2
+            id="experience-title"
+            className="m-0 text-[clamp(48px,8vw,112px)] font-bold leading-[0.88] tracking-[-0.045em]"
+            data-appear="flip"
+          >
+            experience.
+          </h2>
+        </header>
 
         <ol className="ar-index" data-appear-group="rise">
           {experience.map((item, i) => (

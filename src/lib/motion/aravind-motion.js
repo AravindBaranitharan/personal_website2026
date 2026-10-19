@@ -362,6 +362,27 @@
     return lenis;
   }
 
+  /* ---------- 11. Count-up: numbers roll up to their value when half in view ---------- */
+  function countUp(el) {
+    var target = num(el, 'data-count', NaN);
+    if (isNaN(target) || reduced) return;
+    var dur = num(el, 'data-duration', 1.6) * 1000, decimals = (String(target).split('.')[1] || '').length;
+    el.textContent = (0).toFixed(decimals);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting || en.intersectionRatio < 0.5) return;
+        io.disconnect();
+        var t0 = performance.now();
+        (function frame(now) {
+          var t = clamp((now - t0) / dur, 0, 1), k = 1 - Math.pow(2, -10 * t); /* ease-out expo */
+          el.textContent = (target * (t >= 1 ? 1 : k)).toFixed(decimals);
+          if (t < 1) requestAnimationFrame(frame);
+        })(t0);
+      });
+    }, { root: scrollerOf(el), threshold: [0, 0.5, 1] });
+    io.observe(el);
+  }
+
   /* ---------- init: wire everything under a root ---------- */
   var wired = {};
   function each(root, sel, fn) {
@@ -380,6 +401,7 @@
     each(root, 'canvas[data-dots]', dotGrid);
     each(root, '[data-image-grid]', imageGrid);
     each(root, '[data-cursor-area]', cursor);
+    each(root, '[data-count]', countUp);
     d.documentElement.classList.add('ar-ready');
     tick();
   }
@@ -392,7 +414,7 @@
     version: '1.2.0',
     motion: {
       init: init, replay: replay, appear: appear, textReveal: textReveal, cycle: cycle, ticker: ticker,
-      cursor: cursor, dotGrid: dotGrid, imageGrid: imageGrid, intro: intro, smoothScroll: smoothScroll,
+      cursor: cursor, dotGrid: dotGrid, imageGrid: imageGrid, intro: intro, smoothScroll: smoothScroll, countUp: countUp,
       ease: EASE, reduced: reduced
     }
   };
