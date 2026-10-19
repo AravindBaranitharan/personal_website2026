@@ -5,18 +5,11 @@ import { about, profile, socials } from "@/content/site";
  * Right: a sticky "Currently" card (role, availability, facts, focus, links) with a rotating badge.
  */
 export function About() {
-  // "02 — About" → "about"; the Marquee repeats the chapter's name.
-  const marqueeWord = (about.kicker.split("—").pop() ?? about.kicker).trim().toLowerCase();
   const ring = `${profile.role} · ${profile.company} · `.repeat(2);
 
   return (
     // Sits above the hero (which lags under parallax) so it visibly slides over it.
     <section id="about" aria-labelledby="about-title" className="relative z-[2] bg-paper">
-      <div className="ar-marquee" data-ticker="" data-speed="80" data-hover-factor="0.25" aria-hidden="true">
-        <div className="ar-marquee__track" data-ticker-track="">
-          <span>{marqueeWord} .</span>
-        </div>
-      </div>
 
       <div className="ar-container ar-section grid gap-[var(--space-8)] md:grid-cols-12 md:gap-x-[var(--space-7)]">
         {/* Left: the words */}
