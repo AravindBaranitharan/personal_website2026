@@ -4,6 +4,7 @@
 @import "../styles/components.css" layer(components);
 @import "../styles/hero.css" layer(components);
 @import "../styles/nav.css" layer(components);
+@import "../styles/about.css" layer(components);
 
 /* Lenis smooth-scroll base styles (copied from lenis/dist/lenis.css, which the package does not export). */
 html.lenis,

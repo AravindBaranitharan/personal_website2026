@@ -1,0 +1,92 @@
+/* About: editorial spread with a sticky portrait that turns to colour on hover and a rotating badge. */
+
+.ar-about__photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunk);
+  box-shadow: var(--shadow-lift);
+}
+.ar-about__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.06);
+  transform: scale(1.02);
+  transition: filter 0.7s var(--ease-studio), transform 1.2s var(--ease-studio);
+}
+.ar-about__frame:hover .ar-about__photo img,
+.ar-about__frame:focus-within .ar-about__photo img { filter: grayscale(0) contrast(1); transform: scale(1.06); }
+
+/* Soft pink glow behind the card, echoing the hero. */
+.ar-about__frame { position: relative; isolation: isolate; }
+.ar-about__frame::before {
+  content: "";
+  position: absolute;
+  inset: 8% -6% -4% 10%;
+  z-index: -1;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(60% 60% at 60% 40%, var(--pink-soft), transparent 72%), radial-gradient(50% 50% at 20% 80%, var(--wash-lavender), transparent 70%);
+  filter: blur(28px);
+  opacity: 0.9;
+}
+
+/* Location pill on the photo */
+.ar-about__tag {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 14px 8px 10px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Rotating ring badge overlapping the card's top-right corner */
+.ar-about__badge {
+  position: absolute;
+  top: calc(var(--space-6) * -1);
+  right: calc(var(--space-6) * -1);
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+  color: var(--on-pink);
+  box-shadow: 0 0 0 6px var(--paper);
+}
+.ar-about__badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: ar-about-spin 18s linear infinite; }
+.ar-about__badge text { font-family: var(--font-mono); font-size: 9.6px; letter-spacing: 0.22em; text-transform: uppercase; fill: currentColor; }
+.ar-about__badge b { font-size: 26px; font-weight: 800; letter-spacing: -0.04em; }
+@keyframes ar-about-spin { to { transform: rotate(360deg); } }
+
+/* Facts as quiet cards */
+.ar-about__fact {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--band);
+  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+}
+.ar-about__fact:hover { background: var(--wash-lilac); transform: translateY(-2px); }
+
+@media (max-width: 767px) {
+  .ar-about__badge { width: 104px; height: 104px; top: calc(var(--space-4) * -1); right: var(--space-2); }
+  .ar-about__badge b { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ar-about__badge svg { animation: none; }
+  .ar-about__photo img, .ar-about__fact { transition: none; }
+}
