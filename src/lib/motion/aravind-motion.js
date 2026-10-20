@@ -97,11 +97,15 @@
 
   /* ---------- 2. Scroll scrubs: stack, exit, zoom, track, fan, parallax ---------- */
   function scrubStack(el) {
-    var stick = parseFloat(getComputedStyle(el).top) || 0;
+    var base = parseFloat(getComputedStyle(el).top) || 0, stick = base;
     el.style.transformOrigin = '50% 0';
     el.parentElement.style.perspective = '1200px';
     return function () {
       if (getComputedStyle(el).position !== 'sticky') { el.style.transform = ''; return; }
+      /* A card taller than the screen (phones) pins once its bottom reaches the screen edge, so all of it is read
+         before the next card slides over. */
+      var vh = frameOf(scrollerOf(el)).height, fit = Math.min(base, Math.round(vh - el.offsetHeight - 16));
+      if (fit !== stick) { stick = fit; el.style.top = fit + 'px'; }
       var b = box(el), span = Math.max(1, b.vh - stick);
       var enter = clamp((b.vh - b.top) / span, 0, 1);
       var next = el.nextElementSibling, cover = 0;

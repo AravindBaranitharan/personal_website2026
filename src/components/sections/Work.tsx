@@ -64,7 +64,7 @@ function FeaturedCard({ project, index }: { project: Project; index: number }) {
   const metrics = project.metrics.slice(0, 2);
   return (
     <article
-      className="ar-card max-[720px]:static!"
+      className="ar-card"
       data-scrub="stack"
       aria-labelledby={titleId}
       // Each card sticks 16px lower than the one before so the pile's edges show.
@@ -145,7 +145,7 @@ export function Work() {
           </h2>
         </header>
 
-        {/* Featured: StackCards pile at the top of the screen. Below 720px they stop sticking. */}
+        {/* Featured: StackCards pile at the top of the screen; on phones a tall card pins once fully read. */}
         <div className="ar-stack pb-[var(--space-8)]">
           {featured.map((project, i) => (
             <FeaturedCard key={project.slug} project={project} index={i} />

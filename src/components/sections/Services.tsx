@@ -103,7 +103,7 @@ export function Services() {
           </p>
         </header>
 
-        {/* Each card sticks 16px lower than the last so the pile edges show; below 720px they stop sticking. */}
+        {/* Each card sticks 16px lower than the last so the pile edges show; on phones a tall card pins once fully read. */}
         <div className="ar-stack mt-[var(--space-8)] md:pb-[20vh]">
           {services.map((service, i) => {
             const night = i % 2 === 1;
@@ -112,7 +112,7 @@ export function Services() {
                 key={service.slug}
                 data-scrub="stack"
                 aria-labelledby={`service-${service.slug}`}
-                className={`ar-card max-[720px]:static! ${night ? "ar-card--night ar-on-night" : ""}`}
+                className={`ar-card ${night ? "ar-card--night ar-on-night" : ""}`}
                 style={{ top: `calc(var(--space-6) + ${i * 16}px)` }}
               >
                 <div className="ar-card__body">
