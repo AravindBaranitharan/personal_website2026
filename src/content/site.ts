@@ -409,11 +409,66 @@ export const experience = [
 ];
 
 export const recognition = [
+  { kicker: "Speaker", title: "Global AI Conference", meta: "Global AI Community · Chennai · 500+ attendees" },
+  { kicker: "Speaker", title: "Copilot Dev Days 2026", meta: "Microsoft · Intro to GitHub Copilot · 100+ attendees" },
   { kicker: "1st place", title: "Hackverse Hackathon", meta: "PNB MetLife, India" },
   { kicker: "Mentor", title: "TCS AI Fridays", meta: "Certificate of Appreciation · Chennai, Nov 2025" },
   { kicker: "Jury", title: "SDG AI Hackathon", meta: "ETH Zürich × NTU Singapore" },
   { kicker: "Evaluator", title: "Smart India Hackathon 2026", meta: "AI domain · 40+ prototypes" },
 ];
+
+/** Talks. Photos live in src/assets/stage and are matched by `photo` key in Speaking.tsx. */
+export const speaking = {
+  kicker: "06 / On stage",
+  title: "on stage.",
+  intro:
+    "Talks and live demos for developer communities in Chennai: open models you can run yourself, grounded retrieval, and coding with AI pair programmers.",
+  event: "Global AI Conference Chennai",
+  host: "Global AI Community",
+  talk: "Open weights. Closed doors.",
+  summary:
+    "A live talk and demo on running the open-source GLM 5.3 model inside your own walls, with an intelligent RAG layer that reads your documents and answers from them. Nothing leaves your servers.",
+  tags: ["GLM 5.3", "Open weights", "Intelligent RAG", "On-prem", "Live demo"],
+  stats: [
+    { value: 500, suffix: "+", label: "in the audience" },
+    { value: 1, suffix: "", label: "live demo on stage" },
+    { value: 0, suffix: "", label: "data leaks" },
+  ],
+  setup: "LLMs are genius interns with three tiny flaws.",
+  beats: [
+    { title: "Never read your docs", text: "Trained on the public internet up to a cutoff. Your runbooks, policies and code standards are new to it." },
+    { title: "Makes things up, confidently", text: "When it doesn't know, it guesses in perfect grammar. That is hallucination." },
+    { title: "Takes your data out", text: "Public APIs mean your prompts and documents leave the building." },
+  ],
+  answer: "The fix: open weights you host yourself, grounded with retrieval over your own documents.",
+  photos: [
+    { photo: "talk-wide", caption: "Setting up the problem", alt: "Aravind on stage beside a slide reading: LLMs are genius interns with three tiny flaws" },
+    { photo: "open-weights", caption: "Open weights. Closed doors.", alt: "Aravind presenting the title slide of his talk, Open weights. Closed doors." },
+    { photo: "talk-portrait", caption: "Three tiny flaws", alt: "Aravind speaking with a headset microphone at the Global AI Conference" },
+    { photo: "felicitation", caption: "Thanked by the organisers", alt: "Aravind receiving a gift from an organiser on the Global AI Conference Chennai stage" },
+    { photo: "hallway", caption: "Hallway track", alt: "Aravind taking a selfie with another attendee beside a Global AI Community banner" },
+  ],
+  also: [
+    {
+      event: "Copilot Dev Days 2026",
+      host: "Microsoft",
+      when: "Chennai · Sep 2026",
+      talk: "An introduction to GitHub Copilot",
+      summary:
+        "Part of the AI Engineer series: what GitHub Copilot is, how to work with it inside the editor, and its new agent mode that plans and edits across a codebase. Twenty minutes, with Pip the co-pilot mascot along for the ride.",
+      tags: ["GitHub Copilot", "Agent mode", "AI Engineer series"],
+      stats: [
+        { value: 100, suffix: "+", label: "developers in the room" },
+        { value: 20, suffix: " min", label: "of Copilot, live" },
+      ],
+      cover: { photo: "copilot-talk", alt: "Aravind presenting An introduction to GitHub Copilot to a full room at Microsoft Copilot Dev Days" },
+      photos: [
+        { photo: "copilot-team", caption: "With the Dev Days crew", alt: "Aravind with five organisers and speakers of Copilot Dev Days" },
+        { photo: "copilot-group", caption: "100+ developers, one photo", alt: "Group photo of the Copilot Dev Days audience with the speakers" },
+      ],
+    },
+  ],
+} as const;
 
 export const skills: { group: string; items: string[] }[] = [
   { group: "ML", items: ["Machine learning", "Deep learning", "CNNs", "Graph Neural Networks (GNNs)", "Computer vision", "ML algorithms"] },
