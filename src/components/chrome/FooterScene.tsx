@@ -30,25 +30,25 @@ const SHIMMER: [number, number, number][] = [
 
 // People on the pier: [x, y (feet), scale, coat colour, delay(s)]
 const PEOPLE: [number, number, number, string, number][] = [
-  [806, 452, 0.42, "#5a4fb0", 0],
-  [826, 486, 0.58, "#3b2f63", 0.3],
-  [770, 528, 0.78, "#8e2fc0", 0.15],
-  [880, 596, 1.02, "#c46ad6", 0.45],
+  [806, 452, 0.42, "#0b0b0b", 0],
+  [826, 486, 0.58, "#3a3a3a", 0.3],
+  [770, 528, 0.78, "#d1008a", 0.15],
+  [880, 596, 1.02, "#ff2dab", 0.45],
 ];
 
 function Person({ x, y, s, coat, delay }: { x: number; y: number; s: number; coat: string; delay: number }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <g className="ar-scene__walker" style={{ animationDelay: `${delay}s` }}>
-        <ellipse cx="0" cy="2" rx="16" ry="3.5" fill="#6c5bc4" opacity="0.25" />
+        <ellipse cx="0" cy="2" rx="16" ry="3.5" fill="#0b0b0b" opacity="0.25" />
         {/* legs */}
-        <rect x="-8" y="-34" width="7" height="34" rx="3" fill="#2a2148" />
-        <rect x="1" y="-34" width="7" height="34" rx="3" fill="#2a2148" />
+        <rect x="-8" y="-34" width="7" height="34" rx="3" fill="#0b0b0b" />
+        <rect x="1" y="-34" width="7" height="34" rx="3" fill="#0b0b0b" />
         {/* coat */}
         <path d="M-13 -74c0-6 5-10 13-10s13 4 13 10v42h-26z" fill={coat} />
         {/* head + hair */}
         <circle cx="0" cy="-94" r="10" fill="#e9b9a0" />
-        <path d="M-10 -96c0-8 5-12 10-12s10 4 10 12c-4-4-16-4-20 0z" fill="#2a2148" />
+        <path d="M-10 -96c0-8 5-12 10-12s10 4 10 12c-4-4-16-4-20 0z" fill="#0b0b0b" />
       </g>
     </g>
   );
@@ -68,33 +68,33 @@ export function FooterScene() {
       <svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice" role="presentation">
         <defs>
           <linearGradient id="sc-sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#fdf6fb" stopOpacity="0" />
-            <stop offset="0.35" stopColor="#fbe7f6" />
-            <stop offset="0.62" stopColor="#f6cdef" />
-            <stop offset="0.64" stopColor="#f3c0ea" />
+            <stop offset="0" stopColor="#fff5fb" stopOpacity="0" />
+            <stop offset="0.35" stopColor="#ffe3f3" />
+            <stop offset="0.62" stopColor="#ffc2e6" />
+            <stop offset="0.64" stopColor="#ffb0de" />
           </linearGradient>
           <radialGradient id="sc-sun" cx="0.5" cy="0.45" r="0.55">
-            <stop offset="0" stopColor="#ffe6f4" />
-            <stop offset="0.55" stopColor="#f6b2e6" />
-            <stop offset="1" stopColor="#e88ad9" />
+            <stop offset="0" stopColor="#f8ffd6" />
+            <stop offset="0.55" stopColor="#e6ff80" />
+            <stop offset="1" stopColor="#d4ff3f" />
           </radialGradient>
           <radialGradient id="sc-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#ffd2ef" stopOpacity="0.9" />
-            <stop offset="1" stopColor="#ffd2ef" stopOpacity="0" />
+            <stop offset="0" stopColor="#ecff9a" stopOpacity="0.9" />
+            <stop offset="1" stopColor="#ecff9a" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="sc-city" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#8a78de" />
-            <stop offset="0.7" stopColor="#c28fe6" />
-            <stop offset="1" stopColor="#e9a7e1" />
+            <stop offset="0" stopColor="#0b0b0b" />
+            <stop offset="0.7" stopColor="#5a1440" />
+            <stop offset="1" stopColor="#ff6fc4" />
           </linearGradient>
           <linearGradient id="sc-water" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#efc6ef" />
-            <stop offset="0.45" stopColor="#c7bdf4" />
-            <stop offset="1" stopColor="#a3a9f0" />
+            <stop offset="0" stopColor="#ffcbe9" />
+            <stop offset="0.45" stopColor="#ff8ccd" />
+            <stop offset="1" stopColor="#ff4fb8" />
           </linearGradient>
           <linearGradient id="sc-pier" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#f7dcf1" />
-            <stop offset="1" stopColor="#fff7fb" />
+            <stop offset="0" stopColor="#f3ffc4" />
+            <stop offset="1" stopColor="#fbffe8" />
           </linearGradient>
           <filter id="sc-grain" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
@@ -117,18 +117,18 @@ export function FooterScene() {
         {/* clouds */}
         <g className="ar-scene__clouds">
           {CLOUDS.map(([x, y, w, h, o], i) => (
-            <rect key={i} x={x} y={y} width={w} height={h} rx={h / 2} fill={i % 3 === 0 ? "#ffffff" : "#f8d2ef"} opacity={o} />
+            <rect key={i} x={x} y={y} width={w} height={h} rx={h / 2} fill={i % 3 === 0 ? "#ffffff" : "#ffd3ec"} opacity={o} />
           ))}
         </g>
 
         {/* far and near mountains */}
         <path
           d={`M0 ${HORIZON}L0 300L90 270L170 296L260 248L350 290L430 262L520 300L560 ${HORIZON}ZM1040 ${HORIZON}L1080 296L1160 254L1250 286L1340 240L1430 278L1520 252L1600 282L1600 ${HORIZON}Z`}
-          fill="#dcc8f6"
+          fill="#ffc9e8"
         />
         <path
           d={`M0 ${HORIZON}L0 336L110 312L210 340L300 318L390 346L470 330L540 ${HORIZON}ZM1060 ${HORIZON}L1130 334L1220 312L1310 342L1400 316L1500 340L1600 322L1600 ${HORIZON}Z`}
-          fill="#b9a5ee"
+          fill="#ff8fcf"
         />
 
         {/* skyline */}
@@ -137,20 +137,20 @@ export function FooterScene() {
             <rect key={x} x={x} y={HORIZON - h * SKY_SCALE} width={w} height={h * SKY_SCALE} fill="url(#sc-city)" />
           ))}
           {/* spire on the tallest tower */}
-          <rect x="694" y={HORIZON - 196 * SKY_SCALE - 34} width="2" height="34" fill="#8a78de" />
+          <rect x="694" y={HORIZON - 196 * SKY_SCALE - 34} width="2" height="34" fill="#0b0b0b" />
         </g>
 
         {/* water */}
         <rect y={HORIZON} width="1600" height={600 - HORIZON} fill="url(#sc-water)" />
-        <rect y={HORIZON - 1} width="1600" height="5" fill="#ffe4f6" opacity="0.9" />
+        <rect y={HORIZON - 1} width="1600" height="5" fill="#f6ffd0" opacity="0.9" />
         {/* skyline reflection */}
         <g opacity="0.35" transform={`translate(0 ${HORIZON * 2}) scale(1 -1)`}>
           {BUILDINGS.map(([x, w, h]) => (
-            <rect key={x} x={x} y={HORIZON - h * SKY_SCALE * 0.6} width={w} height={h * SKY_SCALE * 0.6} fill="#9d86e2" />
+            <rect key={x} x={x} y={HORIZON - h * SKY_SCALE * 0.6} width={w} height={h * SKY_SCALE * 0.6} fill="#0b0b0b" />
           ))}
         </g>
         {/* sun reflection */}
-        <g className="ar-scene__shimmer" fill="#ffd9f1">
+        <g className="ar-scene__shimmer" fill="#ecff9a">
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
             <rect key={i} x={800 - (140 - i * 14)} y={HORIZON + 10 + i * 13} width={(140 - i * 14) * 2} height="3" rx="1.5" opacity={0.7 - i * 0.08} />
           ))}
@@ -162,10 +162,10 @@ export function FooterScene() {
         </g>
 
         {/* pier */}
-        <polygon points={`548,600 568,600 790,${HORIZON} 788,${HORIZON}`} fill="#8f80e0" />
-        <polygon points={`1032,600 1052,600 812,${HORIZON} 810,${HORIZON}`} fill="#8f80e0" />
+        <polygon points={`548,600 568,600 790,${HORIZON} 788,${HORIZON}`} fill="#0b0b0b" />
+        <polygon points={`1032,600 1052,600 812,${HORIZON} 810,${HORIZON}`} fill="#0b0b0b" />
         <polygon points={`568,600 1032,600 810,${HORIZON} 790,${HORIZON}`} fill="url(#sc-pier)" />
-        <g stroke="#ecc9ea" strokeWidth="1.5">
+        <g stroke="#c9ec3a" strokeWidth="1.5">
           {planks.map((p) => (
             <line key={p.y} x1={p.x1} y1={p.y} x2={p.x2} y2={p.y} />
           ))}

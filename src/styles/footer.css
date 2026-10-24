@@ -8,7 +8,7 @@
   flex-direction: column;
   margin-top: var(--space-8);
   padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-8));
-  background: linear-gradient(180deg, var(--paper) 0%, #fdf3fa 45%, #fbe7f6 100%);
+  background: linear-gradient(180deg, var(--paper) 0%, #fff5fb 45%, #ffe3f3 100%);
   color: var(--ink-plum);
 }
 
