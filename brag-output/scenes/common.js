@@ -27,5 +27,30 @@
   const rise = (k, dist = 30) => ({ opacity: String(k), transform: `translate3d(0, ${(1 - k) * dist}px, 0)` });
   /** Loop fade for #content: 1 except during the last `tail` seconds, where it fades to 0 so the scene ends on its empty ground (the stage), matching frame 0. */
   const outro = (t, duration, tail = 0.5) => 1 - ease.inOut(seg(t, duration - tail, duration));
-  window.B = { clamp, seg, lerp, ease, typed, css, rise, outro };
+  /**
+   * Wrap window.SCENE in a title card: the card holds for `hold` seconds, wipes away into the scene,
+   * and fades back in over the scene's outro, so the final frame matches frame 0 and the loop never shows a gap.
+   */
+  function titleCard(kicker, title, hold = 1.4) {
+    const scene = window.SCENE, D = scene.duration;
+    const card = document.createElement("div");
+    card.className = "tcard";
+    card.innerHTML = `<div class="tcard__kicker"><b></b>${kicker}</div><h1 class="tcard__title">${title}<i>.</i></h1><div class="tcard__bar"><span></span></div>`;
+    document.querySelector(".stage").appendChild(card);
+    const bar = card.querySelector(".tcard__bar span");
+    window.SCENE = {
+      duration: hold + D,
+      poster: hold + (scene.poster ?? D * 0.7),
+      render(t) {
+        scene.render(clamp(t - hold, 0, D));
+        const away = ease.inOut(seg(t, hold - 0.25, hold + 0.2));
+        const back = ease.inOut(seg(t, hold + D - 0.45, hold + D));
+        const k = Math.max(1 - away, back);
+        card.style.opacity = String(k);
+        card.style.transform = `translate3d(0, ${away * (1 - back) * -40}px, 0)`;
+        bar.style.transform = `scaleX(${t < hold ? ease.out(seg(t, 0.15, hold - 0.25)) : 0})`; // empty again on the way back, matching frame 0
+      },
+    };
+  }
+  window.B = { clamp, seg, lerp, ease, typed, css, rise, outro, titleCard };
 })();

@@ -104,7 +104,13 @@ export const about = {
 
 /** A short silent product loop rendered with /brag (brag-output/), served from public/videos. */
 export type LoopClip = { src: string; poster: string; label: string };
-const clip = (slug: string, label: string): LoopClip => ({ src: `/videos/${slug}.mp4`, poster: `/videos/${slug}.jpg`, label });
+// Bump CLIP_VERSION after re-rendering the loops so browsers and the CDN fetch the new files.
+const CLIP_VERSION = 3;
+const clip = (slug: string, label: string): LoopClip => ({
+  src: `/videos/${slug}.mp4?v=${CLIP_VERSION}`,
+  poster: `/videos/${slug}.jpg?v=${CLIP_VERSION}`,
+  label,
+});
 
 export type Service = {
   id: string;
