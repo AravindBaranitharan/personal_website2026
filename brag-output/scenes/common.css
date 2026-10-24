@@ -5,10 +5,10 @@
 
 :root {
   --paper: #ffffff; --band: #f6f6f6; --surface: #ffffff; --sunk: #ebebeb; --line: #ebebeb;
-  --ink: #0d0d0d; --plum: #171323; --ink-2: #3d3d3d; --muted: #707070; --soft: #8d8d8d;
-  --night: #111111; --night-2: #1e1e1e; --on-night: #ffffff; --on-night-2: #8d8d8d;
-  --pink: #d15eff; --pink-strong: #de80ff; --pink-soft: #ecb8ff; --pink-pale: #eeaef5; --lilac: #d6c2ff; --pink-ink: #8e2fc0;
-  --wash-pink: #f4d8fe; --wash-lilac: #f5ecfd; --wash-lavender: #e8e2fc;
+  --ink: #0b0b0b; --plum: #0b0b0b; --ink-2: #3d3d3d; --muted: #707070; --soft: #8d8d8d;
+  --night: #0b0b0b; --night-2: #1a1a1a; --on-night: #ffffff; --on-night-2: #8d8d8d;
+  --pink: #ff2dab; --pink-strong: #ff5cbf; --pink-soft: #ff9ad5; --pink-pale: #ffb8e1; --lilac: #d4ff3f; --pink-ink: #d1008a;
+  --wash-pink: #ffd3ec; --wash-lilac: #fbffe6; --wash-lavender: #efffb3;
   --sans: "Host Grotesk", "Helvetica Neue", Arial, sans-serif;
   --mono: "Fragment Mono", ui-monospace, Menlo, monospace;
 }

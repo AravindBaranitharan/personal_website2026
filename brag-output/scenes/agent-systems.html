@@ -15,8 +15,8 @@
   .agent { height: 84px; padding: 0 32px 0 28px; background: var(--night-2); color: var(--on-night); border: 2px solid #2e2e2e; font: 500 30px/1 var(--sans); }
   .agent b { width: 16px; height: 16px; border-radius: 50%; background: var(--lilac); }
   .a2a { position: absolute; font: 400 26px/1 var(--mono); letter-spacing: .06em; color: #8d8d8d; white-space: nowrap; }
-  .pkt { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 22px 4px rgba(209,94,255,.55); }
-  .pkt.back { background: var(--lilac); box-shadow: 0 0 22px 4px rgba(214,194,255,.45); }
+  .pkt { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 22px 4px rgba(255,45,171,.55); }
+  .pkt.back { background: var(--lilac); box-shadow: 0 0 22px 4px rgba(212,255,63,.45); }
 
   /* Cursor sidebar */
   .cursor { left: 880px; top: 170px; width: 500px; height: 462px; background: #1a1a1a; color: var(--on-night); border: 1px solid #2c2c2c; }
@@ -152,7 +152,7 @@
         const k = ease.out(seg(t, s0, s0 + 0.32));
         const glow = seg(t, s0, s0 + 0.15) * (1 - seg(t, s0 + 0.35, s0 + 0.9));
         const mix = (a, b) => Math.round(lerp(a, b, glow));
-        css(el, { ...rise(k, 22), background: `rgb(${mix(36, 78)}, ${mix(36, 40)}, ${mix(36, 98)})`, boxShadow: `inset 0 0 0 2px rgba(209,94,255,${(0.8 * glow).toFixed(3)})` });
+        css(el, { ...rise(k, 22), background: `rgb(${mix(36, 78)}, ${mix(36, 40)}, ${mix(36, 98)})`, boxShadow: `inset 0 0 0 2px rgba(255,45,171,${(0.8 * glow).toFixed(3)})` });
         const dk = ease.back(seg(t, s0 + 0.05, s0 + 0.35));
         css(el.querySelector("b"), { transform: `scale(${dk})` });
       });

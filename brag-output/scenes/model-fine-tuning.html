@@ -7,7 +7,7 @@
 <style>
   /* Step labels */
   .steps { position: absolute; left: 80px; right: 80px; top: 58px; display: flex; gap: 40px; }
-  .step { display: inline-flex; align-items: center; gap: 12px; font: 400 26px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: rgba(23,19,35,.4); }
+  .step { display: inline-flex; align-items: center; gap: 12px; font: 400 26px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: rgba(11,11,11,.4); }
   .step b { width: 14px; height: 14px; border-radius: 50%; background: currentColor; }
 
   /* 01 Fine-tune: dataset + loss */
@@ -62,7 +62,7 @@
     <div class="rows" id="rows"></div>
     <div class="chart">
       <span class="lbl">LOSS</span>
-      <svg viewBox="0 0 560 230" preserveAspectRatio="none"><polyline id="loss" fill="none" stroke="#d15eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points=""/></svg>
+      <svg viewBox="0 0 560 230" preserveAspectRatio="none"><polyline id="loss" fill="none" stroke="#ff2dab" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points=""/></svg>
     </div>
     <div class="bar"><i id="prog"></i></div>
   </div>
@@ -111,7 +111,7 @@
       steps.forEach((s, i) => {
         const vis = ease.out(seg(t, 0.05 + i * 0.08, 0.4 + i * 0.08));
         s.style.opacity = String(vis);
-        s.style.color = i === active && t > 0.25 ? 'var(--pink-ink)' : 'rgba(23,19,35,.4)';
+        s.style.color = i === active && t > 0.25 ? 'var(--pink-ink)' : 'rgba(11,11,11,.4)';
       });
 
       // 01 Fine-tune

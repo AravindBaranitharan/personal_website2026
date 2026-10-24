@@ -6,25 +6,25 @@
 <link rel="stylesheet" href="common.css">
 <style>
   /* Kanban board */
-  .col { position: absolute; top: 40px; width: 252px; height: 440px; border-radius: 24px; background: rgba(255,255,255,.5); border: 1.5px solid rgba(23,19,35,.07); }
+  .col { position: absolute; top: 40px; width: 252px; height: 440px; border-radius: 24px; background: rgba(255,255,255,.5); border: 1.5px solid rgba(11,11,11,.07); }
   .col__head { position: absolute; left: 22px; top: 24px; display: flex; align-items: center; gap: 12px; font-size: 26px; color: var(--plum); }
-  .col__head b { width: 14px; height: 14px; border-radius: 50%; background: rgba(23,19,35,.2); }
-  .slot { position: absolute; left: 16px; right: 16px; top: 80px; height: 124px; border-radius: 18px; border: 2.5px dashed rgba(23,19,35,.14); }
+  .col__head b { width: 14px; height: 14px; border-radius: 50%; background: rgba(11,11,11,.2); }
+  .slot { position: absolute; left: 16px; right: 16px; top: 80px; height: 124px; border-radius: 18px; border: 2.5px dashed rgba(11,11,11,.14); }
   .ghost { position: absolute; left: 16px; right: 16px; height: 88px; border-radius: 18px; background: rgba(255,255,255,.75); }
-  .ghost i { position: absolute; left: 20px; height: 14px; border-radius: 7px; background: rgba(23,19,35,.12); }
+  .ghost i { position: absolute; left: 20px; height: 14px; border-radius: 7px; background: rgba(11,11,11,.12); }
   .ghost i:nth-child(1) { top: 26px; width: 140px; } .ghost i:nth-child(2) { top: 50px; width: 90px; }
 
   /* Travelling reel card */
-  .reel { position: absolute; left: 0; top: 0; width: 220px; height: 124px; border-radius: 18px; background: var(--paper); padding: 18px 20px; box-shadow: 0 18px 36px -22px rgba(23,19,35,.5); border: 3px solid var(--pink); transform-origin: 50% 50%; }
+  .reel { position: absolute; left: 0; top: 0; width: 220px; height: 124px; border-radius: 18px; background: var(--paper); padding: 18px 20px; box-shadow: 0 18px 36px -22px rgba(11,11,11,.5); border: 3px solid var(--pink); transform-origin: 50% 50%; }
   .reel .mono { font-size: 26px; color: var(--pink-ink); }
   .reel h3 { margin: 10px 0 0; font: 700 30px/1 var(--sans); color: var(--plum); letter-spacing: -0.01em; }
-  .reel .bar { position: absolute; left: 20px; right: 20px; bottom: 14px; height: 7px; border-radius: 4px; background: rgba(23,19,35,.08); overflow: hidden; }
+  .reel .bar { position: absolute; left: 20px; right: 20px; bottom: 14px; height: 7px; border-radius: 4px; background: rgba(11,11,11,.08); overflow: hidden; }
   .reel .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--pink); }
 
   .cursor { position: absolute; left: 0; top: 0; width: 46px; height: 46px; transform-origin: 6px 4px; }
 
   /* Script panel */
-  .script { left: 54px; top: 520px; width: 800px; height: 330px; background: var(--paper); color: var(--plum); box-shadow: 0 40px 80px -46px rgba(23,19,35,.55); }
+  .script { left: 54px; top: 520px; width: 800px; height: 330px; background: var(--paper); color: var(--plum); box-shadow: 0 40px 80px -46px rgba(11,11,11,.55); }
   .script .win__bar { border-bottom: 1.5px solid var(--line); color: var(--plum); }
   .script .label { margin-left: 10px; font-size: 26px; color: var(--plum); }
   .lang { margin-left: auto; height: 42px; padding: 0 18px; background: var(--wash-pink); color: var(--pink-ink); font-size: 26px; }
@@ -33,7 +33,7 @@
   .caret { display: inline-block; width: 4px; height: 38px; background: var(--pink); vertical-align: -7px; margin-left: 3px; }
 
   /* Invoice */
-  .invoice { position: absolute; left: 890px; top: 520px; width: 496px; height: 150px; border-radius: 22px; background: var(--paper); padding: 26px 30px; box-shadow: 0 40px 80px -46px rgba(23,19,35,.55); }
+  .invoice { position: absolute; left: 890px; top: 520px; width: 496px; height: 150px; border-radius: 22px; background: var(--paper); padding: 26px 30px; box-shadow: 0 40px 80px -46px rgba(11,11,11,.55); }
   .invoice .mono { font-size: 26px; color: var(--muted); }
   .inv-chip { position: absolute; left: 30px; top: 72px; height: 54px; font-weight: 600; transform-origin: 0 50%; }
   .inv-wait { background: var(--sunk); color: var(--ink-2); }
@@ -42,7 +42,7 @@
   .inv-done b { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--pink); display: grid; place-items: center; font-size: 20px; }
 
   /* Stat */
-  .stat { position: absolute; left: 890px; top: 694px; width: 496px; height: 156px; border-radius: 22px; background: var(--plum); color: #fff; padding: 26px 30px; box-shadow: 0 40px 80px -40px rgba(23,19,35,.6); }
+  .stat { position: absolute; left: 890px; top: 694px; width: 496px; height: 156px; border-radius: 22px; background: var(--plum); color: #fff; padding: 26px 30px; box-shadow: 0 40px 80px -40px rgba(11,11,11,.6); }
   .stat .mono { font-size: 26px; color: var(--pink-soft); }
   .stat .big { position: absolute; left: 30px; bottom: 22px; display: flex; align-items: baseline; gap: 18px; font: 700 64px/1 var(--sans); letter-spacing: -0.02em; }
   .stat .from { color: rgba(255,255,255,.5); }
@@ -73,7 +73,7 @@
 
   <div class="reel" id="reel"><div class="mono">Reel</div><h3>Diwali drop</h3><div class="bar"><i id="prog"></i></div></div>
 
-  <svg class="cursor" id="cursor" viewBox="0 0 46 46"><path d="M6 4 L6 36 L14.5 28 L20 40 L26 37.5 L20.5 26 L32 26 Z" fill="#171323" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg>
+  <svg class="cursor" id="cursor" viewBox="0 0 46 46"><path d="M6 4 L6 36 L14.5 28 L20 40 L26 37.5 L20.5 26 L32 26 Z" fill="#0b0b0b" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg>
 </div>
 </div>
 <script src="common.js"></script>
@@ -143,7 +143,7 @@
       const active = Math.round(p);
       cols.forEach((c, i) => {
         const on = t > 0.5 && i === active && lift < 0.5;
-        dots[i].style.background = on ? "var(--pink)" : "rgba(23,19,35,.2)";
+        dots[i].style.background = on ? "var(--pink)" : "rgba(11,11,11,.2)";
         c.style.background = on ? "rgba(255,255,255,.82)" : "rgba(255,255,255,.5)";
         slots[i].style.opacity = i === active && t > 0.5 ? "0" : "1";
       });
@@ -154,7 +154,7 @@
         left: cx + "px", top: cy + "px",
         opacity: String(clamp(cIn * 1.5)),
         transform: `rotate(${lift * 3}deg) scale(${(0.8 + 0.2 * cIn) * (1 + 0.04 * lift)})`,
-        boxShadow: `0 ${18 + lift * 26}px ${36 + lift * 30}px -22px rgba(23,19,35,${0.5 + lift * 0.15})`,
+        boxShadow: `0 ${18 + lift * 26}px ${36 + lift * 30}px -22px rgba(11,11,11,${0.5 + lift * 0.15})`,
       });
       css("#prog", { width: ((p + 1) / 5) * 100 + "%" });
 
