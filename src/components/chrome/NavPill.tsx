@@ -15,7 +15,8 @@ function HomeIcon() {
 
 /**
  * Dark nav pill with a white highlight that slides to the section in view (after the hero reference).
- * Section ids come from the hrefs ("/#about" → #about); off the home page, nothing is highlighted except Work on case studies.
+ * Section ids come from the hrefs ("/#about" → #about); off the home page, only Work (case studies) and Blog (posts) highlight.
+ * Page links like /blog have no section id, so the home-page scroll-spy skips them.
  */
 export function NavPill({ items }: { items: NavLink[] }) {
   const pathname = usePathname();
@@ -24,7 +25,14 @@ export function NavPill({ items }: { items: NavLink[] }) {
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const ids = items.map((item) => item.href.split("#")[1] ?? "");
   const onHome = pathname === "/";
-  const active = onHome ? spy : pathname.startsWith("/work") ? ids.indexOf("work") : -1;
+  const blogIndex = items.findIndex((item) => item.href === "/blog");
+  const active = onHome
+    ? spy
+    : pathname.startsWith("/work")
+      ? ids.indexOf("work")
+      : pathname.startsWith("/blog")
+        ? blogIndex
+        : -1;
 
   // Scroll-spy on the home page: the last section whose top has passed 40% of the viewport.
   useEffect(() => {

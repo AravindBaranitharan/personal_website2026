@@ -15,7 +15,7 @@ export const profile = {
   phone: "+91 63793 19612",
   availability: "Available · Nov 2026",
   resumePath: "/resume.pdf",
-  siteUrl: "https://aravindbaranitharan.com",
+  siteUrl: "https://www.aravindbaranitharan.in",
   summary:
     "AI engineer building production GenAI: retrieval pipelines, agent systems, fine-tuned and quantized models, and the evals that keep them honest. Full-stack enough to ship the product around the model.",
 };
@@ -30,6 +30,7 @@ export const nav: Link[] = [
   { label: "Home", href: "/#top" },
   { label: "About", href: "/#about" },
   { label: "Work", href: "/#work" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -517,6 +518,7 @@ export const footer = {
         { label: "About", href: "/#about" },
         { label: "Services", href: "/#services" },
         { label: "Experience", href: "/#experience" },
+        { label: "Blog", href: "/blog" },
       ],
     },
     {
