@@ -1,51 +1,9 @@
-import type { ReactNode } from "react";
+import { Badge, Label, Meta, Title } from "./DiagramParts";
 
 /**
  * The long-horizon agent architecture, drawn in the palette. Numbers match the walkthrough under it.
  * Drawn on a 1200×760 canvas; below ~760px wide the figure scrolls sideways instead of shrinking the text.
  */
-
-function Badge({ x, y, n, dark = false }: { x: number; y: number; n: string; dark?: boolean }) {
-  return (
-    <g>
-      <circle cx={x} cy={y} r="15" className={dark ? "fill-pink" : "fill-ink"} />
-      <text
-        x={x}
-        y={y + 4}
-        textAnchor="middle"
-        className={`font-mono ${dark ? "fill-on-pink" : "fill-paper"}`}
-        fontSize="11"
-        letterSpacing="0.5"
-      >
-        {n}
-      </text>
-    </g>
-  );
-}
-
-function Title({ x, y, children, className = "fill-ink" }: { x: number; y: number; children: ReactNode; className?: string }) {
-  return (
-    <text x={x} y={y} className={`font-sans ${className}`} fontSize="24" fontWeight="700" letterSpacing="-0.6">
-      {children}
-    </text>
-  );
-}
-
-function Meta({ x, y, children, className = "fill-ink-muted" }: { x: number; y: number; children: ReactNode; className?: string }) {
-  return (
-    <text x={x} y={y} className={`font-mono uppercase ${className}`} fontSize="11.5" letterSpacing="0.6">
-      {children}
-    </text>
-  );
-}
-
-function Label({ x, y, children, anchor = "middle" }: { x: number; y: number; children: ReactNode; anchor?: "start" | "middle" | "end" }) {
-  return (
-    <text x={x} y={y} textAnchor={anchor} className="font-mono uppercase fill-ink-2" fontSize="10.5" letterSpacing="0.6">
-      {children}
-    </text>
-  );
-}
 
 export function ArchitectureDiagram({ caption }: { caption: string }) {
   return (

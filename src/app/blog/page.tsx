@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DisplayText } from "@/components/blog/PostBody";
 import { MotionInit } from "@/components/chrome/MotionInit";
 import { blog, posts } from "@/content/blog";
 
@@ -36,7 +37,9 @@ export default function BlogIndex() {
                 <Link href={`/blog/${post.slug}`} className="ar-row">
                   <span className="ar-row__num">{String(sorted.length - i).padStart(2, "0")}</span>
                   <span className="grid gap-[var(--space-2)]">
-                    <span className="ar-row__title not-italic lowercase">{post.title}.</span>
+                    <span className="ar-row__title not-italic lowercase">
+                      <DisplayText text={post.title} />.
+                    </span>
                     <span className="max-w-[60ch] text-[15px] leading-[1.45] text-ink-muted">{post.dek}</span>
                   </span>
                   <span className="ar-row__meta">

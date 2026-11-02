@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MotionInit } from "@/components/chrome/MotionInit";
 import { Feedback } from "@/components/blog/Feedback";
-import { PostBody } from "@/components/blog/PostBody";
+import { DisplayText, PostBody } from "@/components/blog/PostBody";
 import { ShareBar } from "@/components/blog/ShareBar";
 import { getConcepts, getPost, posts } from "@/content/blog";
 import { profile } from "@/content/site";
@@ -77,7 +77,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
               data-appear="flip"
               className="m-0 max-w-[14ch] text-[clamp(56px,10vw,152px)] font-extrabold lowercase leading-[0.86] tracking-[-0.055em] [overflow-wrap:anywhere]"
             >
-              {post.title}.
+              <DisplayText text={post.title} />.
             </h1>
             <p className="m-0 max-w-[48ch] text-[clamp(18px,1.8vw,22px)] leading-[1.45]" data-appear="rise">
               {post.dek}

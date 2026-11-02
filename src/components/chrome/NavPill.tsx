@@ -58,19 +58,32 @@ export function NavPill({ items }: { items: NavLink[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onHome]);
 
-  // Move the white highlight under the active link.
+  // Move the white highlight under the active link, and again whenever the links change size
+  // (web fonts finishing, rotation, breakpoints), otherwise it stays where the old layout put it.
   useLayoutEffect(() => {
     const list = listRef.current;
     const indicator = indicatorRef.current;
     if (!list || !indicator) return;
-    const link = list.querySelectorAll<HTMLElement>("a")[active];
-    if (!link) {
-      indicator.style.opacity = "0";
-      return;
-    }
-    indicator.style.opacity = "1";
-    indicator.style.width = `${link.offsetWidth}px`;
-    indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+    const place = () => {
+      const link = list.querySelectorAll<HTMLElement>("a")[active];
+      if (!link) {
+        indicator.style.opacity = "0";
+        return;
+      }
+      indicator.style.opacity = "1";
+      indicator.style.width = `${link.offsetWidth}px`;
+      indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+    };
+    place();
+    const observer = new ResizeObserver(place);
+    observer.observe(list);
+    list.querySelectorAll("a").forEach((a) => observer.observe(a));
+    let alive = true;
+    document.fonts?.ready.then(() => alive && place());
+    return () => {
+      alive = false;
+      observer.disconnect();
+    };
   }, [active]);
 
   return (

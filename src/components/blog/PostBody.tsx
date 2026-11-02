@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
 import type { Block } from "@/content/blog";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
+import { MemoryDiagram } from "./MemoryDiagram";
+import { RlLoopDiagram } from "./RlLoopDiagram";
+
+const figures = { "long-horizon": ArchitectureDiagram, "rl-loop": RlLoopDiagram, "agent-memory": MemoryDiagram };
 
 // Inline markup: **bold**, *italic*, `code`, [label](href). Content is authored in blog.ts, never user input.
 const INLINE = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
@@ -33,6 +37,28 @@ export function Inline({ text }: { text: string }): ReactNode {
   });
 }
 
+/**
+ * In the display face the hyphen is almost half an em wide, and the tight heading tracking pushes it into
+ * the letters on both sides, so "long-horizon" reads as "long—horizon". Draw hyphens at half width with a
+ * little air, and keep hyphenated words on one line (the narrowed hyphen is an inline-block).
+ */
+export function DisplayText({ text }: { text: string }): ReactNode {
+  return text.split(/(\s+)/).map((word, i) =>
+    word.includes("-") ? (
+      <span key={i} className="whitespace-nowrap">
+        {word.split("-").map((part, j) => (
+          <span key={j}>
+            {j > 0 && <span className="mx-[-0.08em] inline-block scale-x-50 tracking-normal">-</span>}
+            {part}
+          </span>
+        ))}
+      </span>
+    ) : (
+      word
+    ),
+  );
+}
+
 const prose = "m-0 text-[18px] leading-[1.6] text-ink-2";
 
 function renderBlock(block: Block, key: number): ReactNode {
@@ -57,7 +83,7 @@ function renderBlock(block: Block, key: number): ReactNode {
           className="group m-0 mt-[var(--space-7)] scroll-mt-[var(--space-8)] border-t border-line-strong pt-[var(--space-5)] text-[clamp(30px,3.6vw,44px)] font-bold lowercase leading-[0.98] tracking-[-0.035em] text-ink"
         >
           <a href={`#${block.id}`} className="no-underline">
-            {block.text}
+            <DisplayText text={block.text} />
             <span className="ml-3 align-middle font-mono text-[14px] text-pink-ink opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">
               #
             </span>
@@ -134,13 +160,15 @@ function renderBlock(block: Block, key: number): ReactNode {
           ))}
         </ol>
       );
-    case "diagram":
+    case "diagram": {
+      const Figure = figures[block.figure];
       return (
         // Breaks out of the reading column so the figure has room.
         <div key={key} className="md:-mx-[var(--space-8)]">
-          <ArchitectureDiagram caption={block.caption} />
+          <Figure caption={block.caption} />
         </div>
       );
+    }
   }
 }
 
