@@ -1,7 +1,7 @@
-import nodemailer from "nodemailer";
+import nodemailer, { type Transporter } from "nodemailer";
 
 export type MailerConfig = {
-  transporter: nodemailer.Transporter;
+  transporter: Transporter;
   mailOptions: {
     from: string;
     to: string;
